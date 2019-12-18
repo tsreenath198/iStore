@@ -26,7 +26,6 @@ public class ProductController {
 
 	@PostMapping(ISTOREConstants.CREATE)
 	public ResponseEntity<Product> create(@RequestBody Product product) {
-		System.out.println("con");
 		return new ResponseEntity<Product>(productService.create(product), HttpStatus.CREATED);
 	}
 

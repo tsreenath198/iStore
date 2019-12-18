@@ -45,7 +45,9 @@ public class ProductServiceImpl implements ProductService {
 	public GenericResponse delete(Integer id) {
 		GenericResponse resp = null;
 		try {
-			repository.deleteById(id);
+			Product p = get(id);
+			p.setActiveFlag(1);
+			update(p);
 			resp = new GenericResponse();
 			resp.setMessage(id + " " + ISTOREConstants.DELETED);
 		} catch (Exception e) {
@@ -56,14 +58,14 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Product> getAll() {
-		return (List<Product>) repository.findAll();
+		return (List<Product>) repository.findByActiveFlagAllIgnoreCaseOrderByCreatedDateDesc(0);
 	}
 
 	@Override
 	public Product get(Integer id) {
 		Optional<Product> product = null;
 		try {
-			product = repository.findById(id);
+			product = repository.findByIdAndActiveFlag(id, 0);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
 		}

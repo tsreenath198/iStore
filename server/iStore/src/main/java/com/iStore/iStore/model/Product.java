@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -41,5 +40,7 @@ public class Product {
 	private Date updatedDate;
 	@Column
 	private String description;
+	@Column
+	private Integer activeFlag = 0;
 
 }
