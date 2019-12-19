@@ -28,8 +28,8 @@ public class BillController {
 	BillService billService;
 
 	@PostMapping(ISTOREConstants.CREATE)
-	public ResponseEntity<Bill> create(@RequestBody Bill bill) {
-		return new ResponseEntity<Bill>(billService.create(bill), HttpStatus.CREATED);
+	public ResponseEntity<Iterable<Bill>> create(@RequestBody List<Bill> bills) {
+		return new ResponseEntity<Iterable<Bill>>(billService.create(bills), HttpStatus.OK);
 	}
 
 	@PutMapping(ISTOREConstants.UPDATE)
