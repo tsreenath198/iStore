@@ -2,6 +2,7 @@ package com.iStore.iStore.constants;
 
 public interface ISTOREConstants {
 	String PRODUCT = "/product";
+	String BILL = "/bill";
 	String CREATE = "/create";
 	String UPDATE = "/update";
 	String DELETE = "/delete";
