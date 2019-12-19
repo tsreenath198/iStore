@@ -1,0 +1,56 @@
+<div class="row">
+  <div class="col-md-4">
+    <form name="productInsertForm">
+      <input
+        type="text"
+        name="pName"
+        placeholder="product name"
+        [(ngModel)]="model.name"
+      />
+      <input
+        type="number"
+        name="price"
+        placeholder="price"
+        [(ngModel)]="model.price"
+      />
+      <input
+        type="text"
+        name="desc"
+        placeholder="description"
+        [(ngModel)]="model.description"
+      />
+      <button type="submit" (click)="create()">Create</button>
+    </form>
+  </div>
+  <div class="col-md-8">
+    <table>
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Price
+                </th>
+                <th>
+                    Description
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of productList">
+                <td>
+                    {{product.name}}
+                </td>
+                <td>
+                    {{product.price}}
+                </td>
+                <td>
+                    {{product.description}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+</div>
+
