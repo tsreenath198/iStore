@@ -1,45 +1,70 @@
 <div class="row">
-    <div class="col-md-4" style="height: 100px;">
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Qty</th>
-                    <th>Price</th>
-                    <th>Discount</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let item of billList; let i = index">
-                    <td>
-                        <select [(ngModel)]="item.productId" (change)="addProductDetailsToBill(item.productId)">
-                            <option *ngFor="let product of productList"  [ngValue]="product.id">{{product.name}}</option>
-                        </select>
-                    </td>
-                    <td>{{item.quantity}}</td>
-                    <td>{{item.price}}</td>
-                    <td>{{item.discount}}</td>
-                    <td>{{item.total}}</td>
-                </tr>
-                <tr>
-                    <th>
-                        Total
-                    </th>
-                    <td>
-                        .rupees
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-    <div class="col-md-8" style="background-color: greenyellow; height: 700px;">
-        <div class="row">
-            <div *ngFor="let product of productList" class="col-md-3 p-2" style="text-align: center;">
-                <h3>{{product.name}}</h3>
-                <small>{{product.price}}.rs</small>
-                <h5>{{product.description}}</h5>
+  <div class="col-md-5" style="height: 100px;">
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Qty</th>
+          <th>Price</th>
+          <th>Discount</th>
+          <th>Total <button *ngIf="itemList.length">Add</button></th>
+        </tr>
+      </thead>
+      <tbody *ngIf="itemList.length">
+        <tr *ngFor="let item of itemList; let i = index">
+          <td>
+            <select disabled [(ngModel)]="item.productId" class="form-control">
+              <option *ngFor="let p of productList" [ngValue]="p.id">{{
+                p.name
+              }}</option>
+            </select>
+          </td>
+          <td>
+            <div *ngIf="item.quantity; else no_quantity">
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="item.quantity"
+                (change)="setTotal(item)"
+              />
             </div>
-        </div>
+            <ng-template #no_quantity>{{ item.quantity }}</ng-template>
+          </td>
+          <td>{{ item.price }}</td>
+          <td>
+            <div *ngIf="item.discount; else no_discount">
+              <input
+                type="number"
+                class="form-control"
+                [(ngModel)]="item.discount"
+                (change)="setTotal(item)"
+              />
+            </div>
+            <ng-template #no_discount>{{ item.discount }}</ng-template>
+          </td>
+          <td>{{ item.total }}</td>
+        </tr>
+        <tr>
+          <td colspan="4">
+            Total
+          </td>
+          <td>{{ totalBill }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-md-7" style="background-color: greenyellow; height: 700px;">
+    <div class="row">
+      <div
+        *ngFor="let product of productList"
+        class="col-md-3 p-2"
+        style="text-align: center;"
+        (click)="addToList(product)"
+      >
+        <h3>{{ product.name }}</h3>
+        <small>{{ product.price }}.rs</small>
+        <h5>{{ product.description }}</h5>
+      </div>
     </div>
+  </div>
 </div>
