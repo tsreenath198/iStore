@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -32,6 +33,9 @@ public class Product {
 	@Column
 	@NotNull
 	private Float price;
+	@Lob
+	@Column
+	private byte[] image;
 	@Column
 	@CreationTimestamp
 	private Date createdDate;
@@ -42,5 +46,4 @@ public class Product {
 	private String description;
 	@Column
 	private Integer activeFlag = 0;
-
 }

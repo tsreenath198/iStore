@@ -34,6 +34,7 @@ public class ProductServiceImpl implements ProductService {
 			Product product = get(entity.getId());
 			product.setName(entity.getName());
 			product.setPrice(entity.getPrice());
+			product.setImage(entity.getImage());
 			return repository.save(product);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
@@ -73,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
 		if (product.isPresent())
 			return product.get();
 		else
-			throw new ValidationException("Record not found with the id" + id);
+			throw new ValidationException("Record not found with the id " + id);
 	}
 
 }
