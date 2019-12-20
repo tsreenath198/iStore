@@ -22,7 +22,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-public class Order {
+public class OrderDetail {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;

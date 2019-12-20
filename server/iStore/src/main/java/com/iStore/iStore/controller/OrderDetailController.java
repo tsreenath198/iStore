@@ -17,38 +17,38 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.model.GenericResponse;
-import com.iStore.iStore.model.Order;
-import com.iStore.iStore.service.OrderService;
+import com.iStore.iStore.model.OrderDetail;
+import com.iStore.iStore.service.OrderDetailService;
 
 @RestController
 @CrossOrigin
 @RequestMapping(ISTOREConstants.ORDER)
-public class OrderController {
+public class OrderDetailController {
 	@Autowired
-	OrderService orderService;
+	OrderDetailService orderDetailService;
 
 	@PostMapping(ISTOREConstants.CREATE)
-	public ResponseEntity<Order> create(@RequestBody Order orders) {
-		return new ResponseEntity<Order>(orderService.create(orders), HttpStatus.OK);
+	public ResponseEntity<OrderDetail> create(@RequestBody OrderDetail orders) {
+		return new ResponseEntity<OrderDetail>(orderDetailService.create(orders), HttpStatus.OK);
 	}
 
 	@PutMapping(ISTOREConstants.UPDATE)
-	public ResponseEntity<Order> update(@RequestBody Order order) {
-		return new ResponseEntity<Order>(orderService.update(order), HttpStatus.OK);
+	public ResponseEntity<OrderDetail> update(@RequestBody OrderDetail order) {
+		return new ResponseEntity<OrderDetail>(orderDetailService.update(order), HttpStatus.OK);
 	}
 
 	@DeleteMapping(ISTOREConstants.DELETE)
 	public ResponseEntity<GenericResponse> delete(@RequestParam Integer id) {
-		return new ResponseEntity<GenericResponse>(orderService.delete(id), HttpStatus.OK);
+		return new ResponseEntity<GenericResponse>(orderDetailService.delete(id), HttpStatus.OK);
 	}
 
 	@GetMapping(ISTOREConstants.GET)
-	public ResponseEntity<Order> get(@RequestParam Integer id) {
-		return new ResponseEntity<Order>(orderService.get(id), HttpStatus.OK);
+	public ResponseEntity<OrderDetail> get(@RequestParam Integer id) {
+		return new ResponseEntity<OrderDetail>(orderDetailService.get(id), HttpStatus.OK);
 	}
 
 	@GetMapping(ISTOREConstants.GET_ALL)
-	public ResponseEntity<List<Order>> getAll() {
-		return new ResponseEntity<List<Order>>(orderService.getAll(), HttpStatus.OK);
+	public ResponseEntity<List<OrderDetail>> getAll() {
+		return new ResponseEntity<List<OrderDetail>>(orderDetailService.getAll(), HttpStatus.OK);
 	}
 }

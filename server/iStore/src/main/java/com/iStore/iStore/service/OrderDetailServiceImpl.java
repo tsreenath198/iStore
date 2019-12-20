@@ -10,16 +10,16 @@ import org.springframework.stereotype.Service;
 
 import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.model.GenericResponse;
-import com.iStore.iStore.model.Order;
-import com.iStore.iStore.repository.OrderRepository;
+import com.iStore.iStore.model.OrderDetail;
+import com.iStore.iStore.repository.OrderDetailRepository;
 
 @Service
-public class OrderServiceImpl implements OrderService {
+public class OrderDetailServiceImpl implements OrderDetailService {
 	@Autowired
-	OrderRepository repository;
+	OrderDetailRepository repository;
 
 	@Override
-	public Order create(Order entity) {
+	public OrderDetail create(OrderDetail entity) {
 		try {
 			return repository.save(entity);
 		} catch (Exception e) {
@@ -28,9 +28,9 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public Order update(Order entity) {
+	public OrderDetail update(OrderDetail entity) {
 		try {
-			Order order = get(entity.getId());
+			OrderDetail order = get(entity.getId());
 			order.setTotal(entity.getTotal());
 			return repository.save(order);
 		} catch (Exception e) {
@@ -42,7 +42,7 @@ public class OrderServiceImpl implements OrderService {
 	public GenericResponse delete(Integer id) {
 		GenericResponse resp = null;
 		try {
-			Order p = get(id);
+			OrderDetail p = get(id);
 			p.setActiveFlag(1);
 			update(p);
 			resp = new GenericResponse();
@@ -54,13 +54,13 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<Order> getAll() {
-		return (List<Order>) repository.findByActiveFlagAllIgnoreCaseOrderByCreatedDateDesc(0);
+	public List<OrderDetail> getAll() {
+		return (List<OrderDetail>) repository.findByActiveFlagAllIgnoreCaseOrderByCreatedDateDesc(0);
 	}
 
 	@Override
-	public Order get(Integer id) {
-		Optional<Order> order = null;
+	public OrderDetail get(Integer id) {
+		Optional<OrderDetail> order = null;
 		try {
 			order = repository.findByIdAndActiveFlag(id, 0);
 		} catch (Exception e) {
