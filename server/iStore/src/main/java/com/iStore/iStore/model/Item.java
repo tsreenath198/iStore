@@ -41,7 +41,6 @@ public class Item {
 	@NotNull
 	private Float total;
 	@Column
-	@NotNull
 	private Integer orderId;
 	@Column
 	@CreationTimestamp

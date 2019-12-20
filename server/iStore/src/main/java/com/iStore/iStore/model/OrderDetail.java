@@ -1,12 +1,16 @@
 package com.iStore.iStore.model;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -39,4 +43,8 @@ public class OrderDetail {
 	private String description;
 	@Column
 	private Integer activeFlag = 0;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "orderId")
+	private List<Item> items;
 }
