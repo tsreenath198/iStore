@@ -4,18 +4,18 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.iStore.iStore.model.Bill;
 import com.iStore.iStore.model.GenericResponse;
+import com.iStore.iStore.model.Order;
 
 @Service
-public interface BillService {
-	public Iterable<Bill> create(List<Bill> entity);
+public interface OrderService {
+	public Order create(Order entity);
 
-	public Bill update(Bill entity);
+	public Order update(Order entity);
 
 	public GenericResponse delete(Integer id);
 
-	public List<Bill> getAll();
+	public List<Order> getAll();
 
-	public Bill get(Integer id);
+	public Order get(Integer id);
 }

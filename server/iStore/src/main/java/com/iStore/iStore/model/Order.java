@@ -22,21 +22,10 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-public class Bill {
+public class Order {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	@Column
-	@NotNull
-	private Integer productId;
-	@Column
-	@NotNull
-	private Float price;
-	@Column
-	private Integer discount;
-	@Column
-	@NotNull
-	private Integer quantity;
 	@Column
 	@NotNull
 	private Float total;

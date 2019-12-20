@@ -9,17 +9,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iStore.iStore.constants.ISTOREConstants;
-import com.iStore.iStore.model.Bill;
 import com.iStore.iStore.model.GenericResponse;
-import com.iStore.iStore.repository.BillRepository;
+import com.iStore.iStore.model.Item;
+import com.iStore.iStore.repository.ItemRepository;
 
 @Service
-public class BillServiceImpl implements BillService {
+public class ItemServiceImpl implements ItemService {
 	@Autowired
-	BillRepository repository;
+	ItemRepository repository;
 
 	@Override
-	public Iterable<Bill> create(List<Bill> entities) {
+	public Iterable<Item> create(List<Item> entities) {
 		try {
 			return repository.saveAll(entities);
 		} catch (Exception e) {
@@ -28,15 +28,15 @@ public class BillServiceImpl implements BillService {
 	}
 
 	@Override
-	public Bill update(Bill entity) {
+	public Item update(Item entity) {
 		try {
-			Bill product = get(entity.getId());
-			product.setDiscount(entity.getDiscount());
-			product.setPrice(entity.getPrice());
-			product.setProductId(entity.getProductId());
-			product.setQuantity(entity.getQuantity());
-			product.setTotal(entity.getTotal());
-			return repository.save(product);
+			Item item = get(entity.getId());
+			item.setDiscount(entity.getDiscount());
+			item.setPrice(entity.getPrice());
+			item.setProductId(entity.getProductId());
+			item.setQuantity(entity.getQuantity());
+			item.setTotal(entity.getTotal());
+			return repository.save(item);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
 		}
@@ -47,7 +47,7 @@ public class BillServiceImpl implements BillService {
 	public GenericResponse delete(Integer id) {
 		GenericResponse resp = null;
 		try {
-			Bill b = get(id);
+			Item b = get(id);
 			b.setActiveFlag(1);
 			update(b);
 			resp = new GenericResponse();
@@ -59,13 +59,13 @@ public class BillServiceImpl implements BillService {
 	}
 
 	@Override
-	public List<Bill> getAll() {
-		return (List<Bill>) repository.findByActiveFlagAllIgnoreCaseOrderByCreatedDateDesc(0);
+	public List<Item> getAll() {
+		return (List<Item>) repository.findByActiveFlagAllIgnoreCaseOrderByCreatedDateDesc(0);
 	}
 
 	@Override
-	public Bill get(Integer id) {
-		Optional<Bill> product = null;
+	public Item get(Integer id) {
+		Optional<Item> product = null;
 		try {
 			product = repository.findByIdAndActiveFlag(id, 0);
 		} catch (Exception e) {
