@@ -15,4 +15,7 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
 
 	List<OrderDetail> findByActiveFlagAllIgnoreCaseOrderByCreatedDateDesc(int i);
 
+
+	OrderDetail findTopByOrderByIdDesc();
+
 }
