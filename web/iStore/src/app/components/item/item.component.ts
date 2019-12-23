@@ -14,7 +14,7 @@ export class ItemComponent implements OnInit {
   public productList: Array<ProductModel> = [];
   public itemList: Array<ItemModel> = [];
   public selectedItem: ItemModel = <ItemModel>{};
-  public totalBill: number = 0.00;
+  public totalBill: number = 0.0;
   public url = new URLConstants();
   constructor(private http: HttpService) {}
 
@@ -28,13 +28,14 @@ export class ItemComponent implements OnInit {
   }
 
   public addToList(p: any) {
-    
     let index = this.itemList.findIndex(i => i.productId === p.id);
     if (index == -1) {
       this.itemList.push(this.addToModel(p));
     } else {
       this.itemList[index].quantity += 1;
-      this.itemList[index].total = this.calculateSingleItemTotal(this.itemList[index]);
+      this.itemList[index].total = this.calculateSingleItemTotal(
+        this.itemList[index]
+      );
     }
     this.calculateOrderTotal(this.itemList);
   }
@@ -58,25 +59,13 @@ export class ItemComponent implements OnInit {
     p.total = (p.quantity * p.price * (100 - p.discount)) / 100;
     this.calculateOrderTotal(this.itemList);
   }
-  public generateBill(){
-    //this.printDoc();
+  public generateBill() {
     let finalOrder: OrderModel = <OrderModel>{};
     finalOrder.total = this.totalBill;
     finalOrder.items = this.itemList;
-    this.http.post(finalOrder , this.url.OrderCreate).subscribe(resp=>{
-      console.log("order created");
-      //this.printDoc();
-      this.itemList=[];
-      this.totalBill = 0.00;
+    this.http.post(finalOrder, this.url.OrderCreate).subscribe(resp => {
+      this.itemList = [];
+      this.totalBill = 0.0;
     });
-  }
-
-  private printDoc(){
-    let popupWinindow
-    let innerContents = document.getElementById("orderReport").innerHTML;
-    popupWinindow = window.open('', '_blank', 'width=600,height=700,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
-    popupWinindow.document.open();
-    popupWinindow.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + innerContents + '</html>');
-    popupWinindow.document.close();
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { ProductModel } from "./product.component.model";
 import { HttpService } from "src/app/services/http.service";
 import { URLConstants } from "src/app/constants/url-constants";
-import { NgForm } from '@angular/forms';
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: "app-product",
@@ -23,32 +23,41 @@ export class ProductComponent implements OnInit {
     this.http.get(this.url.ProductGetAll).subscribe(resp => {
       this.productList = resp as any;
     });
-    console.log(this.productList);
   }
 
-  public commonInHTTP(){
+  public commonInHTTP() {
     this.getAll();
     this.model = <ProductModel>{};
-    
   }
 
   public create() {
-    this.http.post(this.model, this.url.ProductCreate).subscribe(resp => {
-      this.commonInHTTP();
-      console.log("Product created");
-    });
+    this.http
+      .postImage(
+        this.url.ProductCreate +
+          "?inventory=" +
+          this.model.inventory +
+          "&name=" +
+          this.model.name +
+          "&price=" +
+          this.model.price,
+        this.model.image
+      )
+      .subscribe(resp => {
+        this.commonInHTTP();
+        console.log("Product created");
+      });
   }
 
   public update() {
-    this.http.update(this.model, this.url.ProductUpdate).subscribe(resp=>{
+    this.http.update(this.model, this.url.ProductUpdate).subscribe(resp => {
       this.commonInHTTP();
-      this.actionType = 'C';
-    })
+      this.actionType = "C";
+    });
   }
 
-  public new(form: NgForm){
+  public new(form: NgForm) {
     form.resetForm();
-    this.actionType = 'C';
+    this.actionType = "C";
   }
 
   public getById(id: number) {
@@ -58,16 +67,16 @@ export class ProductComponent implements OnInit {
     });
   }
   public delete(product: any) {
-    if(window.confirm("Do you want to delete "+product.name+"?")){
-      this.http.delete(this.url.ProductDelete + product.id).subscribe(resp=>{
+    if (window.confirm("Do you want to delete " + product.name + "?")) {
+      this.http.delete(this.url.ProductDelete + product.id).subscribe(resp => {
         this.getAll();
-      })
+      });
     }
   }
-  public handleFileInput(fileInput: any) {
-    let file = fileInput.item(0);
-    const formData: FormData = new FormData();
-    formData.append("fileKey", file, file.name);
+  public handleFileInput(Event: any) {
+    let selectedFile = Event.target.files[0];
+    let formData = new FormData();
+    formData.append("file", selectedFile);
     this.model.image = formData;
   }
 }

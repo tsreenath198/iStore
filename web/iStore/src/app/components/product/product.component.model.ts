@@ -3,6 +3,6 @@ export interface ProductModel{
     name: string;
     price: number;
     description: string;
-    image: any;
+    image: FormData;
     inventory:number;
 }
