@@ -84,12 +84,18 @@ public class ProductServiceImpl implements ProductService {
 			Optional<Product> product = null;
 			try {
 				product = repository.findByIdAndActiveFlag(i.getProductId(), 0);
+				int inventory = product.get().getInventory() - i.getQuantity();
+				if (product.get().getInventory() > 0) {
+					product.get().setInventory(inventory);
+					repository.save(product.get());
+				} else {
+					throw new ValidationException("Record not found with the product id " + i.getProductId());
+				}
+
 			} catch (Exception e) {
 				throw new ValidationException(e.getMessage());
 			}
-			int inventory = product.get().getInventory() - i.getQuantity();
-			product.get().setInventory(inventory);
-			repository.save(product.get());
+
 		});
 
 	}
