@@ -1,0 +1,8 @@
+form input {
+    margin-top: 40px;
+    font-size: 1rem;
+    border: 0;
+    border-bottom: 2px solid greenyellow;
+    background-color: inherit;
+    color: white;
+}

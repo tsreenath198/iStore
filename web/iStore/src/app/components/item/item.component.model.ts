@@ -1,4 +1,4 @@
-export interface BillModel{
+export interface ItemModel{
     id: number;
     productId: number;
     quantity: number;
@@ -6,4 +6,11 @@ export interface BillModel{
     price: number;
     total: number;
     description: string;
+    orderId: number;
+}
+
+export interface OrderModel{
+    id: number;
+    total:number;
+    items: Array<ItemModel>;
 }

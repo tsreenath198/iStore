@@ -2,18 +2,18 @@ import { Component, OnInit } from "@angular/core";
 import { HttpService } from "src/app/services/http.service";
 import { ProductModel } from "../product/product.component.model";
 
-import { BillModel } from "./bill.component.model";
+import { ItemModel, OrderModel } from "./item.component.model";
 import { URLConstants } from "src/app/constants/url-constants";
 
 @Component({
-  selector: "app-bill",
-  templateUrl: "./bill.component.html",
-  styleUrls: ["./bill.component.css"]
+  selector: "app-item",
+  templateUrl: "./item.component.html",
+  styleUrls: ["./item.component.css"]
 })
-export class BillComponent implements OnInit {
+export class ItemComponent implements OnInit {
   public productList: Array<ProductModel> = [];
-  public itemList: Array<BillModel> = [];
-  public selectedItem: BillModel = <BillModel>{};
+  public itemList: Array<ItemModel> = [];
+  public selectedItem: ItemModel = <ItemModel>{};
   public totalBill: number = 0.0;
   public url = new URLConstants();
   constructor(private http: HttpService) {}
@@ -38,8 +38,8 @@ export class BillComponent implements OnInit {
     }
     this.itemList.forEach(i => (this.totalBill += i.total));
   }
-  private addToModel(p: any): BillModel {
-    let bill: BillModel = <BillModel>{};
+  private addToModel(p: any): ItemModel {
+    let bill: ItemModel = <ItemModel>{};
     bill.productId = p.id;
     bill.price = p.price;
     bill.discount = 5;
@@ -52,5 +52,13 @@ export class BillComponent implements OnInit {
   }
   public setTotal(p: any) {
     p.total = (p.quantity * p.price * (100 - p.discount)) / 100;
+  }
+  public generateBill(){
+    let finalOrder: OrderModel = <OrderModel>{};
+    finalOrder.total = this.totalBill;
+    finalOrder.items = this.itemList;
+    this.http.post(finalOrder , this.url.OrderCreate).subscribe(resp=>{
+      console.log("order created")
+    });
   }
 }

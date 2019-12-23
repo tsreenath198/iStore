@@ -1,25 +1,36 @@
 <div class="row">
-  <div class="col-md-4">
-    <form name="productInsertForm">
-      <input
-        type="text"
-        name="pName"
-        placeholder="product name"
-        [(ngModel)]="model.name"
-      />
-      <input
-        type="number"
-        name="price"
-        placeholder="price"
-        [(ngModel)]="model.price"
-      />
-      <input
-        type="text"
-        name="desc"
-        placeholder="description"
-        [(ngModel)]="model.description"
-      />
-      <button type="submit" (click)="create()">Create</button>
+  <div class="col-md-3" style="height: 550px; background-color: #343a40;">
+    <form name="form" class="ml-3 mr-2" id="productEntryForm" (ngSubmit)="create(f)" #f="ngForm" novalidate >
+      <div class="row">
+        <div class="col-md-12">
+          <input
+            type="text"
+            class="form-control"
+            name="pName"
+            placeholder="product name"
+            [(ngModel)]="model.name"
+          />
+        </div>
+        <div class="col-md-12">
+          <input
+            type="number"
+            class="form-control"
+            name="price"
+            placeholder="price"
+            [(ngModel)]="model.price"
+          />
+        </div>
+        <div class="col-md-12">
+          <input
+            type="text"
+            class="form-control"
+            name="desc"
+            placeholder="description"
+            [(ngModel)]="model.description"
+          />
+        </div>
+      </div>
+      <button type="submit">Create</button>
     </form>
   </div>
   <div class="col-md-8">

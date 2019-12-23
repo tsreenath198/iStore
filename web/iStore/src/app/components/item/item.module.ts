@@ -1,17 +1,17 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { BillRoutingModule } from './bill-routing.module';
-import { BillComponent } from './bill.component';
+;
 import { FormsModule } from '@angular/forms';
+import { ItemComponent } from './item.component';
+import { ItemRoutingModule } from './item-routing.module';
 
 
 @NgModule({
-  declarations: [BillComponent],
+  declarations: [ItemComponent],
   imports: [
     CommonModule,
-    BillRoutingModule,
+    ItemRoutingModule,
     FormsModule
   ]
 })
-export class BillModule { }
+export class ItemModule { }

@@ -1,0 +1,27 @@
+.istore-table {
+    width: 100%;
+}
+
+.istore-table input {
+    margin-top: 0px;
+    font-size: 1rem;
+    border: 0;
+    border-bottom: 2px solid greenyellow;
+    background-color: inherit;
+    color: white;
+}
+
+.istore-table input:focus {
+    border: 0;
+}
+
+.item-view-pane {
+    background-color: greenyellow;
+    height: 700px;
+    margin-left: -16px;
+}
+
+.istore-table p {
+    font-size: 1rem;
+    margin-top: 5px;
+}
