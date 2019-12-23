@@ -1,3 +1,6 @@
+form{
+    color: white;
+}
 form input {
     margin-top: 40px;
     font-size: 1rem;
@@ -6,3 +9,16 @@ form input {
     background-color: inherit;
     color: white;
 }
+
+/* .btn{
+    margin-top: 0px;
+    font-size: 1rem;
+    border-radius: 20px;
+    border: 1px solid greenyellow;
+    background-color: inherit;
+    color: white;
+}
+
+.btn:hover{
+    background-color: yellowgreen;
+} */
