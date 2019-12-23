@@ -36,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
 			product.setName(entity.getName());
 			product.setPrice(entity.getPrice());
 			product.setImage(entity.getImage());
+			product.setInventory(entity.getInventory());
 			return repository.save(product);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
@@ -85,7 +86,7 @@ public class ProductServiceImpl implements ProductService {
 			try {
 				product = repository.findByIdAndActiveFlag(i.getProductId(), 0);
 				int inventory = product.get().getInventory() - i.getQuantity();
-				if (product.get().getInventory() > 0) {
+				if (inventory >-1) {
 					product.get().setInventory(inventory);
 					repository.save(product.get());
 				} else {
@@ -98,6 +99,16 @@ public class ProductServiceImpl implements ProductService {
 
 		});
 
+	}
+
+	@Override
+	public Product populateProduct(String name, Integer inventory, Float price, byte[] bytes) {
+		Product p = new Product();
+		p.setName(name);
+		p.setInventory(inventory);
+		p.setPrice(price);
+		p.setImage(bytes);
+		return p;
 	}
 
 }

@@ -21,4 +21,7 @@ public interface ProductService {
 	public Product get(Integer id);
 
 	public void updateInventory(List<Item> items);
+
+	public Product populateProduct(String name, Integer inventory, Float price, byte[] bytes);
+
 }
