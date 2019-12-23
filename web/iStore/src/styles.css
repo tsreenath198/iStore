@@ -3,4 +3,21 @@
     font-size: 0.85rem;
     font-family: "Comic Sans MS", cursive, sans-serif;
   }
+
+  *:focus {
+    outline: none;
+}
+
+.btn{
+  margin-top: 0px;
+  font-size: 1rem;
+  border-radius: 20px;
+  border: 1px solid greenyellow;
+  background-color: inherit;
+  color: currentColor;
+}
+
+.btn:hover{
+  background-color: yellowgreen;
+}
   
