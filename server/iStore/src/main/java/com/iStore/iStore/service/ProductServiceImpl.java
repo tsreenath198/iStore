@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.model.GenericResponse;
+import com.iStore.iStore.model.Item;
 import com.iStore.iStore.model.Product;
 import com.iStore.iStore.repository.ProductRepository;
 
@@ -75,6 +76,22 @@ public class ProductServiceImpl implements ProductService {
 			return product.get();
 		else
 			throw new ValidationException("Record not found with the id " + id);
+	}
+
+	@Override
+	public void updateInventory(List<Item> items) {
+		items.forEach(i -> {
+			Optional<Product> product = null;
+			try {
+				product = repository.findByIdAndActiveFlag(i.getProductId(), 0);
+			} catch (Exception e) {
+				throw new ValidationException(e.getMessage());
+			}
+			int inventory = product.get().getInventory() - i.getQuantity();
+			product.get().setInventory(inventory);
+			repository.save(product.get());
+		});
+
 	}
 
 }

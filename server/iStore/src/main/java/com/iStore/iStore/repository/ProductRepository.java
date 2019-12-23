@@ -15,4 +15,6 @@ public interface ProductRepository extends CrudRepository<Product, Integer> {
 
 	Optional<Product> findByIdAndActiveFlag(Integer id, Integer activeFlag);
 
+	void save(Optional<Product> product);
+
 }

@@ -33,6 +33,9 @@ public class Product {
 	@Column
 	@NotNull
 	private Float price;
+	@Column
+	@NotNull
+	private Integer inventory;
 	@Lob
 	@Column
 	private byte[] image;

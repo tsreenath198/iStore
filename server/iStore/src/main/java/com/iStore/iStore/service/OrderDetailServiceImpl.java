@@ -17,10 +17,13 @@ import com.iStore.iStore.repository.OrderDetailRepository;
 public class OrderDetailServiceImpl implements OrderDetailService {
 	@Autowired
 	OrderDetailRepository repository;
+	@Autowired
+	ProductServiceImpl productService;
 
 	@Override
 	public OrderDetail create(OrderDetail entity) {
 		try {
+			productService.updateInventory(entity.getItems());
 			return repository.save(entity);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());

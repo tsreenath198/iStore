@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.iStore.iStore.model.GenericResponse;
+import com.iStore.iStore.model.Item;
 import com.iStore.iStore.model.Product;
 
 @Service
@@ -18,4 +19,6 @@ public interface ProductService {
 	public List<Product> getAll();
 
 	public Product get(Integer id);
+
+	public void updateInventory(List<Item> items);
 }
