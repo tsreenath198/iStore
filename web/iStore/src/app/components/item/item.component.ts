@@ -28,15 +28,15 @@ export class ItemComponent implements OnInit {
   }
 
   public addToList(p: any) {
-    this.totalBill = 0;
+    
     let index = this.itemList.findIndex(i => i.productId === p.id);
     if (index == -1) {
       this.itemList.push(this.addToModel(p));
     } else {
       this.itemList[index].quantity += 1;
-      this.itemList[index].total = this.calculateTotal(this.itemList[index]);
+      this.itemList[index].total = this.calculateSingleItemTotal(this.itemList[index]);
     }
-    this.itemList.forEach(i => (this.totalBill += i.total));
+    this.calculateOrderTotal(this.itemList);
   }
   private addToModel(p: any): ItemModel {
     let bill: ItemModel = <ItemModel>{};
@@ -44,14 +44,19 @@ export class ItemComponent implements OnInit {
     bill.price = p.price;
     bill.discount = 0;
     bill.quantity = 1;
-    bill.total = this.calculateTotal(bill);
+    bill.total = this.calculateSingleItemTotal(bill);
     return bill;
   }
-  private calculateTotal(p: any) {
+  private calculateSingleItemTotal(p: any) {
     return (p.quantity * p.price * (100 - p.discount)) / 100;
+  }
+  private calculateOrderTotal(p: any) {
+    this.totalBill = 0;
+    p.forEach(i => (this.totalBill += i.total));
   }
   public setTotal(p: any) {
     p.total = (p.quantity * p.price * (100 - p.discount)) / 100;
+    this.calculateOrderTotal(this.itemList);
   }
   public generateBill(){
     //this.printDoc();
@@ -60,7 +65,7 @@ export class ItemComponent implements OnInit {
     finalOrder.items = this.itemList;
     this.http.post(finalOrder , this.url.OrderCreate).subscribe(resp=>{
       console.log("order created");
-      this.printDoc();
+      //this.printDoc();
       this.itemList=[];
       this.totalBill = 0.00;
     });
