@@ -14,7 +14,7 @@ export class ItemComponent implements OnInit {
   public productList: Array<ProductModel> = [];
   public itemList: Array<ItemModel> = [];
   public selectedItem: ItemModel = <ItemModel>{};
-  public totalBill: number = 0.0;
+  public totalBill: number = 0.00;
   public url = new URLConstants();
   constructor(private http: HttpService) {}
 
@@ -42,7 +42,7 @@ export class ItemComponent implements OnInit {
     let bill: ItemModel = <ItemModel>{};
     bill.productId = p.id;
     bill.price = p.price;
-    bill.discount = 5;
+    bill.discount = 0;
     bill.quantity = 1;
     bill.total = this.calculateTotal(bill);
     return bill;
@@ -58,7 +58,9 @@ export class ItemComponent implements OnInit {
     finalOrder.total = this.totalBill;
     finalOrder.items = this.itemList;
     this.http.post(finalOrder , this.url.OrderCreate).subscribe(resp=>{
-      console.log("order created")
+      console.log("order created");
+      this.itemList=[];
+      this.totalBill = 0.00;
     });
   }
 }
