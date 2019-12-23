@@ -6,6 +6,7 @@ const routes: Routes = [
   { path: "", redirectTo: "product", pathMatch: "prefix" },
   { path: "product", loadChildren: "./components/product/product.module#ProductModule" },
   { path: "item", loadChildren: "./components/item/item.module#ItemModule" },
+  { path:"report", loadChildren: "./components/report/report.module#ReportModule"}
 ];
 
 @NgModule({
