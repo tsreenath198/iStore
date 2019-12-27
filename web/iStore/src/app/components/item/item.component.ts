@@ -19,7 +19,7 @@ export class ItemComponent implements OnInit {
   public itemList: Array<ItemModel> = [];
   public selectedItem: ItemModel = <ItemModel>{};
   public totalBill: number = 0.0;
-  public printingBill:any ={};
+  public printingBill: any = {};
   public url = new URLConstants();
 
   public closeResult = "";
@@ -76,21 +76,23 @@ export class ItemComponent implements OnInit {
       this.totalBill = 0.0;
     });
   }
-
+  public cancelBill() {
+    this.itemList = [];
+    this.totalBill = 0.0;
+  }
   /**Printing bill model */
-  public setPrintingBill(trashContent){
-    this.printingBill['items'] = this.itemList;
-    this.printingBill['total'] = this.totalBill;
-    this.printingBill['date'] = new Date();
-    this.printingBill.items.forEach(item =>{
-      this.productList.forEach(product =>{
-        if(item.productId == product.id){
-          item['productName'] = product.name;
+  public setPrintingBill(billContent) {
+    this.printingBill["items"] = this.itemList;
+    this.printingBill["total"] = this.totalBill;
+    this.printingBill["date"] = new Date();
+    this.printingBill.items.forEach(item => {
+      this.productList.forEach(product => {
+        if (item.productId == product.id) {
+          item["productName"] = product.name;
         }
-      })
-    })
-    console.log(this.printingBill);
-    this.open(trashContent);
+      });
+    });
+    this.open(billContent);
   }
   /**
    * @param

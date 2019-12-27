@@ -30,7 +30,7 @@ export class ProductComponent implements OnInit {
     this.model = <ProductModel>{};
   }
 
-  public create() {
+  public create(form: NgForm) {
     this.http
       .postImage(
         this.url.ProductCreate +
@@ -44,6 +44,7 @@ export class ProductComponent implements OnInit {
       )
       .subscribe(resp => {
         this.commonInHTTP();
+        form.resetForm();
         console.log("Product created");
       });
   }

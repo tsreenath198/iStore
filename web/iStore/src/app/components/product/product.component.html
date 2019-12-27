@@ -51,7 +51,7 @@
       <button *ngIf="actionType == 'U'" class="btn ml-2" (click)="new(f)" type="button">New</button>
     </form>
   </div>
-  <div class="col-md-8">
+  <div class="col-md-8" style="height: 90vh;overflow-y: scroll;">
     <table class="table table-bordered">
         <thead>
             <tr>
@@ -85,7 +85,7 @@
                     {{product.description}}
                 </td>
                 <td>
-                  <button class="btn" type="submit" (click)="getById(product.id)">Edit</button>
+                  <!-- <button class="btn" type="submit" (click)="getById(product.id)">Edit</button> -->
                   <button class="btn ml-2" type="submit" (click)="delete(product)">Delete</button>
                   <i class="fa fa-trash" aria-hidden="true"></i>
                 </td>
