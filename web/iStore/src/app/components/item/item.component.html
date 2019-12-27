@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-5" style="height: 550px; background-color: #343a40;">
+  <div class="col-md-5" style="height: 90vh; background-color: #343a40;">
     <table class="table table-dark table-sm table-striped istore-table">
       <thead>
         <tr>
@@ -33,7 +33,7 @@
             <p>{{ item.price }}</p>
           </td>
           <td>
-            <div >
+            <div>
               <input
                 type="number"
                 class="form-control"
@@ -61,7 +61,11 @@
         </tr>
         <tr *ngIf="itemList.length">
           <td colspan="5">
-            <button class="btn" style="float: right;" (click)="generateBill()">
+            <button
+              class="btn"
+              style="float: right;"
+              (click)="setPrintingBill(trashContent)"
+            >
               Add
             </button>
           </td>
@@ -77,7 +81,13 @@
         style="text-align: center;"
         (click)="addToList(product)"
       >
-        <h3><img src="{{ product.image }}" /></h3>
+        <h3>
+          <img
+            [src]="'data:image/png;base64,' + product.image"
+            width="190"
+            height="95"
+          />
+        </h3>
         <h3>{{ product.name }}</h3>
         <small>{{ product.price }}.rs</small>
         <h5>{{ product.description }}</h5>
@@ -85,3 +95,104 @@
     </div>
   </div>
 </div>
+<ng-template #trashContent let-c="close" let-d="dismiss">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4 class="modal-title">Bill</h4>
+      <button
+        type="button"
+        class="close"
+        aria-label="Close"
+        (click)="d('Cross click')"
+      >
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div id="print-section">
+        <div style="text-align: center;">
+          <small>NATURAL FRESH</small><br>
+          <small>SRI YOGESHWARA ENTERPRISE</small><br>
+          <small>TAX INVOICE</small><br>
+          <small>YELLAMA GUTTA,NZB</small><br>
+        </div>
+        <hr>
+        <div style="display: inline;">
+          <div style="float: left;">
+            <p><small>Date:{{printingBill.date | date}}</small> </p>
+          </div>
+          <div style="float: right;">
+          <p><small>Time:{{printingBill.date | date:'h:mm:ss a'}}</small></p>
+          </div>
+        </div>
+        <div>
+          <table class="table table-sm">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Disc(%)</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="itemList.length">
+              <tr *ngFor="let item of printingBill.items; let i = index">
+                <td>
+                  {{item.productName}}
+                </td>
+                <td>
+                  {{ item.quantity }}
+                </td>
+                <td>
+                  {{ item.price }}
+                </td>
+                <td>
+                  {{ item.discount }}
+                </td>
+                <td>
+                  {{ item.total }}
+                </td>
+              </tr>
+              <tr>
+                <td colspan="4">
+                  <b>Total</b>
+                </td>
+                <td>
+                  <b>{{ printingBill.total }}</b>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="text-align: center;">
+          <hr>
+          <small>THANKYOU! VISIT AGAIN</small>
+          <hr>
+
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        printSectionId="print-section"
+        (click)="generateBill()"
+        [printStyle]="{
+          div: { 'margin-left': '-5px', 'margin-right': '-5px' }
+        }"
+        ngxPrint
+      >
+        Print
+      </button>
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="c('Close click')"
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</ng-template>

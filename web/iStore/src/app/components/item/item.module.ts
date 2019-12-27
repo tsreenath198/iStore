@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ItemComponent } from './item.component';
 import { ItemRoutingModule } from './item-routing.module';
+import { NgxPrintModule } from 'ngx-print';
 
 
 @NgModule({
@@ -11,6 +12,7 @@ import { ItemRoutingModule } from './item-routing.module';
   imports: [
     CommonModule,
     ItemRoutingModule,
+    NgxPrintModule,
     FormsModule
   ]
 })

@@ -1,7 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { HttpService } from "src/app/services/http.service";
 import { ProductModel } from "../product/product.component.model";
-
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbModalRef
+} from "@ng-bootstrap/ng-bootstrap";
 import { ItemModel, OrderModel } from "./item.component.model";
 import { URLConstants } from "src/app/constants/url-constants";
 
@@ -15,8 +19,12 @@ export class ItemComponent implements OnInit {
   public itemList: Array<ItemModel> = [];
   public selectedItem: ItemModel = <ItemModel>{};
   public totalBill: number = 0.0;
+  public printingBill:any ={};
   public url = new URLConstants();
-  constructor(private http: HttpService) {}
+
+  public closeResult = "";
+  private modalRef: NgbModalRef;
+  constructor(private http: HttpService, private modalService: NgbModal) {}
 
   ngOnInit() {
     this.getProducts();
@@ -67,5 +75,49 @@ export class ItemComponent implements OnInit {
       this.itemList = [];
       this.totalBill = 0.0;
     });
+  }
+
+  /**Printing bill model */
+  public setPrintingBill(trashContent){
+    this.printingBill['items'] = this.itemList;
+    this.printingBill['total'] = this.totalBill;
+    this.printingBill['date'] = new Date();
+    this.printingBill.items.forEach(item =>{
+      this.productList.forEach(product =>{
+        if(item.productId == product.id){
+          item['productName'] = product.name;
+        }
+      })
+    })
+    console.log(this.printingBill);
+    this.open(trashContent);
+  }
+  /**
+   * @param
+   * 1) content consists the modal instance
+   * 2) Selected contains the code of selected row
+   */
+  public open(content: any) {
+    this.modalRef = this.modalService.open(content);
+    this.modalRef.result.then(
+      result => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      reason => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+  }
+  public close() {
+    this.modalRef.close();
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return "by pressing ESC";
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return "by clicking on a backdrop";
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }
