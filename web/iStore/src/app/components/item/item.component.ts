@@ -51,7 +51,7 @@ export class ItemComponent implements OnInit {
     let bill: ItemModel = <ItemModel>{};
     bill.productId = p.id;
     bill.price = p.price;
-    bill.discount = 0;
+    bill.discount = 25;
     bill.quantity = 1;
     bill.total = this.calculateSingleItemTotal(bill);
     return bill;
@@ -83,7 +83,7 @@ export class ItemComponent implements OnInit {
   /**Printing bill model */
   public setPrintingBill(billContent) {
     this.printingBill["items"] = this.itemList;
-    this.printingBill["total"] = this.totalBill;
+    this.printingBill["total"] = Math.ceil(this.totalBill);
     this.printingBill["date"] = new Date();
     this.printingBill.items.forEach(item => {
       this.productList.forEach(product => {

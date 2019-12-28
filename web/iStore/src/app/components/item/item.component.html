@@ -11,6 +11,7 @@
         </tr>
       </thead>
       <tbody *ngIf="itemList.length">
+
         <tr *ngFor="let item of itemList; let i = index">
           <td>
             <select disabled [(ngModel)]="item.productId" class="form-control">
@@ -120,7 +121,7 @@
       <div id="print-section">
         <div style="text-align: center;">
           <small>NATURAL FRESH</small><br>
-          <small>SRI YOGESHWARA ENTERPRISE</small><br>
+          <small>SRI YOGESHWARA ENTERPRISES</small><br>
           <small>TAX INVOICE</small><br>
           <small>YELLAMA GUTTA,NZB</small><br>
         </div>
