@@ -1,5 +1,6 @@
 package com.iStore.iStore.service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 
 import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.model.GenericResponse;
+import com.iStore.iStore.model.Item;
 import com.iStore.iStore.model.OrderDetail;
+import com.iStore.iStore.model.Product;
 import com.iStore.iStore.repository.OrderDetailRepository;
 
 @Service
@@ -24,6 +27,11 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	public OrderDetail create(OrderDetail entity) {
 		try {
 			productService.updateInventory(entity.getItems());
+			List<Item> list = entity.getItems();
+			for (Item i : list) {
+				i.setProduct(productService.get(i.getProduct().getId()));
+			}
+			entity.setItems(list);
 			return repository.save(entity);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());

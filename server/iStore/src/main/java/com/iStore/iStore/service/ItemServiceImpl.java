@@ -33,7 +33,8 @@ public class ItemServiceImpl implements ItemService {
 			Item item = get(entity.getId());
 			item.setDiscount(entity.getDiscount());
 			item.setPrice(entity.getPrice());
-			item.setProductId(entity.getProductId());
+			item.setProduct(entity.getProduct());
+//			item.setProductId(entity.getProduct().getId());
 			item.setQuantity(entity.getQuantity());
 			item.setTotal(entity.getTotal());
 			return itemRepo.save(item);
