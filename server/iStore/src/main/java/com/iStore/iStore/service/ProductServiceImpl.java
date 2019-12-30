@@ -12,12 +12,16 @@ import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.model.GenericResponse;
 import com.iStore.iStore.model.Item;
 import com.iStore.iStore.model.Product;
+import com.iStore.iStore.repository.CategoryRepository;
 import com.iStore.iStore.repository.ProductRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductRepository repository;
+
+	@Autowired
+	CategoryService categoryService;
 
 	@Override
 	public Product create(Product entity) {
@@ -86,7 +90,7 @@ public class ProductServiceImpl implements ProductService {
 			try {
 				product = repository.findByIdAndActiveFlag(i.getProduct().getId(), 0);
 				int inventory = product.get().getInventory() - i.getQuantity();
-				if (inventory >-1) {
+				if (inventory > -1) {
 					product.get().setInventory(inventory);
 					repository.save(product.get());
 				} else {
@@ -102,12 +106,13 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Product populateProduct(String name, Integer inventory, Float price, byte[] bytes) {
+	public Product populateProduct(String name, Integer inventory, Float price, Integer categoryId, byte[] bytes) {
 		Product p = new Product();
 		p.setName(name);
 		p.setInventory(inventory);
 		p.setPrice(price);
 		p.setImage(bytes);
+		p.setCategory(categoryService.get(categoryId));
 		return p;
 	}
 

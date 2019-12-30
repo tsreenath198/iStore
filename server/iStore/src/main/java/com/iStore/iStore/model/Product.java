@@ -2,12 +2,15 @@ package com.iStore.iStore.model;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -39,6 +42,10 @@ public class Product {
 	@Lob
 	@Column
 	private byte[] image;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "category_id", referencedColumnName = "id")
+	private Category category;
 	@Column
 	@CreationTimestamp
 	private Date createdDate;

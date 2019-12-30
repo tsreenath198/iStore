@@ -20,6 +20,7 @@ import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import com.iStore.iStore.model.Item;
+import com.iStore.iStore.model.Product;
 import com.iStore.iStore.repository.ItemRepository;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -27,6 +28,7 @@ public class ItemServiceImplTest {
 
 	@Mock
 	private ItemRepository repo;
+	Product pr = new Product();
 
 	@InjectMocks
 	private ItemServiceImpl billServiceImpl;
@@ -37,7 +39,7 @@ public class ItemServiceImplTest {
 		Item item = new Item();
 		item.setDiscount(10);
 		item.setPrice((float) 1);
-		item.setProductId(10);
+		item.setProduct(pr);
 		items.add(item);
 		List<Item> mockItems = new ArrayList<Item>();
 		mockItems.add(item);
@@ -51,7 +53,7 @@ public class ItemServiceImplTest {
 		Item item = new Item();
 		item.setDiscount(10);
 		item.setPrice((float) 1);
-		item.setProductId(10);
+		item.setProduct(pr);
 		items.add(item);
 		List<Item> mockBills = new ArrayList<Item>();
 		mockBills.add(item);
@@ -66,7 +68,7 @@ public class ItemServiceImplTest {
 		item.setId(1);
 		item.setDiscount(10);
 		item.setPrice((float) 1);
-		item.setProductId(10);
+		item.setProduct(pr);
 		Optional<Item> mockItem = Optional.of(item);
 		when(repo.findByIdAndActiveFlag(any(Integer.class), anyInt())).thenReturn(mockItem);
 		when(repo.save(any(Item.class))).thenReturn(item);
@@ -80,7 +82,7 @@ public class ItemServiceImplTest {
 		item.setId(1);
 		item.setDiscount(10);
 		item.setPrice((float) 1);
-		item.setProductId(10);
+		item.setProduct(pr);
 		Optional<Item> mockItem = Optional.of(item);
 		when(repo.findByIdAndActiveFlag(any(Integer.class), anyInt())).thenReturn(mockItem);
 		ConstraintViolationException cve = new ConstraintViolationException(null, null, null);
