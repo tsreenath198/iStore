@@ -34,7 +34,7 @@ public class ProductController {
 	@PostMapping(ISTOREConstants.CREATE)
 	public ResponseEntity<Product> create(@RequestParam Float price, @RequestParam Integer inventory,
 			@RequestParam String name, @RequestParam("categoryId") Integer categoryId,
-			@RequestParam("file") MultipartFile file) throws IOException {
+			@RequestParam(required = false) MultipartFile file) throws IOException {
 		Product product = null;
 		try {
 			product = productService.populateProduct(name, inventory, price, categoryId, file.getBytes());
