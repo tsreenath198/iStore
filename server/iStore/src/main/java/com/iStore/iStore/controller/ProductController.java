@@ -36,8 +36,13 @@ public class ProductController {
 			@RequestParam String name, @RequestParam("categoryId") Integer categoryId,
 			@RequestParam(required = false) MultipartFile file) throws IOException {
 		Product product = null;
+		byte[] bytes = null;
 		try {
-			product = productService.populateProduct(name, inventory, price, categoryId, file.getBytes());
+			if (file != null) {
+				bytes = file.getBytes();
+			}
+			product = productService.populateProduct(name, inventory, price, categoryId, bytes);
+
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
 		}
