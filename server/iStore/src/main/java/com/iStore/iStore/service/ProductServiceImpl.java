@@ -12,7 +12,6 @@ import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.model.GenericResponse;
 import com.iStore.iStore.model.Item;
 import com.iStore.iStore.model.Product;
-import com.iStore.iStore.repository.CategoryRepository;
 import com.iStore.iStore.repository.ProductRepository;
 
 @Service
@@ -39,7 +38,8 @@ public class ProductServiceImpl implements ProductService {
 			Product product = get(entity.getId());
 			product.setName(entity.getName());
 			product.setPrice(entity.getPrice());
-			product.setImage(entity.getImage());
+			if (entity.getImage() != null)
+				product.setImage(entity.getImage());
 			product.setInventory(entity.getInventory());
 			return repository.save(product);
 		} catch (Exception e) {
