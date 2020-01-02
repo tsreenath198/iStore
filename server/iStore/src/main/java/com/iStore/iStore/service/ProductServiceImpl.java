@@ -38,9 +38,9 @@ public class ProductServiceImpl implements ProductService {
 			Product product = get(entity.getId());
 			product.setName(entity.getName());
 			product.setPrice(entity.getPrice());
-			if (entity.getImage() != null)
-				product.setImage(entity.getImage());
 			product.setInventory(entity.getInventory());
+			product.setActiveFlag(entity.getActiveFlag());
+			product.setDescription(entity.getDescription());
 			return repository.save(product);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
@@ -104,16 +104,4 @@ public class ProductServiceImpl implements ProductService {
 		});
 
 	}
-
-	@Override
-	public Product populateProduct(String name, Integer inventory, Float price, Integer categoryId, byte[] bytes) {
-		Product p = new Product();
-		p.setName(name);
-		p.setInventory(inventory);
-		p.setPrice(price);
-		p.setImage(bytes);
-		p.setCategory(categoryService.get(categoryId));
-		return p;
-	}
-
 }

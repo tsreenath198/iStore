@@ -3,8 +3,6 @@ package com.iStore.iStore.controller;
 import java.io.IOException;
 import java.util.List;
 
-import javax.validation.ValidationException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.model.GenericResponse;
@@ -32,20 +29,7 @@ public class ProductController {
 	ProductService productService;
 
 	@PostMapping(ISTOREConstants.CREATE)
-	public ResponseEntity<Product> create(@RequestParam Float price, @RequestParam Integer inventory,
-			@RequestParam String name, @RequestParam("categoryId") Integer categoryId,
-			@RequestParam(required = false) MultipartFile file) throws IOException {
-		Product product = null;
-		byte[] bytes = null;
-		try {
-			if (file != null) {
-				bytes = file.getBytes();
-			}
-			product = productService.populateProduct(name, inventory, price, categoryId, bytes);
-
-		} catch (Exception e) {
-			throw new ValidationException(e.getMessage());
-		}
+	public ResponseEntity<Product> create(@RequestBody Product product) throws IOException {
 		return new ResponseEntity<Product>(productService.create(product), HttpStatus.CREATED);
 	}
 
