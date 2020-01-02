@@ -13,6 +13,6 @@ public interface CategoryRepository extends CrudRepository<Category, Integer> {
 
 	Optional<Category> findByIdAndActiveFlag(Integer id, int i);
 
-	List<Category> findByActiveFlagAllIgnoreCaseOrderByCreatedDateDesc(int i);
+	List<Category> findByActiveFlagAllIgnoreCaseOrderByNameDesc(int i);
 
 }

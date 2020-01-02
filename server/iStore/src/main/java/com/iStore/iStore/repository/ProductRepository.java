@@ -11,7 +11,7 @@ import com.iStore.iStore.model.Product;
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Integer> {
 
-	List<Product> findByActiveFlagAllIgnoreCaseOrderByCreatedDateDesc(Integer activeFlag);
+	List<Product> findByActiveFlagAllIgnoreCaseOrderByNameDesc(Integer activeFlag);
 
 	Optional<Product> findByIdAndActiveFlag(Integer id, Integer activeFlag);
 

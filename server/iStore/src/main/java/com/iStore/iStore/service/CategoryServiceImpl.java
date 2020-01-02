@@ -60,7 +60,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Category> getAll() {
-		return (List<Category>) categoryRepo.findByActiveFlagAllIgnoreCaseOrderByCreatedDateDesc(0);
+		return (List<Category>) categoryRepo.findByActiveFlagAllIgnoreCaseOrderByNameDesc(0);
 	}
 
 	@Override
