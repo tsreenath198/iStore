@@ -65,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Product> getAll() {
-		return (List<Product>) repository.findByActiveFlagAllIgnoreCaseOrderByNameDesc(0);
+		return (List<Product>) repository.findByActiveFlagAllIgnoreCaseOrderByNameAsc(0);
 	}
 
 	@Override
