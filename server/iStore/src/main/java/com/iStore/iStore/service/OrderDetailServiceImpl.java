@@ -1,6 +1,5 @@
 package com.iStore.iStore.service;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,7 +12,6 @@ import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.model.GenericResponse;
 import com.iStore.iStore.model.Item;
 import com.iStore.iStore.model.OrderDetail;
-import com.iStore.iStore.model.Product;
 import com.iStore.iStore.repository.OrderDetailRepository;
 
 @Service
