@@ -42,6 +42,7 @@ public class ProductServiceImpl implements ProductService {
 			product.setActiveFlag(entity.getActiveFlag());
 			product.setDescription(entity.getDescription());
 			product.setProductOrder(entity.getProductOrder());
+			product.setMinimumAvailability(entity.getMinimumAvailability());
 			return repository.save(product);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());

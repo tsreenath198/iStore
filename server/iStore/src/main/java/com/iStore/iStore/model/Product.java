@@ -40,6 +40,8 @@ public class Product {
 	@Column
 	@NotNull
 	private Integer inventory;
+	@Column
+	private Integer minimumAvailability;
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "category_id", referencedColumnName = "id")
 	private Category category;
