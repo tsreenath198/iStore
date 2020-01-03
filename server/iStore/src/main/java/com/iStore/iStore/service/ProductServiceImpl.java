@@ -41,7 +41,7 @@ public class ProductServiceImpl implements ProductService {
 			product.setInventory(entity.getInventory());
 			product.setActiveFlag(entity.getActiveFlag());
 			product.setDescription(entity.getDescription());
-			product.setOrder(entity.getOrder());
+			product.setProductOrder(entity.getProductOrder());
 			return repository.save(product);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
@@ -66,7 +66,7 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public List<Product> getAll() {
-		return (List<Product>) repository.findByActiveFlagAllIgnoreCaseOrderByNameAsc(0);
+		return (List<Product>) repository.findByActiveFlagAllIgnoreCaseOrderByProductOrderAsc(0);
 	}
 
 	@Override

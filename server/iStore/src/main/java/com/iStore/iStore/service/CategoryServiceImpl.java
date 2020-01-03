@@ -36,7 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
 			category.setId(entity.getId());
 			category.setName(entity.getName());
 			category.setActiveFlag(entity.getActiveFlag());
-			category.setOrder(entity.getOrder());
+			category.setCategoryOrder(entity.getCategoryOrder());
 			return categoryRepo.save(category);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
@@ -61,7 +61,7 @@ public class CategoryServiceImpl implements CategoryService {
 
 	@Override
 	public List<Category> getAll() {
-		return (List<Category>) categoryRepo.findByActiveFlagAllIgnoreCaseOrderByNameAsc(0);
+		return (List<Category>) categoryRepo.findByActiveFlagAllIgnoreCaseOrderByCategoryOrderAsc(0);
 	}
 
 	@Override

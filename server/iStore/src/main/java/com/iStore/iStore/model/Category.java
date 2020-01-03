@@ -30,7 +30,7 @@ public class Category {
 	@Column
 	private Integer defaultDiscount;
 	@Column
-	private Integer order;
+	private Integer categoryOrder;
 	@Column
 	@CreationTimestamp
 	private Date createdDate;
