@@ -33,6 +33,8 @@ public class Product {
 	@NotNull
 	private String name;
 	@Column
+	private Integer order;
+	@Column
 	@NotNull
 	private Float price;
 	@Column

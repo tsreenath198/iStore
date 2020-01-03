@@ -36,6 +36,7 @@ public class CategoryServiceImpl implements CategoryService {
 			category.setId(entity.getId());
 			category.setName(entity.getName());
 			category.setActiveFlag(entity.getActiveFlag());
+			category.setOrder(entity.getOrder());
 			return categoryRepo.save(category);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
