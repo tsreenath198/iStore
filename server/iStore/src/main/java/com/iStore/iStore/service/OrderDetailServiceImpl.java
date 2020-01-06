@@ -17,7 +17,7 @@ import com.iStore.iStore.repository.OrderDetailRepository;
 @Service
 public class OrderDetailServiceImpl implements OrderDetailService {
 	@Autowired
-	OrderDetailRepository repository;
+	OrderDetailRepository orderRepository;
 	@Autowired
 	ProductServiceImpl productService;
 
@@ -30,7 +30,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 				i.setProduct(productService.get(i.getProduct().getId()));
 			}
 			entity.setItems(list);
-			return repository.save(entity);
+			return orderRepository.save(entity);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
 		}
@@ -41,7 +41,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		try {
 			OrderDetail order = get(entity.getId());
 			order.setTotal(entity.getTotal());
-			return repository.save(order);
+			return orderRepository.save(order);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
 		}
@@ -64,14 +64,14 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
 	@Override
 	public List<OrderDetail> getAll() {
-		return (List<OrderDetail>) repository.findByActiveFlagAllIgnoreCaseOrderByCreatedDateDesc(0);
+		return (List<OrderDetail>) orderRepository.findByActiveFlagAllIgnoreCaseOrderByCreatedDateDesc(0);
 	}
 
 	@Override
 	public OrderDetail get(Integer id) {
 		Optional<OrderDetail> order = null;
 		try {
-			order = repository.findByIdAndActiveFlag(id, 0);
+			order = orderRepository.findByIdAndActiveFlag(id, 0);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
 		}
