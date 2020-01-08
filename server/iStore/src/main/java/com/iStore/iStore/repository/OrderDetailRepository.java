@@ -6,7 +6,9 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.iStore.iStore.model.OrderDetail;
 
@@ -23,7 +25,8 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
 	List<OrderDetail> findAllByCreatedDate(Date dt);
 
 //SELECT * FROM `order_detail` WHERE created_date >= '2020-01-06' and created_date <= '2020-01-08 23:59:59.999'
-	@Query(value = "SELECT * FROM order_detail WHERE created_date >= :fromDate and created_date <= :toDate+ '23:59:59.999'", nativeQuery = true)
-	List<OrderDetail> findAllBetweenDates(java.sql.Date fromDate, java.sql.Date toDate);
+	@Query(value = "SELECT * FROM order_detail WHERE created_date >= :fromDate and created_date <= :toDate", nativeQuery = true)
+	List<OrderDetail> findAllBetweenDates(@Param(value = "fromDate") Date fromDate,
+			@Param(value = "toDate") Date toDate);
 
 }

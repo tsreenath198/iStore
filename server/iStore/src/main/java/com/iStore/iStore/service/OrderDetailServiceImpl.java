@@ -90,7 +90,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	@Override
 	public float getTotalByDate(String from, String to) throws ParseException {
 		float total;
-		DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+		DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
 		Date dtFrom = format.parse(from);
 		Date dtto = format.parse(to);
 		if (from != null && to != null)
@@ -101,9 +101,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	}
 
 	private float getBetweenDates(Date from, Date to) {
-		System.out.println(from + "==" + to);
 		java.sql.Date fromDate = new java.sql.Date(from.getTime());
-		java.sql.Date toDate = new java.sql.Date(to.getTime());
+		java.sql.Date toDate = new java.sql.Date(to.getTime() + (1000 * 60 * 60 * 24));
 		List<OrderDetail> ot = orderRepository.findAllBetweenDates(fromDate, toDate);
 		return getTotal(ot);
 	}
