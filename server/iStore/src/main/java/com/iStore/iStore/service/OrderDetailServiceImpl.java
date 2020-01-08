@@ -90,12 +90,12 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	@Override
 	public float getTotalByDate(String from, String to) throws ParseException {
 		float total;
-		DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
-		Date dtFrom = format.parse(from);
-		Date dtto = format.parse(to);
-		if (from != null && to != null)
+		if (from != null && to != null) {
+			DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+			Date dtFrom = format.parse(from);
+			Date dtto = format.parse(to);
 			total = getBetweenDates(dtFrom, dtto);
-		else
+		} else
 			total = getCurrentDayTotal(new Date());
 		return total;
 	}
