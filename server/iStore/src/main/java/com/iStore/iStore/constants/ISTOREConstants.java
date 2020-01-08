@@ -10,6 +10,7 @@ public interface ISTOREConstants {
 	String DELETE = "/delete";
 	String GET = "/get";
 	String GET_ALL = "/getAll";
+	String GET_TOTAL = "/getTotal";
 	String SUCCESS = "Successfully";
 	String DELETED = "Deleted Successfully";
 	String FAILED = "Operation Failed";

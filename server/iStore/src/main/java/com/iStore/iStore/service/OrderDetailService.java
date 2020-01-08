@@ -1,5 +1,6 @@
 package com.iStore.iStore.service;
 
+import java.text.ParseException;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -18,4 +19,7 @@ public interface OrderDetailService {
 	public List<OrderDetail> getAll();
 
 	public OrderDetail get(Integer id);
+
+	public float getTotalByDate(String from, String to) throws ParseException;
+
 }

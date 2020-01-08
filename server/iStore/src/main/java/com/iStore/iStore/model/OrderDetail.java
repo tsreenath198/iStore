@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -17,6 +19,8 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.iStore.iStore.constants.PaymentMode;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -44,7 +48,8 @@ public class OrderDetail {
 	private String description;
 	@Column
 	private Integer activeFlag = 0;
-
+	@Enumerated(EnumType.STRING)
+	private PaymentMode paymentMode;
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "orderId")
 	private List<Item> items;

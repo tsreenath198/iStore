@@ -1,5 +1,7 @@
 package com.iStore.iStore.controller;
 
+import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,5 +52,11 @@ public class OrderDetailController {
 	@GetMapping(ISTOREConstants.GET_ALL)
 	public ResponseEntity<List<OrderDetail>> getAll() {
 		return new ResponseEntity<List<OrderDetail>>(orderDetailService.getAll(), HttpStatus.OK);
+	}
+
+	@GetMapping(ISTOREConstants.GET_TOTAL)
+	public ResponseEntity<Float> getTotalByDate(@RequestParam(required = false) String from,
+			@RequestParam(required = false) String to) throws ParseException {
+		return new ResponseEntity<Float>(orderDetailService.getTotalByDate(from, to), HttpStatus.OK);
 	}
 }

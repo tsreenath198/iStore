@@ -1,6 +1,11 @@
 package com.iStore.iStore.service;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import javax.validation.ValidationException;
@@ -82,4 +87,38 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 			throw new ValidationException("Record not found with the id " + id);
 	}
 
+	@Override
+	public float getTotalByDate(String from, String to) throws ParseException {
+		float total;
+		DateFormat format = new SimpleDateFormat("MMMM d, yyyy", Locale.ENGLISH);
+		Date dtFrom = format.parse(from);
+		Date dtto = format.parse(to);
+		if (from != null && to != null)
+			total = getBetweenDates(dtFrom, dtto);
+		else
+			total = getCurrentDayTotal(new Date());
+		return total;
+	}
+
+	private float getBetweenDates(Date from, Date to) {
+		System.out.println(from + "==" + to);
+		java.sql.Date fromDate = new java.sql.Date(from.getTime());
+		java.sql.Date toDate = new java.sql.Date(to.getTime());
+		List<OrderDetail> ot = orderRepository.findAllBetweenDates(fromDate, toDate);
+		return getTotal(ot);
+	}
+
+	private float getCurrentDayTotal(Date date) {
+		java.sql.Date dt = new java.sql.Date(date.getTime());
+		List<OrderDetail> ot = orderRepository.findAllByCreatedDate(dt);
+		return getTotal(ot);
+	}
+
+	private float getTotal(List<OrderDetail> ot) {
+		float ct = 0.0f;
+		for (OrderDetail t : ot) {
+			ct += t.getTotal();
+		}
+		return ct;
+	}
 }
