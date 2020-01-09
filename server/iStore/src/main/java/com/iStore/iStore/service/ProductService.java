@@ -20,6 +20,8 @@ public interface ProductService {
 
 	public Product get(Integer id);
 
-	public void updateInventory(List<Item> items);
+	public void deleteInventory(List<Item> items);
+
+	public void addInventory(List<Item> items);
 
 }

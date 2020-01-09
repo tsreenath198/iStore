@@ -1,11 +1,8 @@
 package com.iStore.iStore.service;
 
-import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 
 import javax.validation.ValidationException;
@@ -30,7 +27,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	@Override
 	public OrderDetail create(OrderDetail entity) {
 		try {
-			productService.updateInventory(entity.getItems());
+			productService.deleteInventory(entity.getItems());
 			List<Item> list = entity.getItems();
 			for (Item i : list) {
 				i.setProduct(productService.get(i.getProduct().getId()));
@@ -57,9 +54,9 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	public GenericResponse delete(Integer id) {
 		GenericResponse resp = null;
 		try {
-			OrderDetail p = get(id);
-			p.setActiveFlag(1);
-			update(p);
+			OrderDetail od = get(id);
+			od.setActiveFlag(1);
+			update(od);
 			resp = new GenericResponse();
 			resp.setMessage(id + " " + ISTOREConstants.DELETED);
 		} catch (Exception e) {
@@ -94,13 +91,13 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		if (from != null && to != null) {
 			Date dtFrom = DateHelper.convertStringToDate(from);
 			Date dtto = DateHelper.convertStringToDate(to);
-			total = getBetweenDates(dtFrom, dtto);
+			total = getBetweenDatesTotal(dtFrom, dtto);
 		} else
 			total = getCurrentDayTotal(new Date());
 		return total;
 	}
 
-	private float getBetweenDates(Date from, Date to) {
+	private float getBetweenDatesTotal(Date from, Date to) {
 		Date toDate = DateHelper.addOneDay(to);
 		List<OrderDetail> ot = orderRepository.findAllBetweenDates(from, toDate);
 		return getTotal(ot);

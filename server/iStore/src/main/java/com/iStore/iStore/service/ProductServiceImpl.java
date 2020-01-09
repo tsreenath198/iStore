@@ -29,7 +29,6 @@ public class ProductServiceImpl implements ProductService {
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
 		}
-
 	}
 
 	@Override
@@ -47,7 +46,6 @@ public class ProductServiceImpl implements ProductService {
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
 		}
-
 	}
 
 	@Override
@@ -86,7 +84,7 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void updateInventory(List<Item> items) {
+	public void deleteInventory(List<Item> items) {
 		items.forEach(i -> {
 			Optional<Product> product = null;
 			try {
@@ -102,8 +100,25 @@ public class ProductServiceImpl implements ProductService {
 			} catch (Exception e) {
 				throw new ValidationException(e.getMessage());
 			}
-
 		});
+	}
 
+	@Override
+	public void addInventory(List<Item> items) {
+		items.forEach(i -> {
+			Optional<Product> product = null;
+			try {
+				product = repository.findByIdAndActiveFlag(i.getProduct().getId(), 0);
+				int inventory = product.get().getInventory() + i.getQuantity();
+				if (inventory > -1) {
+					product.get().setInventory(inventory);
+					repository.save(product.get());
+				} else {
+					throw new ValidationException("Record not found with the product id " + i.getProduct().getId());
+				}
+			} catch (Exception e) {
+				throw new ValidationException(e.getMessage());
+			}
+		});
 	}
 }
