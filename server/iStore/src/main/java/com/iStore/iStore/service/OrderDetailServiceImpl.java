@@ -2,10 +2,11 @@ package com.iStore.iStore.service;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.validation.ValidationException;
 
@@ -101,6 +102,23 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		return total;
 	}
 
+	@Override
+	public List<OrderTotal> getTotalByDays(int days) {
+		List<OrderDetail> orders = orderRepository.findAllByDays(days);
+		List<OrderTotal> otList = new ArrayList<OrderTotal>();
+		OrderTotal otMap = null;
+		System.out.println(uniqueDates(orders));
+		return otList;
+	}
+
+	private Set<Date> uniqueDates(List<OrderDetail> orders) {
+		Set<Date> uni = new HashSet<Date>();
+		for (OrderDetail od : orders) {
+			uni.add(od.getCreatedDate());
+		}
+		return uni;
+	}
+
 	private float getBetweenDatesTotal(Date from, Date to) {
 		Date toDate = DateHelper.addOneDay(to);
 		List<OrderDetail> ot = orderRepository.findAllBetweenDates(from, toDate);
@@ -118,13 +136,5 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 			ct += t.getTotal();
 		}
 		return ct;
-	}
-
-	@Override
-	public List<OrderTotal> getTotalByDays(int days) {
-		List<OrderDetail> orders = orderRepository.findAllByDays(days);
-		List<OrderTotal> otList = new ArrayList<OrderTotal>();
-		OrderTotal otMap = null;
-		return otList;
 	}
 }
