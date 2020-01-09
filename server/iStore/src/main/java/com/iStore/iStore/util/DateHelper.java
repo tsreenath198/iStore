@@ -11,6 +11,7 @@ import javax.validation.ValidationException;
 public class DateHelper {
 
 	static DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
+
 	public static Date convertStringToDate(String str) throws ParseException {
 		Date dt = null;
 		try {
@@ -24,5 +25,10 @@ public class DateHelper {
 	public static Date addOneDay(Date to) {
 		Date dt = new Date(to.getTime() + (1000 * 60 * 60 * 24));
 		return dt;
+	}
+
+	public static Date dateWithouTime(Date cd) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.parse(sdf.format(cd));
 	}
 }

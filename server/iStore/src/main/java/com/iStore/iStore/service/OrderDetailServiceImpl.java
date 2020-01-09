@@ -3,7 +3,6 @@ package com.iStore.iStore.service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -122,8 +121,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	private Set<Date> uniqueDates(List<OrderDetail> orders) throws ParseException {
 		Set<Date> uni = new HashSet<Date>();
 		for (OrderDetail od : orders) {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-			Date dateWithoutTime = sdf.parse(sdf.format(od.getCreatedDate()));
+			Date dateWithoutTime = DateHelper.dateWithouTime(od.getCreatedDate());
 			uni.add(dateWithoutTime);
 		}
 		return uni;
