@@ -8,7 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.iStore.iStore.model.OrderDetail;
 
@@ -28,5 +27,8 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
 	@Query(value = "SELECT * FROM order_detail WHERE created_date >= :fromDate and created_date <= :toDate", nativeQuery = true)
 	List<OrderDetail> findAllBetweenDates(@Param(value = "fromDate") Date fromDate,
 			@Param(value = "toDate") Date toDate);
+
+	@Query(value = "SELECT * FROM order_detail where   DATE(created_date) > (NOW() - INTERVAL :days DAY)", nativeQuery = true)
+	List<OrderDetail> findAllByDays(@Param(value = "days") int days);
 
 }

@@ -11,6 +11,7 @@ public interface ISTOREConstants {
 	String GET = "/get";
 	String GET_ALL = "/getAll";
 	String GET_TOTAL = "/getTotal";
+	String GET_TOTAL_BY_DAYS = "/getTotalByDays";
 	String SUCCESS = "Successfully";
 	String DELETED = "Deleted Successfully";
 	String FAILED = "Operation Failed";

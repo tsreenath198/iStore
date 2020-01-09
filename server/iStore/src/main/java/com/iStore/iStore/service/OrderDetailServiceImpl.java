@@ -1,6 +1,8 @@
 package com.iStore.iStore.service;
 
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,7 @@ import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.model.GenericResponse;
 import com.iStore.iStore.model.Item;
 import com.iStore.iStore.model.OrderDetail;
+import com.iStore.iStore.model.OrderTotal;
 import com.iStore.iStore.repository.OrderDetailRepository;
 import com.iStore.iStore.util.DateHelper;
 
@@ -115,5 +118,13 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 			ct += t.getTotal();
 		}
 		return ct;
+	}
+
+	@Override
+	public List<OrderTotal> getTotalByDays(int days) {
+		List<OrderDetail> orders = orderRepository.findAllByDays(days);
+		List<OrderTotal> otList = new ArrayList<OrderTotal>();
+		OrderTotal otMap = null;
+		return otList;
 	}
 }

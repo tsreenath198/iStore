@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.model.GenericResponse;
 import com.iStore.iStore.model.OrderDetail;
+import com.iStore.iStore.model.OrderTotal;
 import com.iStore.iStore.service.OrderDetailService;
 
 @RestController
@@ -57,5 +58,10 @@ public class OrderDetailController {
 	public ResponseEntity<Float> getTotalByDate(@RequestParam(required = false) String from,
 			@RequestParam(required = false) String to) throws ParseException {
 		return new ResponseEntity<Float>(orderDetailService.getTotalByDate(from, to), HttpStatus.OK);
+	}
+
+	@GetMapping(ISTOREConstants.GET_TOTAL_BY_DAYS)
+	public ResponseEntity<List<OrderTotal>> getTotalByDays(@RequestParam(required = false) int days) {
+		return new ResponseEntity<List<OrderTotal>>(orderDetailService.getTotalByDays(days), HttpStatus.OK);
 	}
 }
