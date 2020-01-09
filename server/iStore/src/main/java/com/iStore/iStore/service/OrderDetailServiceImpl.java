@@ -133,7 +133,9 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	}
 
 	private float getCurrentDayTotal(Date date) {
-		List<OrderDetail> ot = orderRepository.findAllByCreatedDate(date);
+		List<OrderDetail> ot = new ArrayList<OrderDetail>();
+		String strDate = DateHelper.convertDateToString(date);
+		ot = orderRepository.findAllByCreatedDate(strDate);
 		return getTotal(ot);
 	}
 

@@ -20,8 +20,8 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
 
 	OrderDetail findTopByOrderByIdDesc();
 
-	@Query(value = "SELECT * FROM order_detail WHERE created_date>= :dt", nativeQuery = true)
-	List<OrderDetail> findAllByCreatedDate(Date dt);
+	@Query(value = "SELECT DISTINCT * FROM order_detail WHERE DATE(created_date)= :dt", nativeQuery = true)
+	List<OrderDetail> findAllByCreatedDate(String dt);
 
 //SELECT * FROM `order_detail` WHERE created_date >= '2020-01-06' and created_date <= '2020-01-08 23:59:59.999'
 	@Query(value = "SELECT * FROM order_detail WHERE created_date >= :fromDate and created_date <= :toDate ORDER BY created_date DESC", nativeQuery = true)

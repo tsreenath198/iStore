@@ -31,4 +31,8 @@ public class DateHelper {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.parse(sdf.format(cd));
 	}
+
+	public static String convertDateToString(Date date) {
+		return new SimpleDateFormat("yyyy-MM-dd").format(date);
+	}
 }
