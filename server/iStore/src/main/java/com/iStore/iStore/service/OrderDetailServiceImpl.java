@@ -1,7 +1,9 @@
 package com.iStore.iStore.service;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -103,18 +105,26 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	}
 
 	@Override
-	public List<OrderTotal> getTotalByDays(int days) {
+	public List<OrderTotal> getTotalByDays(int days) throws ParseException {
 		List<OrderDetail> orders = orderRepository.findAllByDays(days);
 		List<OrderTotal> otList = new ArrayList<OrderTotal>();
 		OrderTotal otMap = null;
-		System.out.println(uniqueDates(orders));
+		Set<Date> unique = uniqueDates(orders);
+		for (Date dt : unique) {
+			otMap = new OrderTotal();
+			otMap.setDate(dt);
+			otMap.setTotal(getCurrentDayTotal(dt));
+			otList.add(otMap);
+		}
 		return otList;
 	}
 
-	private Set<Date> uniqueDates(List<OrderDetail> orders) {
+	private Set<Date> uniqueDates(List<OrderDetail> orders) throws ParseException {
 		Set<Date> uni = new HashSet<Date>();
 		for (OrderDetail od : orders) {
-			uni.add(od.getCreatedDate());
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date dateWithoutTime = sdf.parse(sdf.format(od.getCreatedDate()));
+			uni.add(dateWithoutTime);
 		}
 		return uni;
 	}

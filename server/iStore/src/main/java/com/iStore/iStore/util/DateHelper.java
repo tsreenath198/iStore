@@ -10,8 +10,8 @@ import javax.validation.ValidationException;
 
 public class DateHelper {
 
+	static DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
 	public static Date convertStringToDate(String str) throws ParseException {
-		DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
 		Date dt = null;
 		try {
 			dt = format.parse(str);
