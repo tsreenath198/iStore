@@ -55,6 +55,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		GenericResponse resp = null;
 		try {
 			OrderDetail od = get(id);
+			productService.addInventory(od.getItems());
 			od.setActiveFlag(1);
 			update(od);
 			resp = new GenericResponse();
