@@ -18,6 +18,7 @@ import com.iStore.iStore.model.GenericResponse;
 import com.iStore.iStore.model.Item;
 import com.iStore.iStore.model.OrderDetail;
 import com.iStore.iStore.repository.OrderDetailRepository;
+import com.iStore.iStore.util.DateHelper;
 
 @Service
 public class OrderDetailServiceImpl implements OrderDetailService {
@@ -91,9 +92,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	public float getTotalByDate(String from, String to) throws ParseException {
 		float total;
 		if (from != null && to != null) {
-			DateFormat format = new SimpleDateFormat("yyyy-mm-dd", Locale.ENGLISH);
-			Date dtFrom = format.parse(from);
-			Date dtto = format.parse(to);
+			Date dtFrom = DateHelper.convertStringToDate(from);
+			Date dtto = DateHelper.convertStringToDate(to);
 			total = getBetweenDates(dtFrom, dtto);
 		} else
 			total = getCurrentDayTotal(new Date());
@@ -101,15 +101,13 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	}
 
 	private float getBetweenDates(Date from, Date to) {
-		java.sql.Date fromDate = new java.sql.Date(from.getTime());
-		java.sql.Date toDate = new java.sql.Date(to.getTime() + (1000 * 60 * 60 * 24));
-		List<OrderDetail> ot = orderRepository.findAllBetweenDates(fromDate, toDate);
+		Date toDate = DateHelper.addOneDay(to);
+		List<OrderDetail> ot = orderRepository.findAllBetweenDates(from, toDate);
 		return getTotal(ot);
 	}
 
 	private float getCurrentDayTotal(Date date) {
-		java.sql.Date dt = new java.sql.Date(date.getTime());
-		List<OrderDetail> ot = orderRepository.findAllByCreatedDate(dt);
+		List<OrderDetail> ot = orderRepository.findAllByCreatedDate(date);
 		return getTotal(ot);
 	}
 
