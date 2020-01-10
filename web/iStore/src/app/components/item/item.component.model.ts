@@ -7,10 +7,19 @@ export interface ItemModel{
     total: number;
     description: string;
     orderId: number;
+    name: string;
+    phone: number;
 }
 
 export interface OrderModel{
     id: number;
     total:number;
+    paymentMode:string;
     items: Array<ItemModel>;
+    contact: ContactModel;
+}
+
+export interface ContactModel{
+    name: string;
+    phone: string;
 }

@@ -1,8 +1,44 @@
 <div class="row">
-  <div class="col-md-5" style="height: 90vh; background-color: #343a40;overflow-y: scroll;">
+  <div
+    class="col-md-5"
+    style="height: 90vh; background-color: #343a40;overflow-y: scroll;"
+  >
+    <div class="row p-3">
+      <div class="col-md-12 clearfix">
+        <div class="float-left">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Name"
+            [(ngModel)]="customerDetails.name"
+          />
+        </div>
+        <div class="float-right">
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Phone"
+            [(ngModel)]="customerDetails.phone"
+          />
+        </div>
+      </div>
+      <div class="col-md-12 mt-3">
+        <select
+          class="form-control"
+          name="pm"
+          [(ngModel)]="paymentMode"
+          #pm="ngModel"
+          required
+        >
+          <option [ngValue]="undefined" hidden selected> Payment Mode </option>
+          <option *ngFor="let cl of paymentTypes">{{ cl }} </option>
+        </select>
+      </div>
+    </div>
     <table class="table table-dark table-sm table-striped istore-table">
       <thead>
         <tr>
+          <th></th>
           <th>Name</th>
           <th>Qty</th>
           <th>Price</th>
@@ -13,12 +49,25 @@
       <tbody *ngIf="itemList.length">
 
         <tr *ngFor="let item of itemList; let i = index">
+          <td
+            style="position: relative;cursor: pointer;" (click)="removeItemFromBill(i)"
+          >
+            <span
+              style="color: greenyellow; margin: 0;
+          font-size: 15px ;
+        position: relative;
+        margin-top: 50%;"
+            >
+              <i class="fa fa-minus" aria-hidden="true"></i
+            ></span>
+          </td>
           <td>
-            <select disabled [(ngModel)]="item.productId" class="form-control">
-              <option *ngFor="let p of productList" [ngValue]="p.id">{{
+            <!-- <select disabled [(ngModel)]="item.productId" class="form-control">
+              <option *ngFor="let p of filterProductList" [ngValue]="p.id">{{
                 p.name
               }}</option>
-            </select>
+            </select> -->
+            <p>{{ item.product.name }}({{ item.product.category.name }})</p>
           </td>
           <td>
             <div>
@@ -51,7 +100,7 @@
           </td>
         </tr>
         <tr>
-          <td colspan="4">
+          <td colspan="5">
             <p><b>Total</b></p>
           </td>
           <td>
@@ -61,12 +110,8 @@
           </td>
         </tr>
         <tr *ngIf="itemList.length">
-          <td colspan="4">
-            <button
-              class="btn"
-              style="float: right;"
-              (click)="cancelBill()"
-            >
+          <td colspan="5">
+            <button class="btn" style="float: right;" (click)="cancelBill()">
               Cancel
             </button>
           </td>
@@ -74,7 +119,7 @@
             <button
               class="btn"
               style="float: right;"
-              (click)="setPrintingBill(billContent)"
+              (click)="generateBill(billContent)"
             >
               Add
             </button>
@@ -84,6 +129,16 @@
     </table>
   </div>
   <div class="col-md-7 item-view-pane">
+    <nav class="nav nav-tabs">
+      <li class="nav-item" *ngFor="let cat of categoryList">
+        <a
+          class="nav-item nav-link"
+          [ngClass]="{ active: selectedCategory == cat.name }"
+          (click)="filter(cat.id, cat.name)"
+          >{{ cat.name }}</a
+        >
+      </li>
+    </nav>
     <div class="row">
       <div
         *ngFor="let product of productList"
@@ -91,15 +146,15 @@
         style="text-align: center;"
         (click)="addToList(product)"
       >
-        <h3>
-          <img
-            [src]="'data:image/png;base64,' + product.image"
-            width="70"
-            height="40"
-          />
-        </h3>
-        <p>{{ product.name }}</p>
-        <small>{{ product.price }}.rs</small>
+        <b
+          ><h5>{{ product.name }}</h5></b
+        >
+        <b
+          ><small>({{ selectedCategory }})</small></b
+        >
+        <b
+          ><p>{{ product.price }}.rs</p></b
+        >
       </div>
     </div>
   </div>
@@ -118,20 +173,42 @@
       </button>
     </div>
     <div class="modal-body">
-      <div id="print-section">
+      <div id="print-section" style="margin: 2;">
         <div style="text-align: center;">
+<<<<<<< .mine
+          <small>NATURAL FRESH</small><br />
+          <small>SRI YOGESHWARA ENTERPRISE</small><br />
+          <small>TAX INVOICE</small><br />
+          <small>YELLAMA GUTTA,NZB</small><br />
+||||||| .r36
+          <small>NATURAL FRESH</small><br>
+          <small>SRI YOGESHWARA ENTERPRISE</small><br>
+          <small>TAX INVOICE</small><br>
+          <small>YELLAMA GUTTA,NZB</small><br>
+=======
           <small>NATURAL FRESH</small><br>
           <small>SRI YOGESHWARA ENTERPRISES</small><br>
           <small>TAX INVOICE</small><br>
           <small>YELLAMA GUTTA,NZB</small><br>
+>>>>>>> .r66
         </div>
-        <hr>
+        <hr />
         <div style="display: inline;">
           <div style="float: left;">
-            <p><small>Date:{{printingBill.date | date}}</small> </p>
+            <p>
+              <small>Name: {{ printingBill.contact.name }}</small>
+            </p>
+            <p>
+              <small>Date:{{ printingBill.date | date }}</small>
+            </p>
           </div>
           <div style="float: right;">
-          <p><small>Time:{{printingBill.date | date:'h:mm:ss a'}}</small></p>
+            <p *ngIf="printingBill.contact.phone">
+              <small>Phone: {{ printingBill.contact.phone }}</small>
+            </p>
+            <p>
+              <small>Time:{{ printingBill.date | date: "h:mm:ss a" }}</small>
+            </p>
           </div>
         </div>
         <div>
@@ -148,7 +225,7 @@
             <tbody *ngIf="itemList.length">
               <tr *ngFor="let item of printingBill.items; let i = index">
                 <td>
-                  {{item.productName}}
+                  {{ item.product.name }}({{ item.product.category.name }})
                 </td>
                 <td>
                   {{ item.quantity }}
@@ -173,12 +250,14 @@
               </tr>
             </tbody>
           </table>
+
+          <hr />
+          <span>Payment Mode : {{ printingBill.paymentMode }}</span>
         </div>
         <div style="text-align: center;">
-          <hr>
+          <hr />
           <small>THANKYOU! VISIT AGAIN</small>
-          <hr>
-
+          <hr />
         </div>
       </div>
     </div>
@@ -187,7 +266,6 @@
         type="button"
         class="btn btn-secondary"
         printSectionId="print-section"
-        (click)="generateBill()"
         [printStyle]="{
           div: { 'margin-left': '-5px', 'margin-right': '-5px' }
         }"
@@ -198,7 +276,7 @@
       <button
         type="button"
         class="btn btn-secondary"
-        (click)="c('Close click')"
+        (click)="close('Close click')"
       >
         Close
       </button>

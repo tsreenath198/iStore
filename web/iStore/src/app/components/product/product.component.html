@@ -1,7 +1,29 @@
 <div class="row">
   <div class="col-md-3" style="height: 90vh; background-color: #343a40;">
-    <form name="form" class="ml-3 mr-2" id="productEntryForm" (ngSubmit)="create(f)" #f="ngForm" novalidate >
+    <form
+      name="form"
+      class="ml-3 mr-2"
+      id="productEntryForm"
+      (ngSubmit)="create(f)"
+      #f="ngForm"
+      novalidate
+    >
       <div class="row">
+        <div class="col-md-12">
+          <select
+            class="form-control"
+            name="cp"
+            [(ngModel)]="model.category"
+            #cp="ngModel"
+            [compareWith]="compareFn"
+            required
+          >
+            <option [ngValue]="undefined" hidden selected> Category </option>
+            <option *ngFor="let cl of categoryList" [ngValue]="cl">
+              {{ cl.name }}
+            </option>
+          </select>
+        </div>
         <div class="col-md-12">
           <input
             type="text"
@@ -31,67 +53,142 @@
         </div>
         <div class="col-md-12">
           <input
-            type="text"
+            type="number"
             class="form-control"
             name="desc"
-            placeholder="Description"
-            [(ngModel)]="model.description"
+            placeholder="Minimum Availability"
+            [(ngModel)]="model.minimumAvailability"
           />
         </div>
         <div class="col-md-12">
+          <input
+            type="number"
+            class="form-control"
+            name="desc"
+            placeholder="Order"
+            [(ngModel)]="model.productOrder"
+          />
+        </div>
+        <!-- <div class="col-md-12">
           <div class="form-group">
             <input type="file"
                    id="file"
                    (change)="handleFileInput($event)">
         </div>
-        </div>
+        </div> -->
       </div>
-      <button *ngIf="actionType == 'C'" class="btn" type="submit">Create</button>
-      <button *ngIf="actionType == 'U'" class="btn" (click)="update()" type="button">Update</button>
-      <button *ngIf="actionType == 'U'" class="btn ml-2" (click)="new(f)" type="button">New</button>
+      <div class="pt-2">
+        <button *ngIf="actionType == 'C'" class="btn " type="submit">
+          Create
+        </button>
+        <button
+          *ngIf="actionType == 'U'"
+          class="btn"
+          (click)="update()"
+          type="button"
+        >
+          Update
+        </button>
+        <button
+          *ngIf="actionType == 'U'"
+          class="btn ml-2"
+          (click)="new(f)"
+          type="button"
+        >
+          New
+        </button>
+      </div>
     </form>
   </div>
   <div class="col-md-8" style="height: 90vh;overflow-y: scroll;">
+    <input
+    class="mt-2"
+      type="checkbox"
+      (change)="showEndingInventories($event.target.checked)"
+    /><span>Show minimum available stock</span>
+    <nav class="nav nav-tabs">
+      <li class="nav-item">
+        <a
+          class="nav-item nav-link"
+          [ngClass]="{ active: selectedCategory == 'All' }"
+          (click)="filter(0, 'All')"
+        >
+          All</a
+        >
+      </li>
+      <li class="nav-item" *ngFor="let cat of categoryList">
+        <a
+          class="nav-item nav-link"
+          [ngClass]="{ active: selectedCategory == cat.name }"
+          (click)="filter(cat.id, cat.name)"
+          >{{ cat.name }}</a
+        >
+      </li>
+    </nav>
     <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Price
-                </th>
-                <th>
-                  Inventory
-                </th>
-                <th>
-                    Description
-                </th>
-                <th>
-                  Actions
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let product of productList">
-                <td>
-                    {{product.name}}
-                </td>
-                <td>
-                    {{product.price}}
-                </td>
-                <td>{{product.inventory}}</td>
-                <td>
-                    {{product.description}}
-                </td>
-                <td>
-                  <!-- <button class="btn" type="submit" (click)="getById(product.id)">Edit</button> -->
-                  <button class="btn ml-2" type="submit" (click)="delete(product)">Delete</button>
-                  <i class="fa fa-trash" aria-hidden="true"></i>
-                </td>
-            </tr>
-        </tbody>
+      <thead>
+        <tr>
+          <th>
+            <a  (click)="sortType = 'name'; sortReverse = !sortReverse">
+              Name
+              <span [hidden]="!(sortType == 'name' && !sortReverse)" class="fa fa-caret-down"></span>
+              <span [hidden]="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
+            </a>
+          </th>
+          <th>
+            Category
+          </th>
+          <th>
+            Price
+          </th>
+          <th>
+            Inventory
+          </th>
+          <th>
+            Minimum Availability
+          </th>
+          <th>
+            Order
+          </th>
+          <th>
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          [ngClass]="{ 'bg-red': selectedCategory == 'Check Inventory' }"
+          *ngFor="let product of productList "
+        >
+          <td>
+            {{ product.name }}
+          </td>
+          <td>
+            {{ product.category.name }}
+          </td>
+          <td>
+            {{ product.price }}
+          </td>
+          <td>
+            {{ product.inventory }}
+          </td>
+          <td>
+            {{ product.minimumAvailability }}
+          </td>
+          <td>
+            {{ product.productOrder }}
+          </td>
+          <td>
+            <button class="btn" type="submit" (click)="getById(product.id)">
+              Edit
+            </button>
+            <button class="btn ml-2" type="submit" (click)="delete(product)">
+              Delete
+              <i class="fa fa-trash" aria-hidden="true"></i>
+            </button>
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </div>
-

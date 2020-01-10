@@ -12,4 +12,12 @@ export class URLConstants {
   OrderUpdate = 'order/update';
   OrderDelete = 'order/delete?id=';
   OrderGetById = 'order/get?id=';
+  OrderTotalByDays = 'order/getTotalByDays?days='
+
+  /**Category */
+  CategoryCreate = 'category/create';
+  CategoryGetAll = 'category/getAll';
+  CategoryUpdate = 'category/update';
+  CategoryDelete = 'category/delete?id=';
+  CategoryGetById = 'category/get?id=';
 }

@@ -7,6 +7,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderComponent } from './components/header/header.component';
 import {NgxPrintModule} from 'ngx-print';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -19,6 +20,7 @@ import {NgxPrintModule} from 'ngx-print';
     AppRoutingModule,
     NgxPrintModule,
     NgbModule,
+    FormsModule,
     HttpClientModule
   ],
   providers: [],

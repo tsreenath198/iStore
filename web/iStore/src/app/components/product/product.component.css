@@ -9,7 +9,20 @@ form input {
     background-color: inherit;
     color: white;
 }
+form select {
+    font-size: 1rem;
+    border: 0;
+    border-bottom: 2px solid greenyellow;
+    background-color: inherit;
+    color: white;
+  }
 
+  form option{
+      background-color: black;
+  }
+  .bg-red{
+      background-color: tomato;
+  }
 /* .btn{
     margin-top: 0px;
     font-size: 1rem;

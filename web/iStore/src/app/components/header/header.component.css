@@ -2,8 +2,6 @@
     width:80px;
     color: yellowgreen;
     text-align: center;
-    border: 1px solid yellowgreen;
-    border-radius: 20px;
     font-size:1rem;
 }
 .nav-link:hover{
@@ -13,4 +11,4 @@
 .activeBtn{
     background-color: yellowgreen;
     color: black;
-}
+} 

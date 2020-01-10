@@ -6,8 +6,9 @@ import {
   ModalDismissReasons,
   NgbModalRef
 } from "@ng-bootstrap/ng-bootstrap";
-import { ItemModel, OrderModel } from "./item.component.model";
+import { ItemModel, OrderModel, ContactModel } from "./item.component.model";
 import { URLConstants } from "src/app/constants/url-constants";
+import { CategoryModel } from "../category/category.component.model";
 
 @Component({
   selector: "app-item",
@@ -15,9 +16,15 @@ import { URLConstants } from "src/app/constants/url-constants";
   styleUrls: ["./item.component.css"]
 })
 export class ItemComponent implements OnInit {
-  public productList: Array<ProductModel> = [];
-  public itemList: Array<ItemModel> = [];
+  public productList: Array<any> = [];
+  public filterProductList: Array<any> = [];
+  public itemList: Array<any> = [];
+  public customerDetails: ContactModel = <ContactModel>{};
   public selectedItem: ItemModel = <ItemModel>{};
+  public selectedCategory: string = "Cup";
+  public categoryList: Array<CategoryModel> = [];
+  public paymentTypes:Array<any> = ["Cash","Card","Online"];
+  public paymentMode:string;
   public totalBill: number = 0.0;
   public printingBill: any = {};
   public url = new URLConstants();
@@ -27,16 +34,37 @@ export class ItemComponent implements OnInit {
   constructor(private http: HttpService, private modalService: NgbModal) {}
 
   ngOnInit() {
-    this.getProducts();
+    
+    this.getResult2();
+    this.getResult();
   }
-  public getProducts() {
-    this.http.get(this.url.ProductGetAll).subscribe(resp => {
-      this.productList = resp as any;
-    });
+  async getResult(): Promise<any> {
+    this.productList = await this.http
+      .get(this.url.ProductGetAll)
+      .toPromise()
+      .then(resp => resp as any); //Do you own cast here
+    this.filterProductList = this.productList;
+    if(this.filterProductList){
+      this.setFilter();
+    }
+    return this.productList;
   }
-
+  async getResult2(): Promise<any> {
+    this.categoryList = await this.http
+      .get(this.url.CategoryGetAll)
+      .toPromise()
+      .then(resp => resp as any); //Do you own cast here
+    return this.categoryList;
+  }
+  public setFilter() {
+    this.selectedCategory = "Cup";
+    const item = this.categoryList.filter(
+      item => item.name == this.selectedCategory
+    );
+    this.filter(item[0].id, item[0].name);
+  }
   public addToList(p: any) {
-    let index = this.itemList.findIndex(i => i.productId === p.id);
+    let index = this.itemList.findIndex(i => i.product.id === p.id);
     if (index == -1) {
       this.itemList.push(this.addToModel(p));
     } else {
@@ -47,17 +75,21 @@ export class ItemComponent implements OnInit {
     }
     this.calculateOrderTotal(this.itemList);
   }
-  private addToModel(p: any): ItemModel {
-    let bill: ItemModel = <ItemModel>{};
-    bill.productId = p.id;
+  private addToModel(p: any): any {
+    let bill: any = <any>{};
     bill.price = p.price;
-    bill.discount = 25;
+    bill.product = p;
+    if (p.category.defaultDiscount) {
+      bill.discount = p.category.defaultDiscount;
+    } else {
+      bill.discount = 0;
+    }
     bill.quantity = 1;
     bill.total = this.calculateSingleItemTotal(bill);
     return bill;
   }
   private calculateSingleItemTotal(p: any) {
-    return (p.quantity * p.price * (100 - p.discount)) / 100;
+    return (p.quantity * p.product.price * (100 - p.discount)) / 100;
   }
   private calculateOrderTotal(p: any) {
     this.totalBill = 0;
@@ -67,31 +99,49 @@ export class ItemComponent implements OnInit {
     p.total = (p.quantity * p.price * (100 - p.discount)) / 100;
     this.calculateOrderTotal(this.itemList);
   }
-  public generateBill() {
+  public generateBill(event) {
     let finalOrder: OrderModel = <OrderModel>{};
     finalOrder.total = this.totalBill;
     finalOrder.items = this.itemList;
+    finalOrder.contact = this.customerDetails;
+    finalOrder.paymentMode = this.paymentMode;
     this.http.post(finalOrder, this.url.OrderCreate).subscribe(resp => {
-      this.itemList = [];
-      this.totalBill = 0.0;
+      this.setPrintingBill(event);
     });
   }
   public cancelBill() {
     this.itemList = [];
     this.totalBill = 0.0;
+    this.paymentMode = undefined;
+    this.customerDetails = <ContactModel>{};
+  }
+
+  /**Filter */
+  public filter(categoryId, categoryName) {
+    this.selectedCategory = categoryName;
+    let temp = [];
+    this.filterProductList.filter(product => {
+      if (categoryId == product.category.id) {
+        temp.push(product);
+      }
+    });
+    this.productList = temp;
   }
   /**Printing bill model */
   public setPrintingBill(billContent) {
     this.printingBill["items"] = this.itemList;
     this.printingBill["total"] = Math.ceil(this.totalBill);
+    this.printingBill["contact"] = this.customerDetails;
+    this.printingBill["paymentMode"] = this.paymentMode;
     this.printingBill["date"] = new Date();
     this.printingBill.items.forEach(item => {
-      this.productList.forEach(product => {
+      this.filterProductList.forEach(product => {
         if (item.productId == product.id) {
           item["productName"] = product.name;
         }
       });
     });
+
     this.open(billContent);
   }
   /**
@@ -111,6 +161,7 @@ export class ItemComponent implements OnInit {
     );
   }
   public close() {
+    this.cancelBill();
     this.modalRef.close();
   }
   private getDismissReason(reason: any): string {
@@ -121,5 +172,9 @@ export class ItemComponent implements OnInit {
     } else {
       return `with: ${reason}`;
     }
+  }
+
+  public removeItemFromBill(i){
+    this.itemList.splice(i,1);
   }
 }
