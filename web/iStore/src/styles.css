@@ -9,7 +9,6 @@
 }
 
 .btn{
-  margin-top: 0px;
   font-size: 1rem;
   border-radius: 20px;
   border: 1px solid greenyellow;
@@ -20,4 +19,24 @@
 .btn:hover{
   background-color: yellowgreen;
 }
-  
+
+form{
+  color: white;
+}
+form input {
+  margin-top: 40px;
+  font-size: 1rem;
+  border: 0;
+  border-bottom: 2px solid greenyellow;
+  background-color: inherit;
+  color: white;
+}
+ 
+form select {
+  margin-top: 40px;
+  font-size: 1rem;
+  border: 0;
+  border-bottom: 2px solid greenyellow;
+  background-color: inherit;
+  color: white;
+}
