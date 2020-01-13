@@ -9,6 +9,7 @@ public interface ISTOREConstants {
 	String PRODUCT = "/product";
 	String BILL = "/bill";
 	String CATEGORY = "/category";
+	String SALES = "/sales";
 	String ORDER = "/order";
 	String GET_ALL = "/getAll";
 	String GET_TOTAL = "/getTotal";

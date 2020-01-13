@@ -13,7 +13,7 @@ import com.iStore.iStore.service.SalesService;
 
 @RestController
 @CrossOrigin
-@RequestMapping(ISTOREConstants.CATEGORY)
+@RequestMapping(ISTOREConstants.SALES)
 public class SalesController {
 	@Autowired
 	SalesService salesService;
