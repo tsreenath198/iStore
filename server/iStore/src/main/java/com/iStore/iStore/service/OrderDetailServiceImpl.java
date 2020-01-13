@@ -125,6 +125,11 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		return otList;
 	}
 
+	@Override
+	public Integer getTotalRecordsCount() {
+		return orderRepository.getTotalRecordsCount();
+	}
+
 	private Set<Date> uniqueDates(List<OrderDetail> orders) throws ParseException {
 		Set<Date> uni = new LinkedHashSet<Date>();
 		for (OrderDetail od : orders) {
@@ -166,4 +171,5 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		}
 		return ordert;
 	}
+
 }

@@ -61,7 +61,13 @@ public class OrderDetailController {
 	}
 
 	@GetMapping(ISTOREConstants.GET_TOTAL_BY_DAYS)
-	public ResponseEntity<List<OrderTotal>> getTotalByDays(@RequestParam(required = false) int days) throws ParseException {
+	public ResponseEntity<List<OrderTotal>> getTotalByDays(@RequestParam(required = false) int days)
+			throws ParseException {
 		return new ResponseEntity<List<OrderTotal>>(orderDetailService.getTotalByDays(days), HttpStatus.OK);
+	}
+
+	@GetMapping(ISTOREConstants.GET_TOTAL_RECORD_COUNT)
+	public ResponseEntity<Integer> getTotalRecordsCount() throws ParseException {
+		return new ResponseEntity<Integer>(orderDetailService.getTotalRecordsCount(), HttpStatus.OK);
 	}
 }

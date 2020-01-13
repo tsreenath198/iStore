@@ -31,4 +31,7 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
 	@Query(value = "SELECT * FROM order_detail where   DATE(created_date) > (NOW() - INTERVAL :days DAY) and active_flag=0 ORDER BY created_date DESC ", nativeQuery = true)
 	List<OrderDetail> findAllByDays(@Param(value = "days") int days);
 
+	@Query(value = "SELECT COUNT(*) FROM order_detail", nativeQuery = true)
+	Integer getTotalRecordsCount();
+
 }

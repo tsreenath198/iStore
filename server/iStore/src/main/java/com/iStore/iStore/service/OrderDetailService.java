@@ -24,4 +24,6 @@ public interface OrderDetailService {
 	public float getTotalByDate(String from, String to) throws ParseException;
 	
 	public List<OrderTotal> getTotalByDays(int days) throws ParseException;
+
+	public Integer getTotalRecordsCount();
 }
