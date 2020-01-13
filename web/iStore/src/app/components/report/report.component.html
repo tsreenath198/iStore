@@ -17,19 +17,15 @@
   </div>
   <div class="col-md-4">
     <div class="accordion" id="accordionExample">
-      <div class="card" *ngFor="let temp of totalTable; let i = index" 
-      >
-        <div
-          class="card-header card-hover"
-          [attr.id]="'heading' + i"
-          (click)="filterData(temp.date)"
-        >
+      <div class="card" *ngFor="let temp of totalTable; let i = index">
+        <div class="card-header card-hover" [attr.id]="'heading' + i">
           <div
             class="mb-0 clearfix"
             data-toggle="collapse"
             [attr.data-target]="'#collapse' + i"
             aria-expanded="false"
             [attr.aria-controls]="'#collapse' + i"
+            (click)="filterData(temp.date)"
           >
             <span class="float-left"> Date: {{ temp.date | date }} </span>
             <span class="float-right"> Total: {{ temp.total }} </span>
@@ -71,10 +67,14 @@
                       <button
                         class="btn btn-sm ml-2"
                         type="submit"
-                        (click)="delete(order,temp.date)"
+                        (click)="delete(order, temp.date)"
                       >
                         Delete
-                        <i class="fa  fa-trash" style="font-size: 10px;" aria-hidden="true"></i>
+                        <i
+                          class="fa  fa-trash"
+                          style="font-size: 10px;"
+                          aria-hidden="true"
+                        ></i>
                       </button>
                     </td>
                   </tr>
@@ -104,8 +104,9 @@
           <div style="text-align: center;">
             <small>NATURAL FRESH</small><br />
             <small>SRI YOGESHWARA ENTERPRISE</small><br />
-            <small>TAX INVOICE</small><br />
-            <small>YELLAMA GUTTA,NZB</small><br />
+            <small>TAX INVOICE #{{ popupContent.id }}</small
+            ><br />
+            <small>YELLAMMAGUTTA, NZB</small><br />
           </div>
           <hr />
           <div style="display: inline;">
@@ -144,7 +145,7 @@
               <tbody>
                 <tr *ngFor="let item of popupContent.items; let i = index">
                   <td>
-                    {{ item.product.name }}({{item.product.category.name}})
+                    {{ item.product.name }}({{ item.product.category.name }})
                   </td>
                   <td>
                     {{ item.quantity }}
@@ -169,8 +170,10 @@
                 </tr>
               </tbody>
             </table>
-            <hr>
-          <span *ngIf="popupContent.paymentMode">Payment Mode : {{popupContent?.paymentMode}}</span>
+            <span *ngIf="popupContent.paymentMode">
+              <hr />
+              Payment Mode : {{ popupContent?.paymentMode }}</span
+            >
           </div>
           <div style="text-align: center;">
             <hr />

@@ -23,7 +23,7 @@ export class ItemComponent implements OnInit {
   public selectedItem: ItemModel = <ItemModel>{};
   public selectedCategory: string = "Cup";
   public categoryList: Array<CategoryModel> = [];
-  public paymentTypes:Array<any> = ["Cash","Card","Online"];
+  public paymentTypes:Array<any> = ["Cash","Bank"];
   public paymentMode:string;
   public totalBill: number = 0.0;
   public printingBill: any = {};
@@ -106,6 +106,7 @@ export class ItemComponent implements OnInit {
     finalOrder.contact = this.customerDetails;
     finalOrder.paymentMode = this.paymentMode;
     this.http.post(finalOrder, this.url.OrderCreate).subscribe(resp => {
+      this.printingBill=resp as any;
       this.setPrintingBill(event);
     });
   }
@@ -129,18 +130,18 @@ export class ItemComponent implements OnInit {
   }
   /**Printing bill model */
   public setPrintingBill(billContent) {
-    this.printingBill["items"] = this.itemList;
-    this.printingBill["total"] = Math.ceil(this.totalBill);
-    this.printingBill["contact"] = this.customerDetails;
-    this.printingBill["paymentMode"] = this.paymentMode;
-    this.printingBill["date"] = new Date();
-    this.printingBill.items.forEach(item => {
-      this.filterProductList.forEach(product => {
-        if (item.productId == product.id) {
-          item["productName"] = product.name;
-        }
-      });
-    });
+    // this.printingBill["items"] = this.itemList;
+    // this.printingBill["total"] = Math.ceil(this.totalBill);
+    // this.printingBill["contact"] = this.customerDetails;
+    // this.printingBill["paymentMode"] = this.paymentMode;
+    // this.printingBill["date"] = new Date();
+    // this.printingBill.items.forEach(item => {
+    //   this.filterProductList.forEach(product => {
+    //     if (item.productId == product.id) {
+    //       item["productName"] = product.name;
+    //     }
+    //   });
+    // });
 
     this.open(billContent);
   }

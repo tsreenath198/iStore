@@ -175,22 +175,10 @@
     <div class="modal-body">
       <div id="print-section" style="margin: 2;">
         <div style="text-align: center;">
-<<<<<<< .mine
           <small>NATURAL FRESH</small><br />
           <small>SRI YOGESHWARA ENTERPRISE</small><br />
-          <small>TAX INVOICE</small><br />
-          <small>YELLAMA GUTTA,NZB</small><br />
-||||||| .r36
-          <small>NATURAL FRESH</small><br>
-          <small>SRI YOGESHWARA ENTERPRISE</small><br>
-          <small>TAX INVOICE</small><br>
-          <small>YELLAMA GUTTA,NZB</small><br>
-=======
-          <small>NATURAL FRESH</small><br>
-          <small>SRI YOGESHWARA ENTERPRISES</small><br>
-          <small>TAX INVOICE</small><br>
-          <small>YELLAMA GUTTA,NZB</small><br>
->>>>>>> .r66
+        <small>TAX INVOICE #{{printingBill.id}}</small><br />
+          <small>YELLAMMAGUTTA, NZB</small><br />
         </div>
         <hr />
         <div style="display: inline;">
@@ -199,7 +187,7 @@
               <small>Name: {{ printingBill.contact.name }}</small>
             </p>
             <p>
-              <small>Date:{{ printingBill.date | date }}</small>
+              <small>Date:{{ printingBill.createdDate | date }}</small>
             </p>
           </div>
           <div style="float: right;">
@@ -207,7 +195,7 @@
               <small>Phone: {{ printingBill.contact.phone }}</small>
             </p>
             <p>
-              <small>Time:{{ printingBill.date | date: "h:mm:ss a" }}</small>
+              <small>Time:{{ printingBill.createdDate | date: "h:mm:ss a" }}</small>
             </p>
           </div>
         </div>
