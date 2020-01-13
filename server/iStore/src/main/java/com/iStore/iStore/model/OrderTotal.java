@@ -15,4 +15,6 @@ public class OrderTotal {
 	@JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
 	private Date date;
 	private Float total;
+	private Float bankTotal;
+	private Float cashTotal;
 }

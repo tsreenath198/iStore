@@ -3,8 +3,10 @@ package com.iStore.iStore.service;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iStore.iStore.constants.ISTOREConstants;
+import com.iStore.iStore.constants.PaymentMode;
 import com.iStore.iStore.model.GenericResponse;
 import com.iStore.iStore.model.Item;
 import com.iStore.iStore.model.OrderDetail;
@@ -96,9 +99,13 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		if (from != null && to != null) {
 			Date dtFrom = DateHelper.convertStringToDate(from);
 			Date dtto = DateHelper.convertStringToDate(to);
-			total = getBetweenDatesTotal(dtFrom, dtto);
-		} else
-			total = getCurrentDayTotal(new Date());
+			OrderTotal t = getBetweenDatesTotal(dtFrom, dtto);
+			total = t.getTotal();
+		} else {
+			OrderTotal t = getCurrentDayTotal(new Date());
+			total = t.getTotal();
+		}
+
 		return total;
 	}
 
@@ -111,7 +118,10 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		for (Date dt : unique) {
 			otMap = new OrderTotal();
 			otMap.setDate(dt);
-			otMap.setTotal(getCurrentDayTotal(dt));
+			OrderTotal total = getCurrentDayTotal(dt);
+			otMap.setTotal(total.getTotal());
+			otMap.setBankTotal(total.getBankTotal());
+			otMap.setCashTotal(total.getCashTotal());
 			otList.add(otMap);
 		}
 		return otList;
@@ -126,24 +136,36 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		return uni;
 	}
 
-	private float getBetweenDatesTotal(Date from, Date to) {
+	private OrderTotal getBetweenDatesTotal(Date from, Date to) {
 		Date toDate = DateHelper.addOneDay(to);
 		List<OrderDetail> ot = orderRepository.findAllBetweenDates(from, toDate);
 		return getTotal(ot);
 	}
 
-	private float getCurrentDayTotal(Date date) {
+	private OrderTotal getCurrentDayTotal(Date date) {
 		List<OrderDetail> ot = new ArrayList<OrderDetail>();
 		String strDate = DateHelper.convertDateToString(date);
 		ot = orderRepository.findAllByCreatedDate(strDate);
 		return getTotal(ot);
 	}
 
-	private float getTotal(List<OrderDetail> ot) {
+	private OrderTotal getTotal(List<OrderDetail> ot) {
 		float ct = 0.0f;
+		float casht = 0.0f;
+		float bankt = 0.0f;
+		OrderTotal ordert = new OrderTotal();
 		for (OrderDetail t : ot) {
+			if (t.getPaymentMode() == PaymentMode.Cash) {
+				casht += t.getTotal();
+				ordert.setCashTotal(casht);
+			}
+			if (t.getPaymentMode() == PaymentMode.Bank) {
+				bankt += t.getTotal();
+				ordert.setBankTotal(bankt);
+			}
 			ct += t.getTotal();
+			ordert.setTotal(ct);
 		}
-		return ct;
+		return ordert;
 	}
 }
