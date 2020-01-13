@@ -153,11 +153,11 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		float bankt = 0.0f;
 		OrderTotal ordert = new OrderTotal();
 		for (OrderDetail t : ot) {
-			if (t.getPaymentMode() == PaymentMode.Cash) {
+			if (t.getPaymentMode() != null && t.getPaymentMode() == PaymentMode.Cash) {
 				casht += t.getTotal();
 				ordert.setCashTotal(casht);
 			}
-			if (t.getPaymentMode() == PaymentMode.Bank) {
+			if (t.getPaymentMode() != null && t.getPaymentMode() == PaymentMode.Bank) {
 				bankt += t.getTotal();
 				ordert.setBankTotal(bankt);
 			}
