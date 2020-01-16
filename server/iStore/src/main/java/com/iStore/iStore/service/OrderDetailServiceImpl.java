@@ -108,6 +108,11 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	}
 
 	@Override
+	public Integer getTotalRecordsCount() {
+		return orderRepository.getTotalRecordsCount();
+	}
+
+	@Override
 	public List<OrderTotal> getTotalByDays(int days) throws ParseException {
 		List<OrderDetail> orders = orderRepository.findAllByDays(days);
 		List<OrderTotal> otList = new ArrayList<OrderTotal>();
@@ -123,11 +128,6 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 			otList.add(otMap);
 		}
 		return otList;
-	}
-
-	@Override
-	public Integer getTotalRecordsCount() {
-		return orderRepository.getTotalRecordsCount();
 	}
 
 	private Set<Date> uniqueDates(List<OrderDetail> orders) throws ParseException {

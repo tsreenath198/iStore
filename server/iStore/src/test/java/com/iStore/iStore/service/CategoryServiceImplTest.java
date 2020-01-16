@@ -73,7 +73,7 @@ public class CategoryServiceImplTest {
 	@Test
 	public void testGetAll() {
 		List<Category> value = new ArrayList<Category>();
-		when(categoryRepo.findByActiveFlagAllIgnoreCaseOrderByCategoryOrderAsc(Mockito.anyInt())).thenReturn(value);
+		when(categoryRepo.findAllByActiveFlagAllIgnoreCaseOrderByCategoryOrderAsc(Mockito.anyInt())).thenReturn(value);
 		serviceImpl.getAll();
 	}
 
