@@ -15,13 +15,11 @@ import com.iStore.iStore.model.OrderDetail;
 import com.iStore.iStore.model.Sales;
 import com.iStore.iStore.repository.CategoryRepository;
 import com.iStore.iStore.repository.OrderDetailRepository;
-import com.iStore.iStore.repository.SalesRepository;
 import com.iStore.iStore.util.DateHelper;
 
 @Service
 public class SalesServiceImpl implements SalesService {
-	@Autowired
-	SalesRepository salesRepository;
+
 	@Autowired
 	OrderDetailRepository orderRepository;
 	@Autowired

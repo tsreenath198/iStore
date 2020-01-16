@@ -28,7 +28,7 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
 	List<OrderDetail> findAllBetweenDates(@Param(value = "fromDate") Date fromDate,
 			@Param(value = "toDate") Date toDate);
 
-	@Query(value = "SELECT * FROM order_detail WHERE created_date >= :dt and active_flag=0 ORDER BY created_date DESC", nativeQuery = true)
+	@Query(value = "SELECT * FROM order_detail WHERE created_date = :dt and active_flag=0 ORDER BY created_date DESC", nativeQuery = true)
 	List<OrderDetail> findAllOnDate(@Param(value = "dt") Date dt);
 
 	@Query(value = "SELECT * FROM order_detail where   DATE(created_date) > (NOW() - INTERVAL :days DAY) and active_flag=0 ORDER BY created_date DESC ", nativeQuery = true)
