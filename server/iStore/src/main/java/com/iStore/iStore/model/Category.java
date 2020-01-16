@@ -40,5 +40,7 @@ public class Category {
 	@Column
 	private String description;
 	@Column
+	private Integer activeStatus = 0;
+	@Column
 	private Integer activeFlag = 0;
 }
