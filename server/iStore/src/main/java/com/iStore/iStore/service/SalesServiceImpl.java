@@ -29,18 +29,13 @@ public class SalesServiceImpl implements SalesService {
 
 	@Override
 	public List<Sales> getSalesByDate(String dt) throws ParseException {
-		try {
-			List<OrderDetail> ot = new ArrayList<OrderDetail>();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		Date strDate = DateHelper.convertStringToDate(dt);
-		List<OrderDetail> ot = orderRepository.findAllOnDate(strDate);
-		calculateSales(ot);
-		return null;
+		Date dateWithoutTime = DateHelper.convertDateWithouTime(strDate);
+		List<OrderDetail> ot = orderRepository.findAllOnDate(dateWithoutTime);
+		return calculateSales(ot, dt);
 	}
 
-	private List<Sales> calculateSales(List<OrderDetail> orders) {
+	private List<Sales> calculateSales(List<OrderDetail> orders, String dt) {
 		List<Category> categories = getAllCategories();
 		List<Sales> sales = new ArrayList<Sales>();
 		for (Category category : categories) {
@@ -50,17 +45,17 @@ public class SalesServiceImpl implements SalesService {
 			for (OrderDetail order : orders) {
 				for (Item item : order.getItems()) {
 					if (category.getName() == item.getProduct().getCategory().getName()) {
-						sale.setCategory(category.getName());
-						sale.setDate(order.getCreatedDate());
 						if (order.getPaymentMode() != null && order.getPaymentMode() == PaymentMode.Cash) {
-							cashTotal += order.getTotal();
+							cashTotal += item.getTotal();
 						}
 						if (order.getPaymentMode() != null && order.getPaymentMode() == PaymentMode.Bank) {
-							bankTotal += order.getTotal();
+							bankTotal += item.getTotal();
 						}
 					}
 				}
 			}
+			sale.setCategory(category.getName());
+			sale.setDate(dt);
 			sale.setBankTotal(bankTotal);
 			sale.setCashTotal(cashTotal);
 			sales.add(sale);

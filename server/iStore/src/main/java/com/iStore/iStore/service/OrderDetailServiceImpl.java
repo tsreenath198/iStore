@@ -133,7 +133,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	private Set<Date> uniqueDates(List<OrderDetail> orders) throws ParseException {
 		Set<Date> uni = new LinkedHashSet<Date>();
 		for (OrderDetail od : orders) {
-			Date dateWithoutTime = DateHelper.dateWithouTime(od.getCreatedDate());
+			Date dateWithoutTime = DateHelper.convertDateWithouTime(od.getCreatedDate());
 			uni.add(dateWithoutTime);
 		}
 		return uni;

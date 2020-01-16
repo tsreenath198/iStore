@@ -27,7 +27,7 @@ public class DateHelper {
 		return dt;
 	}
 
-	public static Date dateWithouTime(Date cd) throws ParseException {
+	public static Date convertDateWithouTime(Date cd) throws ParseException {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.parse(sdf.format(cd));
 	}
