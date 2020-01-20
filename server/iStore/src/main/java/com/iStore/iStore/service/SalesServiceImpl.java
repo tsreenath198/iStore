@@ -2,7 +2,6 @@ package com.iStore.iStore.service;
 
 import java.text.ParseException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import com.iStore.iStore.model.OrderDetail;
 import com.iStore.iStore.model.Sales;
 import com.iStore.iStore.repository.CategoryRepository;
 import com.iStore.iStore.repository.OrderDetailRepository;
-import com.iStore.iStore.util.DateHelper;
 
 @Service
 public class SalesServiceImpl implements SalesService {
@@ -27,9 +25,7 @@ public class SalesServiceImpl implements SalesService {
 
 	@Override
 	public List<Sales> getSalesByDate(String dt) throws ParseException {
-		Date strDate = DateHelper.convertStringToDate(dt);
-		Date dateWithoutTime = DateHelper.convertDateWithouTime(strDate);
-		List<OrderDetail> ot = orderRepository.findAllOnDate(dateWithoutTime);
+		List<OrderDetail> ot = orderRepository.findAllByCreatedDate(dt);
 		return calculateSales(ot, dt);
 	}
 
