@@ -53,7 +53,7 @@ public class ProductController {
 		return new ResponseEntity<List<Product>>(productService.getAll(), HttpStatus.OK);
 	}
 
-	@DeleteMapping(ISTOREConstants.SET_INVENTORY)
+	@PostMapping(ISTOREConstants.SET_INVENTORY)
 	public ResponseEntity<Iterable<Product>> setInventory(@RequestBody List<Product> product) {
 		return new ResponseEntity<Iterable<Product>>(productService.setinventory(product), HttpStatus.OK);
 	}
