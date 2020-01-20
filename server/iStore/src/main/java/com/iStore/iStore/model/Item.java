@@ -29,9 +29,6 @@ public class Item {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	// @Column
-	// @NotNull
-	// private Integer productId;
 	@Column
 	@NotNull
 	private Float price;

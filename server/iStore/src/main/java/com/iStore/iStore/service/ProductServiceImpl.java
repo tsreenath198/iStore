@@ -1,5 +1,6 @@
 package com.iStore.iStore.service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
@@ -12,15 +13,20 @@ import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.model.GenericResponse;
 import com.iStore.iStore.model.Item;
 import com.iStore.iStore.model.Product;
+import com.iStore.iStore.model.Stock;
 import com.iStore.iStore.repository.ProductRepository;
+import com.iStore.iStore.repository.StockRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductRepository repository;
+	@Autowired
+	StockRepository stockRepository;
 
 	@Autowired
 	CategoryService categoryService;
+	Stock stock = new Stock();
 
 	@Override
 	public Product create(Product entity) {
@@ -124,7 +130,12 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Iterable<Product> setinventory(List<Product> product) {
-		return repository.saveAll(product);
+	public Iterable<Product> setinventory(List<Product> products) {
+		Stock stck = stockRepository.save(stock);
+		for (Iterator<Product> pro = products.iterator(); pro.hasNext();) {
+			Product product = (Product) pro.next();
+			product.setStockId(stck.getId());
+		}
+		return repository.saveAll(products);
 	}
 }
