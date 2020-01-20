@@ -24,4 +24,6 @@ public interface ProductService {
 
 	public void addInventory(List<Item> items);
 
+	public Iterable<Product> setinventory(List<Product> product);
+
 }

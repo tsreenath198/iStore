@@ -122,4 +122,9 @@ public class ProductServiceImpl implements ProductService {
 			}
 		});
 	}
+
+	@Override
+	public Iterable<Product> setinventory(List<Product> product) {
+		return repository.saveAll(product);
+	}
 }
