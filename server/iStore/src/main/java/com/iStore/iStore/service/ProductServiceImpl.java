@@ -134,8 +134,9 @@ public class ProductServiceImpl implements ProductService {
 		Stock stck = stockRepository.save(stock);
 		for (Iterator<Product> pro = products.iterator(); pro.hasNext();) {
 			Product product = (Product) pro.next();
+			repository.updateInventoryById(product.getId(),product.getInventory());
 			product.setStockId(stck.getId());
 		}
-		return repository.saveAll(products);
+		return null;
 	}
 }
