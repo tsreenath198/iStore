@@ -130,13 +130,19 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public Iterable<Product> setinventory(List<Product> products) {
+	public GenericResponse setinventory(List<Product> products) {
 		Stock stck = stockRepository.save(stock);
-		for (Iterator<Product> pro = products.iterator(); pro.hasNext();) {
-			Product product = (Product) pro.next();
-			repository.updateInventoryById(product.getId(),product.getInventory());
-			product.setStockId(stck.getId());
+		GenericResponse gr = new GenericResponse();
+		try {
+			for (Iterator<Product> pro = products.iterator(); pro.hasNext();) {
+				Product product = (Product) pro.next();
+				repository.updateInventoryById(product.getId(), product.getInventory());
+				product.setStockId(stck.getId());
+			}
+		} catch (Exception e) {
+			throw new ValidationException(e.getMessage());
 		}
-		return null;
+		gr.setMessage("Successfully updated Inventory");
+		return gr;
 	}
 }

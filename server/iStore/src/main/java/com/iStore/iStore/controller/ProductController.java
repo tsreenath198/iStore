@@ -54,7 +54,7 @@ public class ProductController {
 	}
 
 	@PostMapping(ISTOREConstants.SET_INVENTORY)
-	public ResponseEntity<Iterable<Product>> setInventory(@RequestBody List<Product> product) {
-		return new ResponseEntity<Iterable<Product>>(productService.setinventory(product), HttpStatus.OK);
+	public ResponseEntity<GenericResponse> setInventory(@RequestBody List<Product> product) {
+		return new ResponseEntity<GenericResponse>(productService.setinventory(product), HttpStatus.OK);
 	}
 }
