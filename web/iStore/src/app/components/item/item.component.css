@@ -12,12 +12,10 @@
 }
 
  input:focus {
-  border: 0;
   background-color: inherit;
   color: white;
 }
 select :focus {
-  border: 0;
   background-color: inherit;
   color: white;
 }
@@ -93,4 +91,19 @@ select :focus {
   color: #fff;
   border-color: #dee2e6 #dee2e6 #fff;
   border-bottom: 0;
+}
+
+.required{
+  color: red;
+}
+.btn{
+  font-size: 1rem;
+  border-radius: 20px;
+  border: 1px solid yellowgreen ;
+  background-color: inherit;
+  color: currentColor;
+}
+
+.btn:hover{
+  background-color:greenyellow ;
 }

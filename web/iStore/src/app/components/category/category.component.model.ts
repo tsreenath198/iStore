@@ -4,4 +4,5 @@ export interface CategoryModel{
     defaultDiscount: number;
     description: string;
     categoryOrder: number;
+    activeStatus: any;
 }

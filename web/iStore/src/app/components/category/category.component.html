@@ -19,6 +19,20 @@
             />
           </div>
           <div class="col-md-12">
+            <select
+              class="form-control"
+              name="st"
+              [(ngModel)]="model.activeStatus"
+              #st="ngModel"
+              required
+            >
+              <option [ngValue]="undefined" hidden selected> Status Type </option>
+              <option *ngFor="let option of statusOptions" [ngValue]="option.value">
+                {{ option.name }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-12">
             <input
               type="number"
               class="form-control"
@@ -79,7 +93,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr *ngFor="let category of categoryList">
+          <tr *ngFor="let category of categoryList"
+          [ngClass]="{ 'bg-yellow': category.activeStatus }">
             <td>
               {{ category.name }}
             </td>

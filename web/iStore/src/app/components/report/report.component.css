@@ -46,3 +46,14 @@
   width:100%;
   border: 1px solid black
 }
+.btn{
+  font-size: 1rem;
+  border-radius: 20px;
+  border: 1px solid yellowgreen ;
+  background-color: inherit;
+  color: currentColor;
+}
+
+.btn:hover{
+  background-color:greenyellow ;
+}

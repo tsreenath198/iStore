@@ -5,26 +5,27 @@
   >
     <div class="row p-3">
       <div class="col-md-12 clearfix">
-        <div class="float-left">
+        <div class="float-left form-group">
           <input
             type="text"
-            class="form-control"
+            id="cname"
+            name="cname"
             placeholder="Name"
             [(ngModel)]="customerDetails.name"
           />
+          <label class="required" for="cname">*</label>
         </div>
         <div class="float-right">
           <input
             type="text"
-            class="form-control"
             placeholder="Phone"
             [(ngModel)]="customerDetails.phone"
           />
         </div>
       </div>
-      <div class="col-md-12 mt-3">
+      <div class="col-md-12 form-group">
         <select
-          class="form-control"
+        style="width: 98%;"
           name="pm"
           [(ngModel)]="paymentMode"
           #pm="ngModel"
@@ -32,7 +33,7 @@
         >
           <option [ngValue]="undefined" hidden selected> Payment Mode </option>
           <option *ngFor="let cl of paymentTypes">{{ cl }} </option>
-        </select>
+        </select><label class="required" for="pm">*</label>
       </div>
     </div>
     <table class="table table-dark table-sm table-striped istore-table">
@@ -47,10 +48,10 @@
         </tr>
       </thead>
       <tbody *ngIf="itemList.length">
-
         <tr *ngFor="let item of itemList; let i = index">
           <td
-            style="position: relative;cursor: pointer;" (click)="removeItemFromBill(i)"
+            style="position: relative;cursor: pointer;"
+            (click)="removeItemFromBill(i)"
           >
             <span
               style="color: greenyellow; margin: 0;
@@ -119,7 +120,8 @@
             <button
               class="btn"
               style="float: right;"
-              (click)="generateBill(billContent)"
+              (click)="setPrintingBill(billContent)"
+              [disabled]="customerDetails.name == null && paymentMode == null"
             >
               Add
             </button>
@@ -133,6 +135,7 @@
       <li class="nav-item" *ngFor="let cat of categoryList">
         <a
           class="nav-item nav-link"
+          *ngIf="!cat.activeStatus"
           [ngClass]="{ active: selectedCategory == cat.name }"
           (click)="filter(cat.id, cat.name)"
           >{{ cat.name }}</a
@@ -144,6 +147,7 @@
         *ngFor="let product of productList"
         class="col-md-2 p-1"
         style="text-align: center;"
+        [hidden]="!product.inventory || product.activeStatus || product.category.activeStatus"
         (click)="addToList(product)"
       >
         <b
@@ -177,7 +181,8 @@
         <div style="text-align: center;">
           <small>NATURAL FRESH</small><br />
           <small>SRI YOGESHWARA ENTERPRISE</small><br />
-        <small>TAX INVOICE #{{printingBill.id}}</small><br />
+          <small>TAX INVOICE #{{ printingBill.id+1 }}</small
+          ><br />
           <small>YELLAMMAGUTTA, NZB</small><br />
         </div>
         <hr />
@@ -195,7 +200,9 @@
               <small>Phone: {{ printingBill.contact.phone }}</small>
             </p>
             <p>
-              <small>Time:{{ printingBill.createdDate | date: "h:mm:ss a" }}</small>
+              <small
+                >Time:{{ printingBill.createdDate | date: "h:mm:ss a" }}</small
+              >
             </p>
           </div>
         </div>
@@ -257,6 +264,7 @@
         [printStyle]="{
           div: { 'margin-left': '-5px', 'margin-right': '-5px' }
         }"
+        (click)="generateBill()"
         ngxPrint
       >
         Print

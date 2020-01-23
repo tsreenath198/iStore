@@ -5,6 +5,7 @@ export class URLConstants {
   ProductUpdate = 'product/update';
   ProductDelete = 'product/delete?id=';
   ProductGetById = 'product/get?id=';
+  ProductInventoryUpdate = 'product/setInventory';
  
   /**Order */
   OrderCreate = 'order/create';
@@ -13,6 +14,7 @@ export class URLConstants {
   OrderDelete = 'order/delete?id=';
   OrderGetById = 'order/get?id=';
   OrderTotalByDays = 'order/getTotalByDays?days='
+  OrderGetId = 'order/getTotalRecordCount'
 
   /**Category */
   CategoryCreate = 'category/create';
@@ -20,4 +22,8 @@ export class URLConstants {
   CategoryUpdate = 'category/update';
   CategoryDelete = 'category/delete?id=';
   CategoryGetById = 'category/get?id=';
+
+
+  /**Sales */
+  SalesTotal = 'sales/getTotal?dt='
 }

@@ -19,8 +19,8 @@ export class ReportComponent implements OnInit {
   public popupContent: any = {};
   public cardTable: any = [];
   public totalTable: any = [];
-  public chooseDays:any={Day:1 , Week:7 , Month:31 , Year:365};
-  public selectedDay:number = 7;
+  public chooseDays:any=['Day','Week' , 'Month' , "Year" ];
+  public selectedDay:string = 'Day';
   private modalRef: NgbModalRef;
   public closeResult = "";
   constructor(private http: HttpService, private modalService: NgbModal) {}
@@ -37,15 +37,35 @@ export class ReportComponent implements OnInit {
     
   }
   getTotalData(){
-    this.http.get(this.URL.OrderTotalByDays+ this.selectedDay).subscribe(resp =>{
+    let noOfDays = 0;
+    let currentDate:any = new Date();
+    switch(this.selectedDay){
+      case 'Day':
+        noOfDays =1;
+        break;
+      case 'Week':
+        noOfDays = currentDate.getDay()+1;
+        break;
+      case 'Month':
+        noOfDays= currentDate.getDate();
+        break;
+      case 'Year':
+        let startDate:any = new Date(currentDate.getFullYear(), 0, 0);
+        let diff = currentDate - startDate;
+        let oneDay = 1000 * 60 * 60 * 24;
+        noOfDays = Math.floor(diff / oneDay);
+        break;
+    }
+    this.http.get(this.URL.OrderTotalByDays+ noOfDays).subscribe(resp =>{
       this.totalTable = resp as any;
     })
   }
 
   public delete(order: any,date) {
-    if (window.confirm("Do you want to delete " + order.name + "?")) {
+    if (window.confirm("Do you want to delete " + order.contact.name+ "'s bill?")) {
       this.http.delete(this.URL.OrderDelete + order.id).subscribe(resp => {
-        this.getAllReports();
+        this.getTotalData();
+        this.getAllReports()
         this.filterData(date);
       });
     }

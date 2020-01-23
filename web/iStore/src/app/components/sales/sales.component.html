@@ -1,0 +1,86 @@
+<div class="row">
+    <div class="col-md-4">
+      <!-- <h4>
+        Choose Days:
+      </h4>
+      <select
+        class="form-control"
+        name="pm"
+        [(ngModel)]="selectedDay"
+        #pm="ngModel"
+        (change)="getTotalData()"
+      >
+        <option *ngFor="let cl of chooseDays" [ngValue]="cl.count"
+          >{{ cl.name }}
+        </option>
+      </select> -->
+    </div>
+    <div class="col-md-4">
+      <div class="accordion" id="accordionExample">
+        <div class="card" *ngFor="let temp of totalTable; let i = index">
+          <div class="card-header card-hover" [attr.id]="'heading' + i">
+            <div
+              class="mb-0 clearfix"
+              data-toggle="collapse"
+              [attr.data-target]="'#collapse' + i"
+              aria-expanded="false"
+              [attr.aria-controls]="'#collapse' + i"
+            >
+              <span class="float-left"> <strong>Date:</strong> {{ todayDate | date }} </span>
+            </div>
+          </div>
+  
+          <div
+            [attr.id]="'collapse' + i"
+            class="collapse show"
+            [attr.aria-labelledby]="'heading' + i"
+            data-parent="#accordionExample"
+          >
+            <div
+              class="card-body table table-sm table-responsive table-hover"
+              style="padding: 0;"
+            >
+              <table style="width: 100%;table-layout: fixed;">
+                <thead>
+                  <tr>
+                    <th>Category</th>
+                    <th>Cash</th>
+                    <th>Bank</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngFor="let order of salesList">
+                    <tr >
+                      <td >
+                        {{ order.category }}
+                      </td>
+                      <td >
+                        {{ order.cashTotal }}
+                      </td>
+                      <td >
+                        {{ order.bankTotal }}
+                      </td>
+                      <!-- <td>
+                        <button
+                          class="btn btn-sm ml-2"
+                          type="submit"
+                        >
+                          Delete
+                          <i
+                            class="fa  fa-trash"
+                            style="font-size: 10px;"
+                            aria-hidden="true"
+                          ></i>
+                        </button>
+                      </td> -->
+                    </tr>
+                  </ng-container>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  

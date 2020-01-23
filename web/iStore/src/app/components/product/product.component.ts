@@ -4,6 +4,11 @@ import { HttpService } from "src/app/services/http.service";
 import { URLConstants } from "src/app/constants/url-constants";
 import { NgForm } from "@angular/forms";
 import { CategoryModel } from "../category/category.component.model";
+import {
+  NgbModal,
+  NgbModalRef,
+  ModalDismissReasons
+} from "@ng-bootstrap/ng-bootstrap";
 
 @Component({
   selector: "app-product",
@@ -15,18 +20,25 @@ export class ProductComponent implements OnInit {
   public filterProductList: Array<any> = [];
   public categoryList: Array<CategoryModel> = [];
   public selectedCategory: string = "All";
-  public model: any = <any>{};
+  public statusOptions = [
+    { name: "Active", value: 0 },
+    { name: "Inactive", value: 1 }
+  ];
+  public model: ProductModel = <ProductModel>{};
+  public updateInventoryModel: any = [];
   public url = new URLConstants();
   public actionType: string = "C";
-  
-  
-  public sortType     = 'name'; // set the default sort type
+
+  public sortType = "name"; // set the default sort type
   public sortReverse = false;
-  constructor(private http: HttpService) {}
+  public closeResult = "";
+  private modalRef: NgbModalRef;
+  constructor(private http: HttpService, private modalService: NgbModal) {}
 
   ngOnInit() {
     this.getResult();
     this.getResult2();
+    this.model.activeStatus = 0;
   }
   async getResult(): Promise<any> {
     this.productList = await this.http
@@ -35,7 +47,7 @@ export class ProductComponent implements OnInit {
       .then(resp => resp as any); //Do you own cast here
     this.filterProductList = this.productList;
 
-    if(this.selectedCategory != 'All') this.setFilter();
+    if (this.selectedCategory != "All") this.setFilter();
     return this.productList;
   }
   async getResult2(): Promise<any> {
@@ -55,6 +67,7 @@ export class ProductComponent implements OnInit {
     this.getResult();
     this.getResult2();
     this.model = <ProductModel>{};
+    this.model.activeStatus = 0;
   }
 
   public create(form: NgForm) {
@@ -72,7 +85,8 @@ export class ProductComponent implements OnInit {
   }
 
   public new(form: NgForm) {
-    this.model = {};
+    this.model = <ProductModel>{};
+    this.model.activeStatus = 0;
     this.actionType = "C";
   }
 
@@ -101,8 +115,7 @@ export class ProductComponent implements OnInit {
     if (categoryName == "All") {
       this.getResult();
       this.selectedCategory = categoryName;
-    } 
-    else if(categoryName == 'Check Inventory'){
+    } else if (categoryName == "Check Inventory") {
       this.selectedCategory = categoryName;
       let temp = [];
       this.filterProductList.filter(product => {
@@ -111,27 +124,73 @@ export class ProductComponent implements OnInit {
         }
       });
       this.productList = temp;
-    }
-    else {
+    } else {
       this.selectedCategory = categoryName;
       let temp = [];
+      this.productList = [];
+      this.updateInventoryModel = [];
       this.filterProductList.filter(product => {
         if (categoryId == product.category.id) {
-          temp.push(product);
+          this.productList.push(product);
         }
       });
-      this.productList = temp;
     }
   }
-  showEndingInventories(value){
-    if(value){
-      this.filter(0,'Check Inventory')
-    }
-    else{
-      this.filter(0,'All');
+  showEndingInventories(value) {
+    if (value) {
+      this.filter(0, "Check Inventory");
+    } else {
+      this.filter(0, "All");
     }
   }
   public compareFn(user1: ProductModel, user2: ProductModel) {
     return user1 && user2 ? user1.id === user2.id : user1 === user2;
-}
+  }
+
+  public SetUpdateableInventory(event: any) {
+    this.updateInventoryModel = JSON.parse(JSON.stringify(this.productList));
+    this.updateInventoryModel.forEach(product => {
+      product.inventory = 0;
+    });
+
+    console.log(this.updateInventoryModel);
+    this.open(event);
+  }
+  public updateInventory() {
+    this.http
+      .post(this.updateInventoryModel, this.url.ProductInventoryUpdate)
+      .subscribe(resp => {
+        this.close();
+        this.getResult();
+        window.alert("Inventory updated successfully");
+      });
+  }
+  /**
+   * @param
+   * 1) content consists the modal instance
+   * 2) Selected contains the code of selected row
+   */
+  public open(content: any) {
+    this.modalRef = this.modalService.open(content);
+    this.modalRef.result.then(
+      result => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      reason => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+  }
+  public close() {
+    this.modalRef.close();
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return "by pressing ESC";
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return "by clicking on a backdrop";
+    } else {
+      return `with: ${reason}`;
+    }
+  }
 }

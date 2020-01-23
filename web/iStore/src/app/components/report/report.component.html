@@ -10,8 +10,8 @@
       #pm="ngModel"
       (change)="getTotalData()"
     >
-      <option *ngFor="let cl of chooseDays | keyvalue" [ngValue]="cl.value"
-        >{{ cl.key }}
+      <option *ngFor="let cl of chooseDays"
+        >{{ cl }}
       </option>
     </select>
   </div>
@@ -27,8 +27,8 @@
             [attr.aria-controls]="'#collapse' + i"
             (click)="filterData(temp.date)"
           >
-            <span class="float-left"> Date: {{ temp.date | date }} </span>
-            <span class="float-right"> Total: {{ temp.total }} </span>
+            <span class="float-left"> <strong>Date:</strong> {{ temp.date | date }} </span>
+            <span class="float-right"> <strong>Total:</strong> {{ temp.total }} </span>
           </div>
         </div>
 
@@ -45,6 +45,10 @@
             <table style="width: 100%;table-layout: fixed;">
               <thead>
                 <tr>
+                <td colspan="3"><strong>Cash:</strong>{{temp.cashTotal}}</td>
+                <td><strong>Bank:</strong>{{temp.bankTotal}}</td>
+                </tr>
+                <tr>
                   <th>Bill.no</th>
                   <th>Date</th>
                   <th>Total</th>
@@ -53,14 +57,14 @@
               </thead>
               <tbody>
                 <ng-container *ngFor="let order of cardTable">
-                  <tr (click)="openPopup(order, billContent)">
-                    <td>
+                  <tr >
+                    <td (click)="openPopup(order, billContent)">
                       {{ order.id }}
                     </td>
-                    <td>
+                    <td (click)="openPopup(order, billContent)">
                       {{ order.createdDate | date }}
                     </td>
-                    <td>
+                    <td (click)="openPopup(order, billContent)">
                       {{ order.total }}
                     </td>
                     <td>

@@ -11,13 +11,13 @@
 .btn{
   font-size: 1rem;
   border-radius: 20px;
-  border: 1px solid greenyellow;
+  border: 1px solid yellowgreen ;
   background-color: inherit;
   color: currentColor;
 }
 
 .btn:hover{
-  background-color: yellowgreen;
+  background-color:greenyellow ;
 }
 
 form{

@@ -9,6 +9,7 @@ import {
 import { ItemModel, OrderModel, ContactModel } from "./item.component.model";
 import { URLConstants } from "src/app/constants/url-constants";
 import { CategoryModel } from "../category/category.component.model";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-item",
@@ -23,18 +24,21 @@ export class ItemComponent implements OnInit {
   public selectedItem: ItemModel = <ItemModel>{};
   public selectedCategory: string = "Cup";
   public categoryList: Array<CategoryModel> = [];
-  public paymentTypes:Array<any> = ["Cash","Bank"];
-  public paymentMode:string;
+  public paymentTypes: Array<any> = ["Cash", "Bank"];
+  public paymentMode: string;
   public totalBill: number = 0.0;
   public printingBill: any = {};
   public url = new URLConstants();
 
   public closeResult = "";
   private modalRef: NgbModalRef;
-  constructor(private http: HttpService, private modalService: NgbModal) {}
+  constructor(
+    private http: HttpService,
+    private modalService: NgbModal,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit() {
-    
     this.getResult2();
     this.getResult();
   }
@@ -44,7 +48,7 @@ export class ItemComponent implements OnInit {
       .toPromise()
       .then(resp => resp as any); //Do you own cast here
     this.filterProductList = this.productList;
-    if(this.filterProductList){
+    if (this.filterProductList) {
       this.setFilter();
     }
     return this.productList;
@@ -64,16 +68,20 @@ export class ItemComponent implements OnInit {
     this.filter(item[0].id, item[0].name);
   }
   public addToList(p: any) {
-    let index = this.itemList.findIndex(i => i.product.id === p.id);
-    if (index == -1) {
-      this.itemList.push(this.addToModel(p));
+    if (p.inventory <= 0) {
+      window.alert("Item out of stock!");
     } else {
-      this.itemList[index].quantity += 1;
-      this.itemList[index].total = this.calculateSingleItemTotal(
-        this.itemList[index]
-      );
+      let index = this.itemList.findIndex(i => i.product.id === p.id);
+      if (index == -1) {
+        this.itemList.push(this.addToModel(p));
+      } else {
+        this.itemList[index].quantity += 1;
+        this.itemList[index].total = this.calculateSingleItemTotal(
+          this.itemList[index]
+        );
+      }
+      this.calculateOrderTotal(this.itemList);
     }
-    this.calculateOrderTotal(this.itemList);
   }
   private addToModel(p: any): any {
     let bill: any = <any>{};
@@ -106,9 +114,32 @@ export class ItemComponent implements OnInit {
     finalOrder.contact = this.customerDetails;
     finalOrder.paymentMode = this.paymentMode;
     this.http.post(finalOrder, this.url.OrderCreate).subscribe(resp => {
-      this.printingBill=resp as any;
-      this.setPrintingBill(event);
+      // this.printingBill=resp as any;
+      // this.setPrintingBill(event);
+      this.cancelBill();
+      this.close();
     });
+  }
+  /**Printing bill model */
+  public setPrintingBill(billContent) {
+    if (!this.customerDetails.name) {
+      //this.toastr.error("Order", "Name cannot be empty");
+      window.alert("Name cannot be empty");
+    } else if (!this.paymentMode) {
+      window.alert("Please select payment mode");
+      //this.toastr.error("Order", "Please select payment mode");
+    } else {
+      this.http.get(this.url.OrderGetId).subscribe(resp => {
+        this.printingBill["id"] = resp as any;
+      });
+      this.printingBill["items"] = this.itemList;
+      this.printingBill["total"] = Math.ceil(this.totalBill);
+      this.printingBill["contact"] = this.customerDetails;
+      this.printingBill["paymentMode"] = this.paymentMode;
+      this.printingBill["date"] = new Date();
+
+      this.open(billContent);
+    }
   }
   public cancelBill() {
     this.itemList = [];
@@ -122,28 +153,11 @@ export class ItemComponent implements OnInit {
     this.selectedCategory = categoryName;
     let temp = [];
     this.filterProductList.filter(product => {
-      if (categoryId == product.category.id) {
+      if (categoryId == product.category.id && product.activeStatus == 0) {
         temp.push(product);
       }
     });
     this.productList = temp;
-  }
-  /**Printing bill model */
-  public setPrintingBill(billContent) {
-    // this.printingBill["items"] = this.itemList;
-    // this.printingBill["total"] = Math.ceil(this.totalBill);
-    // this.printingBill["contact"] = this.customerDetails;
-    // this.printingBill["paymentMode"] = this.paymentMode;
-    // this.printingBill["date"] = new Date();
-    // this.printingBill.items.forEach(item => {
-    //   this.filterProductList.forEach(product => {
-    //     if (item.productId == product.id) {
-    //       item["productName"] = product.name;
-    //     }
-    //   });
-    // });
-
-    this.open(billContent);
   }
   /**
    * @param
@@ -162,7 +176,6 @@ export class ItemComponent implements OnInit {
     );
   }
   public close() {
-    this.cancelBill();
     this.modalRef.close();
   }
   private getDismissReason(reason: any): string {
@@ -175,7 +188,11 @@ export class ItemComponent implements OnInit {
     }
   }
 
-  public removeItemFromBill(i){
-    this.itemList.splice(i,1);
+  public removeItemFromBill(i) {
+    this.itemList.splice(i, 1);
+    this.calculateOrderTotal(this.itemList);
+  }
+  public alert() {
+    window.alert("Name or Payment mode is empty.");
   }
 }

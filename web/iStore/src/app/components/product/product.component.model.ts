@@ -1,6 +1,6 @@
 import { CategoryModel } from '../category/category.component.model';
 
-export interface ProductModel {
+export class ProductModel {
   id: number;
   name: string;
   price: number;
@@ -8,6 +8,7 @@ export interface ProductModel {
   image: FormData;
   inventory: number;
   category: CategoryModel;
-  productOrder: number;
+  productOrder: number ;
   minimumAvailability: number;
+  activeStatus: any;
 }

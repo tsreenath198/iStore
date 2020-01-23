@@ -3,11 +3,12 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 const routes: Routes = [
-  { path: "", redirectTo: "item", pathMatch: "prefix" },
+  { path: "", redirectTo: "order", pathMatch: "prefix" },
   { path: "product", loadChildren: "./components/product/product.module#ProductModule" },
-  { path: "item", loadChildren: "./components/item/item.module#ItemModule" },
+  { path: "order", loadChildren: "./components/item/item.module#ItemModule" },
   { path:"report", loadChildren: "./components/report/report.module#ReportModule"},
-  { path:"category", loadChildren: "./components/category/category.module#CategoryModule"}
+  { path:"category", loadChildren: "./components/category/category.module#CategoryModule"},
+  { path:"sales", loadChildren: "./components/sales/sales.module#SalesModule"}
 ];
 
 @NgModule({

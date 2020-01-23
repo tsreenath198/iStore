@@ -14,10 +14,12 @@ export class CategoryComponent implements OnInit {
   public model: CategoryModel = <CategoryModel>{};
   public url = new URLConstants();
   public actionType: string = "C";
+  public statusOptions=[{name: 'Active', value: 0},{name: 'Inactive', value: 1}];
   constructor(private http: HttpService) {}
 
   ngOnInit() {
     this.getAll();
+    this.model.activeStatus = 0;
   }
   private getAll() {
     this.http.get(this.url.CategoryGetAll).subscribe(resp => {
@@ -28,6 +30,8 @@ export class CategoryComponent implements OnInit {
   public commonInHTTP() {
     this.getAll();
     this.model = <CategoryModel>{};
+    
+    this.model.activeStatus = 0;
   }
 
   public create(form: NgForm) {
@@ -37,8 +41,7 @@ export class CategoryComponent implements OnInit {
     )
     .subscribe(resp => {
       this.commonInHTTP();
-      form.resetForm();
-      console.log("Product created");
+      this.model.activeStatus = 0;
     });
   }
 
@@ -50,7 +53,9 @@ export class CategoryComponent implements OnInit {
   }
 
   public new(form: NgForm) {
-    form.resetForm();
+    this.model = <CategoryModel>{};
+    
+    this.model.activeStatus = 0;
     this.actionType = "C";
   }
 
