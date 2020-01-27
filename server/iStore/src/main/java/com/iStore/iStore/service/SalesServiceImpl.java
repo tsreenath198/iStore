@@ -42,11 +42,12 @@ public class SalesServiceImpl implements SalesService {
 		List<Category> categories = getAllCategories();
 		List<Sales> sales = new ArrayList<Sales>();
 		for (Date dt : uniqueDates) {
-			float cashTotal = 0;
-			float bankTotal = 0;
-			Sales sale = new Sales();
 			sales = new ArrayList<Sales>();
 			for (Category category : categories) {
+				float cashTotal = 0;
+				float bankTotal = 0;
+				Sales sale = new Sales();
+				ArrayList<Sales> sales1 = new ArrayList<Sales>();
 				for (OrderDetail order : orders) {
 					if (dt.equals(DateHelper.convertDateWithouTime(order.getCreatedDate()))) {
 						for (Item item : order.getItems()) {
@@ -65,9 +66,10 @@ public class SalesServiceImpl implements SalesService {
 				sale.setDate(null);
 				sale.setBankTotal(bankTotal);
 				sale.setCashTotal(cashTotal);
-				sales.add(sale);
+				sales1.add(sale);
+				sales.addAll(sales1);
+				salesMap.put(dt.toString(), sales);
 			}
-			salesMap.put(dt.toString(), sales);
 		}
 
 		return salesMap;
