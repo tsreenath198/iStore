@@ -3,7 +3,6 @@ package com.iStore.iStore.service;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -21,6 +20,7 @@ import com.iStore.iStore.model.OrderDetail;
 import com.iStore.iStore.model.OrderTotal;
 import com.iStore.iStore.repository.OrderDetailRepository;
 import com.iStore.iStore.util.DateHelper;
+import com.iStore.iStore.util.UniqueDatesHelper;
 
 @Service
 public class OrderDetailServiceImpl implements OrderDetailService {
@@ -117,7 +117,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		List<OrderDetail> orders = orderRepository.findAllByDays(days);
 		List<OrderTotal> otList = new ArrayList<OrderTotal>();
 		OrderTotal otMap = null;
-		Set<Date> unique = uniqueDates(orders);
+		Set<Date> unique = UniqueDatesHelper.uniqueDatesWithoutTime(orders);
 		for (Date dt : unique) {
 			otMap = new OrderTotal();
 			otMap.setDate(dt);
@@ -130,14 +130,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		return otList;
 	}
 
-	private Set<Date> uniqueDates(List<OrderDetail> orders) throws ParseException {
-		Set<Date> uni = new LinkedHashSet<Date>();
-		for (OrderDetail od : orders) {
-			Date dateWithoutTime = DateHelper.convertDateWithouTime(od.getCreatedDate());
-			uni.add(dateWithoutTime);
-		}
-		return uni;
-	}
+	
 
 	private OrderTotal getBetweenDatesTotal(Date from, Date to) {
 		Date toDate = DateHelper.addOneDay(to);

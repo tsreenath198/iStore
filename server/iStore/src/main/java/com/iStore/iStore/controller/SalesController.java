@@ -2,6 +2,7 @@ package com.iStore.iStore.controller;
 
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,7 +25,8 @@ public class SalesController {
 	SalesService salesService;
 
 	@GetMapping(ISTOREConstants.GET_TOTAL)
-	public ResponseEntity<List<Sales>> getSalesByDate(@RequestParam(required = false) String dt) throws ParseException {
-		return new ResponseEntity<List<Sales>>(salesService.getSalesByDate(dt), HttpStatus.OK);
+	public ResponseEntity<Map<String, List<Sales>>> getSalesByDate(@RequestParam(required = false) int days)
+			throws ParseException {
+		return new ResponseEntity<Map<String, List<Sales>>>(salesService.getSalesByDate(days), HttpStatus.OK);
 	}
 }
