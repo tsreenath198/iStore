@@ -47,6 +47,8 @@ public class OrderDetail {
 	@Column
 	private String description;
 	@Column
+	private Integer totalDiscount;
+	@Column
 	private Integer activeFlag = 0;
 	@Enumerated(EnumType.STRING)
 	private PaymentMode paymentMode;

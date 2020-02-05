@@ -18,6 +18,7 @@ import com.iStore.iStore.model.GenericResponse;
 import com.iStore.iStore.model.Item;
 import com.iStore.iStore.model.OrderDetail;
 import com.iStore.iStore.model.OrderTotal;
+import com.iStore.iStore.repository.ItemRepository;
 import com.iStore.iStore.repository.OrderDetailRepository;
 import com.iStore.iStore.util.DateHelper;
 import com.iStore.iStore.util.UniqueDatesHelper;
@@ -28,6 +29,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	OrderDetailRepository orderRepository;
 	@Autowired
 	ProductServiceImpl productService;
+	@Autowired
+	ItemRepository itemRepository;
 
 	@Override
 	public OrderDetail create(OrderDetail entity) {
@@ -49,6 +52,9 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		try {
 			OrderDetail order = get(entity.getId());
 			order.setTotal(entity.getTotal());
+			order.setPaymentMode(entity.getPaymentMode());
+			order.setTotalDiscount(entity.getTotalDiscount());
+			itemRepository.saveAll(entity.getItems());
 			return orderRepository.save(order);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
@@ -129,8 +135,6 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		}
 		return otList;
 	}
-
-	
 
 	private OrderTotal getBetweenDatesTotal(Date from, Date to) {
 		Date toDate = DateHelper.addOneDay(to);
