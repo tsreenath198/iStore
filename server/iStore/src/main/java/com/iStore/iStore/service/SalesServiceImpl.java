@@ -30,14 +30,14 @@ public class SalesServiceImpl implements SalesService {
 	CategoryRepository categoryRepository;
 
 	@Override
-	public Map<String, List<Sales>> getSalesByDate(int days) throws ParseException {
+	public Map<Date, List<Sales>> getSalesByDate(int days) throws ParseException {
 
 		List<OrderDetail> orders = orderRepository.findAllByDays(days);
 		return calculateSales(orders);
 	}
 
-	private Map<String, List<Sales>> calculateSales(List<OrderDetail> orders) throws ParseException {
-		Map<String, List<Sales>> salesMap = new HashMap<String, List<Sales>>();
+	private Map<Date, List<Sales>> calculateSales(List<OrderDetail> orders) throws ParseException {
+		Map<Date, List<Sales>> salesMap = new HashMap<Date, List<Sales>>();
 		Set<Date> uniqueDates = UniqueDatesHelper.uniqueDatesWithoutTime(orders);
 		List<Category> categories = getAllCategories();
 		List<Sales> sales = new ArrayList<Sales>();
@@ -68,7 +68,7 @@ public class SalesServiceImpl implements SalesService {
 				sale.setCashTotal(cashTotal);
 				sales1.add(sale);
 				sales.addAll(sales1);
-				salesMap.put(dt.toString(), sales);
+				salesMap.put(dt, sales);
 			}
 		}
 

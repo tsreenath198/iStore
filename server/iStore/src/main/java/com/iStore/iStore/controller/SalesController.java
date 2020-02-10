@@ -1,6 +1,7 @@
 package com.iStore.iStore.controller;
 
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -25,8 +26,8 @@ public class SalesController {
 	SalesService salesService;
 
 	@GetMapping(ISTOREConstants.GET_TOTAL)
-	public ResponseEntity<Map<String, List<Sales>>> getSalesByDate(@RequestParam(required = false) int days)
+	public ResponseEntity<Map<Date, List<Sales>>> getSalesByDate(@RequestParam(required = false) int days)
 			throws ParseException {
-		return new ResponseEntity<Map<String, List<Sales>>>(salesService.getSalesByDate(days), HttpStatus.OK);
+		return new ResponseEntity<Map<Date, List<Sales>>>(salesService.getSalesByDate(days), HttpStatus.OK);
 	}
 }
