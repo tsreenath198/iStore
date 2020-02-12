@@ -56,7 +56,7 @@ public class Product {
 	@Column
 	private String description;
 	@Column
-	private Integer activeStatus;
+	private Integer activeStatus = 0;
 	@Column
-	private Integer activeFlag;
+	private Integer activeFlag = 0;
 }

@@ -38,5 +38,5 @@ public class Contact {
 	@Column
 	private String description;
 	@Column
-	private Integer activeFlag;
+	private Integer activeFlag = 0;
 }
