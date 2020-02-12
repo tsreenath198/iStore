@@ -24,16 +24,10 @@ public class CategoryControllerTest {
 	@Test
 	public void testCreate() {
 		Category category = getCategory();
-		Mockito.when(categoryService.create(Mockito.any())).thenReturn(category);
+		Mockito.when(categoryService.createOrUpdate(Mockito.any())).thenReturn(category);
 		controller.create(category);
 	}
 
-	@Test
-	public void testUpdate() {
-		Category category = getCategory();
-		Mockito.when(categoryService.update(Mockito.any())).thenReturn(category);
-		controller.update(category);
-	}
 
 	@Test
 	public void testDelete() {

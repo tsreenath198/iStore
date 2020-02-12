@@ -35,7 +35,7 @@ public class ProductServiceImplTest {
 	public void testCreate() {
 		product = new Product();
 		when(repo.save(any(Product.class))).thenReturn(product);
-		serviceImpl.create(product);
+		serviceImpl.createOrUpdate(product);
 	}
 
 	@Test(expected = ValidationException.class)
@@ -43,24 +43,7 @@ public class ProductServiceImplTest {
 		product = new Product();
 		cve = new ConstraintViolationException(null, null, null);
 		when(repo.save(any(Product.class))).thenThrow(cve);
-		serviceImpl.create(product);
-	}
-
-	@Test
-	public void testUpdate() {
-		Optional<Product> ca = Optional.of(getProduct());
-		when(repo.findByIdAndActiveFlag(any(Integer.class), anyInt())).thenReturn(ca);
-		when(repo.save(any(Product.class))).thenReturn(product);
-		serviceImpl.update(product);
-	}
-
-	@Test(expected = ValidationException.class)
-	public void testUpdateException() {
-		Optional<Product> ca = Optional.of(getProduct());
-		when(repo.findByIdAndActiveFlag(any(Integer.class), anyInt())).thenReturn(ca);
-		cve = new ConstraintViolationException(null, null, null);
-		when(repo.save(any(Product.class))).thenThrow(cve);
-		serviceImpl.update(product);
+		serviceImpl.createOrUpdate(product);
 	}
 
 	@Test
@@ -69,8 +52,6 @@ public class ProductServiceImplTest {
 		when(repo.findByActiveFlagAllIgnoreCaseOrderByProductOrderAsc(Mockito.anyInt())).thenReturn(value);
 		serviceImpl.getAll();
 	}
-
-	
 
 	private Item getItem() {
 		Item item = new Item();
@@ -85,13 +66,4 @@ public class ProductServiceImplTest {
 		product.setId(2);
 		return product;
 	}
-
-	@Test(expected = ValidationException.class)
-	public void testGenericResponseException() {
-		testUpdate();
-		cve = new ConstraintViolationException(null, null, null);
-		when(repo.save(any(Product.class))).thenThrow(cve);
-		serviceImpl.delete(1);
-	}
-
 }

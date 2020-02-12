@@ -90,4 +90,13 @@ public class ItemServiceImplTest {
 		Item found = billServiceImpl.update(item);
 	}
 
+	@Test
+	public void testDelete() {
+		Optional<Item> value = Optional.of(new Item());
+		when(repo.findByIdAndActiveFlag(any(Integer.class), anyInt())).thenReturn(value);
+		Item item = new Item();
+		when(repo.save(any(Item.class))).thenReturn(item);
+		billServiceImpl.delete(anyInt());
+	}
+
 }

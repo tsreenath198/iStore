@@ -25,16 +25,10 @@ public class ProductControllerTest {
 	@Test
 	public void testCreate() throws ParseException {
 		Product product = getProduct();
-		Mockito.when(service.create(Mockito.any())).thenReturn(product);
-		service.create(Mockito.any());
+		Mockito.when(service.createOrUpdate(Mockito.any())).thenReturn(product);
+		service.createOrUpdate(Mockito.any());
 	}
 
-	@Test
-	public void testupdate() throws ParseException {
-		Product product = getProduct();
-		Mockito.when(service.update(Mockito.any())).thenReturn(product);
-		service.update(Mockito.any());
-	}
 
 	@Test
 	public void testDelete() {
