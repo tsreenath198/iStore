@@ -10,9 +10,7 @@ import com.iStore.iStore.model.Product;
 
 @Service
 public interface ProductService {
-	public Product create(Product entity);
-
-	public Product update(Product entity);
+	public Product createOrUpdate(Product entity);
 
 	public GenericResponse delete(Integer id);
 

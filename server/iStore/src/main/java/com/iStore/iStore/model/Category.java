@@ -32,7 +32,7 @@ public class Category {
 	@Column
 	private Integer categoryOrder;
 	@Column
-	private Boolean isRawMaterial;
+	private boolean rawMaterial;
 	@Column
 	@CreationTimestamp
 	private Date createdDate;

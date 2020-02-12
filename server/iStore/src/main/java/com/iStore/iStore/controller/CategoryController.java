@@ -29,12 +29,12 @@ public class CategoryController {
 
 	@PostMapping(ISTOREConstants.CREATE)
 	public ResponseEntity<Category> create(@RequestBody Category items) {
-		return new ResponseEntity<Category>(categoryService.create(items), HttpStatus.OK);
+		return new ResponseEntity<Category>(categoryService.createOrUpdate(items), HttpStatus.OK);
 	}
 
 	@PutMapping(ISTOREConstants.UPDATE)
 	public ResponseEntity<Category> update(@RequestBody Category item) {
-		return new ResponseEntity<Category>(categoryService.update(item), HttpStatus.OK);
+		return new ResponseEntity<Category>(categoryService.createOrUpdate(item), HttpStatus.OK);
 	}
 
 	@DeleteMapping(ISTOREConstants.DELETE)

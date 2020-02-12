@@ -29,27 +29,9 @@ public class ProductServiceImpl implements ProductService {
 	Stock stock = new Stock();
 
 	@Override
-	public Product create(Product entity) {
+	public Product createOrUpdate(Product entity) {
 		try {
 			return repository.save(entity);
-		} catch (Exception e) {
-			throw new ValidationException(e.getMessage());
-		}
-	}
-
-	@Override
-	public Product update(Product entity) {
-		try {
-			Product product = get(entity.getId());
-			product.setName(entity.getName());
-			product.setPrice(entity.getPrice());
-			product.setInventory(entity.getInventory());
-			product.setActiveFlag(entity.getActiveFlag());
-			product.setDescription(entity.getDescription());
-			product.setProductOrder(entity.getProductOrder());
-			product.setMinimumAvailability(entity.getMinimumAvailability());
-			product.setActiveStatus(entity.getActiveStatus());
-			return repository.save(product);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
 		}
@@ -61,7 +43,7 @@ public class ProductServiceImpl implements ProductService {
 		try {
 			Product p = get(id);
 			p.setActiveFlag(1);
-			update(p);
+			createOrUpdate(p);
 			resp = new GenericResponse();
 			resp.setMessage(id + " " + ISTOREConstants.DELETED);
 		} catch (Exception e) {

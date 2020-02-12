@@ -30,12 +30,12 @@ public class ProductController {
 
 	@PostMapping(ISTOREConstants.CREATE)
 	public ResponseEntity<Product> create(@RequestBody Product product) throws IOException {
-		return new ResponseEntity<Product>(productService.create(product), HttpStatus.CREATED);
+		return new ResponseEntity<Product>(productService.createOrUpdate(product), HttpStatus.CREATED);
 	}
 
 	@PutMapping(ISTOREConstants.UPDATE)
 	public ResponseEntity<Product> update(@RequestBody Product product) {
-		return new ResponseEntity<Product>(productService.update(product), HttpStatus.OK);
+		return new ResponseEntity<Product>(productService.createOrUpdate(product), HttpStatus.OK);
 	}
 
 	@DeleteMapping(ISTOREConstants.DELETE)

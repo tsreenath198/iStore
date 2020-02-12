@@ -50,12 +50,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	@Override
 	public OrderDetail update(OrderDetail entity) {
 		try {
-			OrderDetail order = get(entity.getId());
-			order.setTotal(entity.getTotal());
-			order.setPaymentMode(entity.getPaymentMode());
-			order.setTotalDiscount(entity.getTotalDiscount());
 			itemRepository.saveAll(entity.getItems());
-			return orderRepository.save(order);
+			return orderRepository.save(entity);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
 		}

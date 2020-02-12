@@ -30,14 +30,7 @@ public class ItemServiceImpl implements ItemService {
 	@Override
 	public Item update(Item entity) {
 		try {
-			Item item = get(entity.getId());
-			item.setDiscount(entity.getDiscount());
-			item.setPrice(entity.getPrice());
-			item.setProduct(entity.getProduct());
-//			item.setProductId(entity.getProduct().getId());
-			item.setQuantity(entity.getQuantity());
-			item.setTotal(entity.getTotal());
-			return itemRepo.save(item);
+			return itemRepo.save(entity);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
 		}

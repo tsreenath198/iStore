@@ -19,7 +19,7 @@ public class CategoryServiceImpl implements CategoryService {
 	CategoryRepository categoryRepo;
 
 	@Override
-	public Category create(Category entity) {
+	public Category createOrUpdate(Category entity) {
 		try {
 			return categoryRepo.save(entity);
 		} catch (Exception e) {
@@ -27,24 +27,6 @@ public class CategoryServiceImpl implements CategoryService {
 		}
 	}
 
-	@Override
-	public Category update(Category entity) {
-		try {
-			Category category = get(entity.getId());
-			category.setDefaultDiscount(entity.getDefaultDiscount());
-			category.setDescription(entity.getDescription());
-			category.setId(entity.getId());
-			category.setName(entity.getName());
-			category.setActiveFlag(entity.getActiveFlag());
-			category.setCategoryOrder(entity.getCategoryOrder());
-			category.setActiveStatus(entity.getActiveStatus());
-			category.setIsRawMaterial((entity.getIsRawMaterial()));
-			return categoryRepo.save(category);
-		} catch (Exception e) {
-			throw new ValidationException(e.getMessage());
-		}
-
-	}
 
 	@Override
 	public GenericResponse delete(Integer id) {
@@ -52,7 +34,7 @@ public class CategoryServiceImpl implements CategoryService {
 		try {
 			Category b = get(id);
 			b.setActiveFlag(1);
-			update(b);
+			createOrUpdate(b);
 			resp = new GenericResponse();
 			resp.setMessage(id + " " + ISTOREConstants.DELETED);
 		} catch (Exception e) {

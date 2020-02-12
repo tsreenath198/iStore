@@ -9,9 +9,7 @@ import com.iStore.iStore.model.GenericResponse;
 
 @Service
 public interface CategoryService {
-	public Category create(Category entity);
-
-	public Category update(Category entity);
+	public Category createOrUpdate(Category entity);
 
 	public GenericResponse delete(Integer id);
 
