@@ -38,6 +38,7 @@ public class CategoryServiceImpl implements CategoryService {
 			category.setActiveFlag(entity.getActiveFlag());
 			category.setCategoryOrder(entity.getCategoryOrder());
 			category.setActiveStatus(entity.getActiveStatus());
+			category.setIsShipped(entity.getIsShipped());
 			return categoryRepo.save(category);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());

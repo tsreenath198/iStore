@@ -51,7 +51,7 @@ public class Item {
 	@Column
 	private String description;
 	@Column
-	private Integer activeFlag = 0;
+	private Integer activeFlag;
 
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "product_id", referencedColumnName = "id")

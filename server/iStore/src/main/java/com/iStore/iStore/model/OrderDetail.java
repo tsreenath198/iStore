@@ -49,7 +49,7 @@ public class OrderDetail {
 	@Column
 	private Integer totalDiscount;
 	@Column
-	private Integer activeFlag = 0;
+	private Integer activeFlag;
 	@Enumerated(EnumType.STRING)
 	private PaymentMode paymentMode;
 	@OneToMany(cascade = CascadeType.ALL)

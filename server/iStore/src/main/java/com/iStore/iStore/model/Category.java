@@ -32,6 +32,8 @@ public class Category {
 	@Column
 	private Integer categoryOrder;
 	@Column
+	private Boolean isShipped;
+	@Column
 	@CreationTimestamp
 	private Date createdDate;
 	@Column
@@ -40,7 +42,7 @@ public class Category {
 	@Column
 	private String description;
 	@Column
-	private Integer activeStatus = 0;
+	private Integer activeStatus;
 	@Column
-	private Integer activeFlag = 0;
+	private Integer activeFlag;
 }
