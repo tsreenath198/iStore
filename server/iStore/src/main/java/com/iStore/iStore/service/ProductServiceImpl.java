@@ -1,7 +1,6 @@
 package com.iStore.iStore.service;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -175,33 +174,36 @@ public class ProductServiceImpl implements ProductService {
 			cell.setCellValue(columns[i]);
 			cell.setCellStyle(headerCellStyle);
 		}
-		for (int p = 0; p < products.size(); p++) {
-			if (previousRowId < 0) {
-				Row row = sheet.createRow(rowNumber);
-				row.createCell(0).setCellValue(products.get(p).getCategory().getName());
-				mergeRow(sheet, rowNumber); // Merge rows here
-				// Set Header Style
-				generateRow(sheet, products, p);
-			} else {
-				if (previousRowId > 0 && previousRowId != products.get(p).getCategory().getId()) {
+		if (products.size() > 0) {
+			for (int p = 0; p < products.size(); p++) {
+				if (previousRowId < 0) {
 					Row row = sheet.createRow(rowNumber);
 					row.createCell(0).setCellValue(products.get(p).getCategory().getName());
 					mergeRow(sheet, rowNumber); // Merge rows here
+					// Set Header Style
 					generateRow(sheet, products, p);
 				} else {
-					Row subrow = sheet.createRow(rowNumber);
-					subrow.createCell(0).setCellValue(products.get(p).getName());
-					subrow.createCell(1).setCellValue(products.get(p).getInventory());
-					subrow.createCell(2).setCellValue(products.get(p).getMinimumAvailability());
-					rowNumber++;
+					if (previousRowId > 0 && previousRowId != products.get(p).getCategory().getId()) {
+						Row row = sheet.createRow(rowNumber);
+						row.createCell(0).setCellValue(products.get(p).getCategory().getName());
+						mergeRow(sheet, rowNumber); // Merge rows here
+						generateRow(sheet, products, p);
+					} else {
+						Row subrow = sheet.createRow(rowNumber);
+						subrow.createCell(0).setCellValue(products.get(p).getName());
+						subrow.createCell(1).setCellValue(products.get(p).getInventory());
+						subrow.createCell(2).setCellValue(products.get(p).getMinimumAvailability());
+						rowNumber++;
+					}
+				}
+				try {
+					previousRowId = products.get(p).getCategory().getId();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
 			}
-			try {
-				previousRowId = products.get(p).getCategory().getId();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
 		}
+
 		// Resize all columns to fit the content size
 		for (int i = 0; i < columns.length; i++) {
 			sheet.autoSizeColumn(i);
@@ -211,14 +213,6 @@ public class ProductServiceImpl implements ProductService {
 		workbook.write(os);
 		byte[] bytes = os.toByteArray();
 		return bytes;
-		// Write the output to a file
-		// FileOutputStream fileOut = new FileOutputStream("inventory-file.xlsx");
-
-		// workbook.write(fileOut);
-		// fileOut.close();
-
-		// Closing the workbook
-		// workbook.close();
 
 	}
 

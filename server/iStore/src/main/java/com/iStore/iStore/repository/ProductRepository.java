@@ -27,7 +27,7 @@ public interface ProductRepository extends CrudRepository<Product, Integer> {
 	void updateInventoryById(@Param(value = "id") Integer id, @Param(value = "inventory") Integer inventory);
 
 	@Query(value = "SELECT product.* FROM product " + "	LEFT JOIN category ON product.category_id = category.id "
-			+ "	WHERE product.category_id=category.id AND category.raw_material = 0 AND product.active_flag=0 "
+			+ "	WHERE product.category_id=category.id AND category.raw_material = 1 AND product.active_flag=0 "
 			+ "	ORDER BY product.category_id ASC", nativeQuery = true)
 	@Transactional
 	List<Product> downloadInventory();
