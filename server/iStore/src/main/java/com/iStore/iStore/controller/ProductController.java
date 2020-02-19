@@ -57,4 +57,9 @@ public class ProductController {
 	public ResponseEntity<GenericResponse> setInventory(@RequestBody List<Product> product) {
 		return new ResponseEntity<GenericResponse>(productService.setinventory(product), HttpStatus.OK);
 	}
+
+	@GetMapping(ISTOREConstants.DOWNLOAD_INVENTORY)
+	public void downloadInventory() throws IOException {
+		productService.downloadInventory();
+	}
 }
