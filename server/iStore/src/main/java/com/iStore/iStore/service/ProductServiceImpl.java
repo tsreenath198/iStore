@@ -217,11 +217,14 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	private void generateRow(Sheet sheet, List<Product> products, int p) {
-		Row subrow = sheet.createRow(++rowNumber);
-		subrow.createCell(0).setCellValue(products.get(p).getName());
-		subrow.createCell(1).setCellValue(products.get(p).getInventory());
-		subrow.createCell(2).setCellValue(products.get(p).getMinimumAvailability());
-		rowNumber++;
+		if (products.size() > 0) {
+			Row subrow = sheet.createRow(++rowNumber);
+			subrow.createCell(0).setCellValue(products.get(p).getName());
+			subrow.createCell(1).setCellValue(products.get(p).getInventory());
+			subrow.createCell(2).setCellValue(products.get(p).getMinimumAvailability());
+			rowNumber++;
+		}
+
 	}
 
 	private void mergeRow(Sheet sheet, int rowIndex) {
