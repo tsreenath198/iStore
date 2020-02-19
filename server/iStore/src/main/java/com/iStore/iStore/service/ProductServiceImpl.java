@@ -1,5 +1,6 @@
 package com.iStore.iStore.service;
 
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Iterator;
@@ -142,12 +143,14 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public void downloadInventory() throws IOException {
+	public byte[] downloadInventory() throws IOException {
 		List<Product> products = repository.downloadInventory();
-		generateExcel(products);
+		return generateExcel(products);
 	}
 
-	private void generateExcel(List<Product> products) throws IOException {
+	int rowNumber = 1;
+
+	private byte[] generateExcel(List<Product> products) throws IOException {
 
 		// Create a Workbook
 		Workbook workbook = new XSSFWorkbook();
@@ -172,28 +175,19 @@ public class ProductServiceImpl implements ProductService {
 			cell.setCellValue(columns[i]);
 			cell.setCellStyle(headerCellStyle);
 		}
-		int rowNumber = 1;
 		for (int p = 0; p < products.size(); p++) {
 			if (previousRowId < 0) {
 				Row row = sheet.createRow(rowNumber);
 				row.createCell(0).setCellValue(products.get(p).getCategory().getName());
 				mergeRow(sheet, rowNumber); // Merge rows here
 				// Set Header Style
-				Row subrow = sheet.createRow(++rowNumber);
-				subrow.createCell(0).setCellValue(products.get(p).getName());
-				subrow.createCell(1).setCellValue(products.get(p).getInventory());
-				subrow.createCell(2).setCellValue(products.get(p).getMinimumAvailability());
-				rowNumber++;
+				generateRow(sheet, products, p);
 			} else {
 				if (previousRowId > 0 && previousRowId != products.get(p).getCategory().getId()) {
 					Row row = sheet.createRow(rowNumber);
 					row.createCell(0).setCellValue(products.get(p).getCategory().getName());
 					mergeRow(sheet, rowNumber); // Merge rows here
-					Row subrow = sheet.createRow(++rowNumber);
-					subrow.createCell(0).setCellValue(products.get(p).getName());
-					subrow.createCell(1).setCellValue(products.get(p).getInventory());
-					subrow.createCell(2).setCellValue(products.get(p).getMinimumAvailability());
-					rowNumber++;
+					generateRow(sheet, products, p);
 				} else {
 					Row subrow = sheet.createRow(rowNumber);
 					subrow.createCell(0).setCellValue(products.get(p).getName());
@@ -213,14 +207,27 @@ public class ProductServiceImpl implements ProductService {
 			sheet.autoSizeColumn(i);
 		}
 
+		ByteArrayOutputStream os = new ByteArrayOutputStream();
+		workbook.write(os);
+		byte[] bytes = os.toByteArray();
+		return bytes;
 		// Write the output to a file
-		FileOutputStream fileOut = new FileOutputStream("inventory-file.xlsx");
-		workbook.write(fileOut);
-		fileOut.close();
+		// FileOutputStream fileOut = new FileOutputStream("inventory-file.xlsx");
+
+		// workbook.write(fileOut);
+		// fileOut.close();
 
 		// Closing the workbook
-		workbook.close();
+		// workbook.close();
 
+	}
+
+	private void generateRow(Sheet sheet, List<Product> products, int p) {
+		Row subrow = sheet.createRow(++rowNumber);
+		subrow.createCell(0).setCellValue(products.get(p).getName());
+		subrow.createCell(1).setCellValue(products.get(p).getInventory());
+		subrow.createCell(2).setCellValue(products.get(p).getMinimumAvailability());
+		rowNumber++;
 	}
 
 	private void mergeRow(Sheet sheet, int rowIndex) {
