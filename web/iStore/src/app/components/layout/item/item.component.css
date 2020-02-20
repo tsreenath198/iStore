@@ -1,0 +1,114 @@
+.istore-table {
+  width: 100%;
+}
+
+input {
+  margin-top: 0px;
+  font-size: 1rem;
+  border: 0;
+  border-bottom: 2px solid greenyellow;
+  background-color: inherit;
+  color: white;
+}
+
+input:focus {
+  background-color: inherit;
+  color: white;
+}
+
+select :focus {
+  background-color: inherit;
+  color: white;
+}
+
+select {
+  font-size: 1rem;
+  border: 0;
+  border-bottom: 2px solid greenyellow;
+  background-color: inherit;
+  color: black;
+}
+
+
+
+.item-view-pane {
+  background-color: #343a40;
+  color: white;
+  height: 90vh;
+  margin-left: -16px;
+  overflow-y: scroll;
+}
+
+.istore-table p {
+  font-size: 1rem;
+  margin-top: 5px;
+}
+
+/* Modal Header */
+.modal-header {
+  background-color: #343a40;
+  color: white;
+}
+
+/* Modal Body */
+.modal-body {
+  padding: 2px 16px;
+}
+
+/* Modal Footer */
+.modal-footer {
+  background-color: #343a40;
+  color: white;
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 100%;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@keyframes animatetop {
+  from {
+    top: -300px;
+    opacity: 0
+  }
+
+  to {
+    top: 0;
+    opacity: 1
+  }
+}
+
+.nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+  background-color: #343a40;
+  color: #fff;
+  border-color: #dee2e6 #dee2e6 #fff;
+  border-bottom: 0;
+}
+
+.required {
+  color: red;
+}
+
+.btn {
+  font-size: 1rem;
+  border-radius: 20px;
+  border: 1px solid yellowgreen;
+  background-color: inherit;
+  color: currentColor;
+}
+
+.btn:hover {
+  background-color: greenyellow;
+}
+
+.text-red {
+  color: tomato;
+}

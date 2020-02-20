@@ -3,12 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 
 
 const routes: Routes = [
-  { path: "", redirectTo: "order", pathMatch: "prefix" },
-  { path: "product", loadChildren: "./components/product/product.module#ProductModule" },
-  { path: "order", loadChildren: "./components/item/item.module#ItemModule" },
-  { path:"report", loadChildren: "./components/report/report.module#ReportModule"},
-  { path:"category", loadChildren: "./components/category/category.module#CategoryModule"},
-  { path:"sales", loadChildren: "./components/sales/sales.module#SalesModule"}
+  { path: "", redirectTo: "login", pathMatch: "prefix" },
+  { path: "login", loadChildren: "./components/login/login.module#LoginModule" },
+  { path:"layout", loadChildren:"./components/layout/layout.module#LayoutModule"}
 ];
 
 @NgModule({

@@ -1,0 +1,45 @@
+.login{
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    top: 20%;
+    left: 45%;
+    transform: translate(-20%,-45%);
+    text-align: center;
+    justify-content: center;
+}
+.parentLogin{
+    margin: 0 ;
+    padding: 0;
+    height: 100%;
+    background-color: black;
+}
+input {
+    margin-top: 0px;
+    font-size: 1rem;
+    border: 0;
+    border-bottom: 2px solid greenyellow;
+    background-color: inherit;
+  }
+  .btn {
+    border-radius: 20px;
+    border: 1px solid yellowgreen;
+    background-color: inherit;
+    color: currentColor;
+  }
+  
+  .btn:hover {
+    background-color: greenyellow;
+  }
+
+  /* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance:textfield;
+}

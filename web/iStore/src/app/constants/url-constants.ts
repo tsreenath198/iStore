@@ -6,6 +6,7 @@ export class URLConstants {
   ProductDelete = 'product/delete?id=';
   ProductGetById = 'product/get?id=';
   ProductInventoryUpdate = 'product/setInventory';
+  GetRawInventory = 'product/downloadInventory';
  
   /**Order */
   OrderCreate = 'order/create';
@@ -25,5 +26,5 @@ export class URLConstants {
 
 
   /**Sales */
-  SalesTotal = 'sales/getTotal?dt='
+  SalesTotal = 'sales/getTotal?days='
 }
