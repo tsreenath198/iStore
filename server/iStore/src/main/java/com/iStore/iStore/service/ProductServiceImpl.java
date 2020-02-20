@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	CategoryService categoryService;
 	Stock stock = new Stock();
-
+	int rowNumber = 1;
 	private static String[] columns = { "Category", "Inventory", "Minimum Availabity" };
 
 	@Override
@@ -143,15 +143,14 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public byte[] downloadInventory() throws IOException {
-		List<Product> products = repository.downloadInventory();
-		return generateExcel(products);
+		List<Product> products = repository.downloadInventory(); // Get all records of products
+		return generateExcel(products); // Create Excel
 	}
-
-	int rowNumber = 1;
 
 	private byte[] generateExcel(List<Product> products) throws IOException {
 
 		// Create a Workbook
+		@SuppressWarnings("resource")
 		Workbook workbook = new XSSFWorkbook();
 		// Create a Sheet
 		Sheet sheet = workbook.createSheet("Inventory");
@@ -179,15 +178,14 @@ public class ProductServiceImpl implements ProductService {
 				if (previousRowId < 0) {
 					Row row = sheet.createRow(rowNumber);
 					row.createCell(0).setCellValue(products.get(p).getCategory().getName());
-					mergeRow(sheet, rowNumber); // Merge rows here
-					// Set Header Style
-					generateRow(sheet, products, p);
+					mergeRow(sheet, rowNumber); // Merge column cells into one
+					generateRow(sheet, products, p); // generate row
 				} else {
 					if (previousRowId > 0 && previousRowId != products.get(p).getCategory().getId()) {
 						Row row = sheet.createRow(rowNumber);
 						row.createCell(0).setCellValue(products.get(p).getCategory().getName());
-						mergeRow(sheet, rowNumber); // Merge rows here
-						generateRow(sheet, products, p);
+						mergeRow(sheet, rowNumber); // Merge column cells into one
+						generateRow(sheet, products, p); // generate row
 					} else {
 						Row subrow = sheet.createRow(rowNumber);
 						subrow.createCell(0).setCellValue(products.get(p).getName());
@@ -197,13 +195,13 @@ public class ProductServiceImpl implements ProductService {
 					}
 				}
 				try {
-					previousRowId = products.get(p).getCategory().getId();
+					previousRowId = products.get(p).getCategory().getId(); // Store last record category id
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		}
-
+		rowNumber = 1; // Should start from first line of excel sheet
 		// Resize all columns to fit the content size
 		for (int i = 0; i < columns.length; i++) {
 			sheet.autoSizeColumn(i);
