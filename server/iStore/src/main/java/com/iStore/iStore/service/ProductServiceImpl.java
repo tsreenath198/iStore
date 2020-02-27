@@ -146,7 +146,7 @@ public class ProductServiceImpl implements ProductService {
 		List<Product> products = repository.downloadInventory(); // Get all records of products
 		for (Product product : products) {
 			product.setCurrentStock(product.getInventory() < product.getMinimumAvailability()
-					? product.getInventory() - product.getMinimumAvailability()
+					? product.getMinimumAvailability() - product.getInventory()
 					: 0);
 		}
 		return products;
