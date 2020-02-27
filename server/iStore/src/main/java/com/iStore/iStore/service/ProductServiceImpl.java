@@ -142,8 +142,20 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public byte[] downloadInventory() throws IOException {
+	public List<Product> getCurrentInventory() {
 		List<Product> products = repository.downloadInventory(); // Get all records of products
+		for (Product product : products) {
+			product.setCurrentStock(product.getInventory() < product.getMinimumAvailability()
+					? product.getInventory() - product.getMinimumAvailability()
+					: 0);
+		}
+		return products;
+	}
+
+	@Override
+	public byte[] downloadInventory(List<Product> products) throws IOException {
+		// List<Product> products = repository.downloadInventory(); // Get all records
+		// of products
 		return generateExcel(products); // Create Excel
 	}
 
@@ -191,6 +203,7 @@ public class ProductServiceImpl implements ProductService {
 						subrow.createCell(0).setCellValue(products.get(p).getName());
 						subrow.createCell(1).setCellValue(products.get(p).getInventory());
 						subrow.createCell(2).setCellValue(products.get(p).getMinimumAvailability());
+						subrow.createCell(2).setCellValue(products.get(p).getCurrentStock());
 						rowNumber++;
 					}
 				}
@@ -232,4 +245,5 @@ public class ProductServiceImpl implements ProductService {
 				2 // last column (0-based)
 		));
 	}
+
 }

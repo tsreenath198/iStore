@@ -17,6 +17,7 @@ public interface ISTOREConstants {
 	String GET_TOTAL_RECORD_COUNT = "/getTotalRecordCount";
 	String SET_INVENTORY = "/setInventory";
 	String DOWNLOAD_INVENTORY = "/downloadInventory";
+	String CURRENT_INVENTORY = "/getCurrentInventory";
 
 	String SUCCESS = "Successfully";
 	String DELETED = "Deleted Successfully";

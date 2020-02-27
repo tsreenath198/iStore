@@ -61,9 +61,15 @@ public class ProductController {
 		return new ResponseEntity<GenericResponse>(productService.setinventory(product), HttpStatus.OK);
 	}
 
+	@GetMapping(ISTOREConstants.CURRENT_INVENTORY)
+	public ResponseEntity<List<Product>> getCurrentInventory() {
+		return new ResponseEntity<List<Product>>(productService.getCurrentInventory(), HttpStatus.OK);
+	}
+
 	@GetMapping(ISTOREConstants.DOWNLOAD_INVENTORY)
-	public void downloadInventory(HttpServletResponse httpServletResponse) throws IOException {
-		byte[] bytes = productService.downloadInventory();
+	public void downloadInventory(HttpServletResponse httpServletResponse, @RequestBody List<Product> products)
+			throws IOException {
+		byte[] bytes = productService.downloadInventory(products);
 		try {
 			httpServletResponse.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 			httpServletResponse.setHeader("Expires", "0");
@@ -72,8 +78,7 @@ public class ProductController {
 			httpServletResponse.addHeader("Content-Type",
 					"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 			httpServletResponse.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-			httpServletResponse.setHeader("Content-Disposition",
-					"attachment; filename=inventory.xlsx");
+			httpServletResponse.setHeader("Content-Disposition", "attachment; filename=inventory.xlsx");
 			ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
 			servletOutputStream.write(bytes);
 			servletOutputStream.flush();
@@ -81,6 +86,6 @@ public class ProductController {
 		} catch (Exception exception) {
 			System.out.println("exceptions");
 		}
-		
+
 	}
 }

@@ -25,6 +25,8 @@ public interface ProductService {
 
 	public GenericResponse setinventory(List<Product> product);
 
-	public byte[] downloadInventory() throws IOException;
+	public byte[] downloadInventory(List<Product> products) throws IOException;
+
+	public List<Product> getCurrentInventory();
 
 }
