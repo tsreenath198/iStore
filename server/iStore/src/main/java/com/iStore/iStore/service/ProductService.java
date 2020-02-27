@@ -2,6 +2,7 @@ package com.iStore.iStore.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
@@ -27,6 +28,6 @@ public interface ProductService {
 
 	public byte[] downloadInventory(List<Product> products) throws IOException;
 
-	public List<Product> getCurrentInventory();
+	public Map<String, List<Product>> getCurrentInventory();
 
 }

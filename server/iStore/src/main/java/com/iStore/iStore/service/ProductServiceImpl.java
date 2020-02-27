@@ -2,9 +2,14 @@ package com.iStore.iStore.service;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.validation.ValidationException;
 
@@ -24,20 +29,14 @@ import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.model.GenericResponse;
 import com.iStore.iStore.model.Item;
 import com.iStore.iStore.model.Product;
-import com.iStore.iStore.model.Stock;
 import com.iStore.iStore.repository.ProductRepository;
-import com.iStore.iStore.repository.StockRepository;
 
 @Service
 public class ProductServiceImpl implements ProductService {
 	@Autowired
 	ProductRepository repository;
 	@Autowired
-	StockRepository stockRepository;
-
-	@Autowired
 	CategoryService categoryService;
-	Stock stock = new Stock();
 	int rowNumber = 1;
 	private static String[] columns = { "Category", "Inventory", "Minimum Availabity" };
 
@@ -126,13 +125,11 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public GenericResponse setinventory(List<Product> products) {
-		Stock stck = stockRepository.save(stock);
 		GenericResponse gr = new GenericResponse();
 		try {
 			for (Iterator<Product> pro = products.iterator(); pro.hasNext();) {
 				Product product = (Product) pro.next();
 				repository.updateInventoryById(product.getId(), product.getInventory());
-				product.setStockId(stck.getId());
 			}
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
@@ -142,14 +139,33 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public List<Product> getCurrentInventory() {
+	public Map<String, List<Product>> getCurrentInventory() {
+		Set<String> uniqueCategories = new HashSet<String>();
+
 		List<Product> products = repository.downloadInventory(); // Get all records of products
+		List<Product> newProducts = null;
+		Map<String, List<Product>> inventory = new HashMap<String, List<Product>>();
+		// Assign currentstock and get unique Categories
 		for (Product product : products) {
+			uniqueCategories.add(product.getCategory().getName()); // unique Catgories
+			// If availability less than inventory calculate inventory minus availability
+			// else return zero
 			product.setCurrentStock(product.getInventory() < product.getMinimumAvailability()
 					? product.getMinimumAvailability() - product.getInventory()
 					: 0);
 		}
-		return products;
+		// Map category with its products
+		for (Iterator<String> iterator = uniqueCategories.iterator(); iterator.hasNext();) {
+			String uniqueCategory = (String) iterator.next();
+			newProducts = new ArrayList<Product>();
+			for (Product p : products) {
+				if (uniqueCategory.equalsIgnoreCase(p.getCategory().getName())) {
+					newProducts.add(p);
+				}
+			}
+			inventory.put(uniqueCategory, newProducts);
+		}
+		return inventory;
 	}
 
 	@Override

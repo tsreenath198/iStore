@@ -2,6 +2,7 @@ package com.iStore.iStore.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
@@ -62,8 +63,8 @@ public class ProductController {
 	}
 
 	@GetMapping(ISTOREConstants.CURRENT_INVENTORY)
-	public ResponseEntity<List<Product>> getCurrentInventory() {
-		return new ResponseEntity<List<Product>>(productService.getCurrentInventory(), HttpStatus.OK);
+	public ResponseEntity<Map<String, List<Product>>> getCurrentInventory() {
+		return new ResponseEntity<Map<String, List<Product>>>(productService.getCurrentInventory(), HttpStatus.OK);
 	}
 
 	@PostMapping(ISTOREConstants.DOWNLOAD_INVENTORY)
