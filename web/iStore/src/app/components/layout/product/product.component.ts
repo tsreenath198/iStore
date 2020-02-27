@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ProductModel } from "./product.component.model";
+import { ProductModel, OrderModel, ProductsOrderModel } from "./product.component.model";
 import { HttpService } from "src/app/services/http.service";
 import { URLConstants } from "src/app/constants/url-constants";
 import { NgForm } from "@angular/forms";
@@ -9,6 +9,7 @@ import {
   NgbModalRef,
   ModalDismissReasons
 } from "@ng-bootstrap/ng-bootstrap";
+import { ExcelServicesService } from 'src/app/services/excel-services.service';
 
 @Component({
   selector: "app-product",
@@ -19,8 +20,10 @@ export class ProductComponent implements OnInit {
   public productList: Array<ProductModel> = [];
   public filterProductList: Array<any> = [];
   public categoryList: Array<CategoryModel> = [];
+  public orderProductsList:Array<OrderModel>=[]
   public selectedCategory: string = "All";
   public showMinStock: boolean = false;
+  public num:number =0;
   public statusOptions = [
     { name: "Active", value: 0 },
     { name: "Inactive", value: 1 }
@@ -34,7 +37,7 @@ export class ProductComponent implements OnInit {
   public sortReverse = false;
   public closeResult = "";
   private modalRef: NgbModalRef;
-  constructor(private http: HttpService, private modalService: NgbModal) {}
+  constructor(private http: HttpService, private modalService: NgbModal,private excelService:ExcelServicesService) {}
 
   ngOnInit() {
     this.getResult();
@@ -164,6 +167,36 @@ export class ProductComponent implements OnInit {
     console.log(this.updateInventoryModel);
     this.open(event);
   }
+  public orderInventory(event : any){
+    this.categoryList.filter(cat =>{
+      if(cat.rawMaterial){
+        let order: OrderModel =<OrderModel>{}
+          order.products=[]
+        order.categoryName = cat.name;
+          this.filterProductList.filter(product=>{
+            if(cat.id == product.category.id){
+              let temp:ProductsOrderModel=<ProductsOrderModel>{};
+              temp.productName = product.name;
+              temp.inventory = product.inventory;
+              temp.minAvailability = product.minimumAvailability;
+              if(product.inventory < product.minimumAvailability){
+                temp.orderCount = product.minimumAvailability - product.inventory;
+              }
+              else{
+                temp.orderCount = 0;
+              }
+              order.products.push(temp);
+            }
+          })
+          this.orderProductsList.push(order);
+      }
+    });
+    console.log(this.orderProductsList);
+    this.open(event);
+  }
+  public setIndexOfList(i){
+    this.num = i;
+  }
   public updateInventory() {
     this.http
       .post(this.updateInventoryModel, this.url.ProductInventoryUpdate)
@@ -172,6 +205,20 @@ export class ProductComponent implements OnInit {
         this.getResult();
         window.alert("Inventory updated successfully");
       });
+  }
+  public getExcel(){
+    let excel=[{tub:['ab','bb','hgf','gg'],
+                in:[1,2,3,4],
+                min:[22,11,11,23],
+                count:[222,333,444,55]
+  }];
+    let heading=['Category/Product','Inventory','Minimum Availability','Count'];
+    
+    this.orderProductsList.forEach(item =>{
+      heading.push()
+    })
+    this.excelService.exportAsExcelFile(excel, 'Order Details');
+    console.log(this.orderProductsList)
   }
   /**
    * @param

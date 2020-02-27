@@ -23,6 +23,7 @@ export class ReportComponent implements OnInit {
   public totalTable: any = [];
   public chooseDays:any=['Day','Week' , 'Month' , "Year" ];
   public selectedDay:string = 'Day';
+  public grandTotal: number = 0;
   private modalRef: NgbModalRef;
   public closeResult = "";
   constructor(public router: Router,private http: HttpService, private modalService: NgbModal, private storageService: StorageService) {}
@@ -60,7 +61,18 @@ export class ReportComponent implements OnInit {
     }
     this.http.get(this.URL.OrderTotalByDays+ noOfDays).subscribe(resp =>{
       this.totalTable = resp as any;
+      this.calculateTotal(this.totalTable);
     })
+    
+    
+  }
+
+  private calculateTotal(data){
+    this.grandTotal = 0;
+    data.forEach(element => {
+      this.grandTotal += element.total;
+    });
+    console.log(this.grandTotal)
   }
 
   public delete(order: any,date) {
@@ -78,7 +90,7 @@ export class ReportComponent implements OnInit {
     this.router.navigate(['/bill'])
   }
 
-  private openPopup(order, billContent) {
+  public openPopup(order, billContent) {
     this.popupContent = order;
     this.open(billContent);
   }

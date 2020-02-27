@@ -1,19 +1,31 @@
 <div class="row">
   <div class="col-md-4">
-    <h4>
-      Choose Days:
-    </h4>
-    <select
-      class="form-control"
-      name="pm"
-      [(ngModel)]="selectedDay"
-      #pm="ngModel"
-      (change)="getTotalData()"
-    >
-      <option *ngFor="let cl of chooseDays"
-        >{{ cl }}
-      </option>
-    </select>
+    <div class="row">
+      <div class="col-md-4 p-3">
+        <h4>
+          Choose Days:
+        </h4>
+      </div>
+      <div class="col-md-8 p-3">
+        <select
+          class="form-control"
+          name="pm"
+          [(ngModel)]="selectedDay"
+          #pm="ngModel"
+          (change)="getTotalData()"
+        >
+          <option *ngFor="let cl of chooseDays">{{ cl }} </option>
+        </select>
+      </div>
+    </div>
+    <div class="row" *ngIf="totalTable.length > 0">
+      <div class="col-md-4 p-3">
+        <h5>Grand Total:</h5>
+      </div>
+      <div class="col-md-8 p-3">
+        <h5>{{ grandTotal }}</h5>
+      </div>
+    </div>
   </div>
   <div class="col-md-5">
     <div class="accordion" *ngIf="totalTable.length > 0" id="accordionExample">
@@ -27,8 +39,12 @@
             [attr.aria-controls]="'#collapse' + i"
             (click)="filterData(temp.date)"
           >
-            <span class="float-left"> <strong>Date:</strong> {{ temp.date | date }} </span>
-            <span class="float-right"> <strong>Total:</strong> {{ temp.total }} </span>
+            <span class="float-left">
+              <strong>Date:</strong> {{ temp.date | date }}
+            </span>
+            <span class="float-right">
+              <strong>Total:</strong> {{ temp.total }}
+            </span>
           </div>
         </div>
 
@@ -45,20 +61,22 @@
             <table style="width: 100%;table-layout: fixed;">
               <thead>
                 <tr>
-                <td colspan="4"><strong>Cash:</strong>{{temp.cashTotal}}</td>
-                <td><strong>Bank:</strong>{{temp.bankTotal}}</td>
+                  <td colspan="4">
+                    <strong>Cash:</strong>{{ temp.cashTotal }}
+                  </td>
+                  <td><strong>Bank:</strong>{{ temp.bankTotal }}</td>
                 </tr>
                 <tr>
                   <th>Bill.no</th>
                   <th>Date</th>
                   <th>Total</th>
                   <th>Action</th>
-                 <th></th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody>
                 <ng-container *ngFor="let order of cardTable">
-                  <tr >
+                  <tr>
                     <td (click)="openPopup(order, billContent)">
                       {{ order.id }}
                     </td>
@@ -148,10 +166,8 @@
               </p>
               <p>
                 <small>
-                  Time:{{
-                    popupContent.createdDate | date: "h:mm:ss a"
-                  }}</small>
-                
+                  Time:{{ popupContent.createdDate | date: "h:mm:ss a" }}</small
+                >
               </p>
             </div>
           </div>
@@ -185,13 +201,13 @@
                   </td>
                 </tr>
                 <tr *ngIf="popupContent.totalDiscount">
-                <td colspan="4">
-                  <b>Assitional Discount</b>
-                </td>
-                <td>
-                  <b>{{ popupContent.totalDiscount }}</b>
-                </td>
-              </tr>
+                  <td colspan="4">
+                    <b>Assitional Discount</b>
+                  </td>
+                  <td>
+                    <b>{{ popupContent.totalDiscount }}</b>
+                  </td>
+                </tr>
                 <tr>
                   <td colspan="4">
                     <b>Total</b>

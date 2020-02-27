@@ -12,3 +12,14 @@ export class ProductModel {
   minimumAvailability: number;
   activeStatus: any;
 }
+
+export class ProductsOrderModel{
+  productName: string;
+  minAvailability: number;
+  inventory: number;
+  orderCount: number;
+}
+export class OrderModel{
+  categoryName: string;
+  products: Array<ProductsOrderModel>;
+}
