@@ -255,6 +255,7 @@ public class ProductServiceImpl implements ProductService {
 			subrow.createCell(0).setCellValue(products.get(p).getName());
 			subrow.createCell(1).setCellValue(products.get(p).getInventory());
 			subrow.createCell(2).setCellValue(products.get(p).getMinimumAvailability());
+			subrow.createCell(3).setCellValue(products.get(p).getCurrentStock());
 			rowNumber++;
 		}
 
@@ -264,7 +265,7 @@ public class ProductServiceImpl implements ProductService {
 		sheet.addMergedRegion(new CellRangeAddress(rowIndex, // first row (0-based)
 				rowIndex, // last row (0-based)
 				0, // first column (0-based)
-				2 // last column (0-based)
+				3 // last column (0-based)
 		));
 	}
 
