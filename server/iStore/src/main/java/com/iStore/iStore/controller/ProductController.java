@@ -68,9 +68,10 @@ public class ProductController {
 	}
 
 	@PostMapping(ISTOREConstants.DOWNLOAD_INVENTORY)
-	public void downloadInventory(@RequestBody Map<String, List<Product>> products, HttpServletResponse httpServletResponse)
-			throws IOException {
+	public GenericResponse downloadInventory(@RequestBody Map<String, List<Product>> products,
+			HttpServletResponse httpServletResponse) throws IOException {
 		byte[] bytes = productService.downloadInventory(products);
+		GenericResponse gr = new GenericResponse();
 		try {
 			httpServletResponse.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 			httpServletResponse.setHeader("Expires", "0");
@@ -84,9 +85,11 @@ public class ProductController {
 			servletOutputStream.write(bytes);
 			servletOutputStream.flush();
 			servletOutputStream.close();
+			gr.setMessage(ISTOREConstants.SUCCESS);
 		} catch (Exception exception) {
 			System.out.println("exceptions");
 		}
+		return gr;
 
 	}
 }
