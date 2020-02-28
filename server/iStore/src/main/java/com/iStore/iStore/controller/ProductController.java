@@ -68,7 +68,7 @@ public class ProductController {
 	}
 
 	@PostMapping(ISTOREConstants.DOWNLOAD_INVENTORY)
-	public void downloadInventory(@RequestBody List<Product> products, HttpServletResponse httpServletResponse)
+	public void downloadInventory(@RequestBody Map<String, List<Product>> products, HttpServletResponse httpServletResponse)
 			throws IOException {
 		byte[] bytes = productService.downloadInventory(products);
 		try {

@@ -38,7 +38,7 @@ public class ProductServiceImpl implements ProductService {
 	@Autowired
 	CategoryService categoryService;
 	int rowNumber = 1;
-	private static String[] columns = { "Category", "Inventory", "Minimum Availabity" };
+	private static String[] columns = { "Category", "Inventory", "Minimum Availabity", "Current Stock" };
 
 	@Override
 	public Product createOrUpdate(Product entity) {
@@ -169,13 +169,13 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	@Override
-	public byte[] downloadInventory(List<Product> products) throws IOException {
+	public byte[] downloadInventory(Map<String, List<Product>> products) throws IOException {
 		// List<Product> products = repository.downloadInventory(); // Get all records
 		// of products
 		return generateExcel(products); // Create Excel
 	}
 
-	private byte[] generateExcel(List<Product> products) throws IOException {
+	private byte[] generateExcel(Map<String, List<Product>> productMap) throws IOException {
 
 		// Create a Workbook
 		@SuppressWarnings("resource")
@@ -201,35 +201,41 @@ public class ProductServiceImpl implements ProductService {
 			cell.setCellValue(columns[i]);
 			cell.setCellStyle(headerCellStyle);
 		}
-		if (products.size() > 0) {
-			for (int p = 0; p < products.size(); p++) {
-				if (previousRowId < 0) {
-					Row row = sheet.createRow(rowNumber);
-					row.createCell(0).setCellValue(products.get(p).getCategory().getName());
-					mergeRow(sheet, rowNumber); // Merge column cells into one
-					generateRow(sheet, products, p); // generate row
-				} else {
-					if (previousRowId > 0 && previousRowId != products.get(p).getCategory().getId()) {
+
+		Set<String> keys = productMap.keySet();
+		if (productMap.size() > 0) {
+			for (String k : keys) {
+				List<Product> products = productMap.get(k);
+				for (int p = 0; p < products.size(); p++) {
+					if (previousRowId < 0) {
 						Row row = sheet.createRow(rowNumber);
 						row.createCell(0).setCellValue(products.get(p).getCategory().getName());
 						mergeRow(sheet, rowNumber); // Merge column cells into one
 						generateRow(sheet, products, p); // generate row
 					} else {
-						Row subrow = sheet.createRow(rowNumber);
-						subrow.createCell(0).setCellValue(products.get(p).getName());
-						subrow.createCell(1).setCellValue(products.get(p).getInventory());
-						subrow.createCell(2).setCellValue(products.get(p).getMinimumAvailability());
-						subrow.createCell(2).setCellValue(products.get(p).getCurrentStock());
-						rowNumber++;
+						if (previousRowId > 0 && previousRowId != products.get(p).getCategory().getId()) {
+							Row row = sheet.createRow(rowNumber);
+							row.createCell(0).setCellValue(products.get(p).getCategory().getName());
+							mergeRow(sheet, rowNumber); // Merge column cells into one
+							generateRow(sheet, products, p); // generate row
+						} else {
+							Row subrow = sheet.createRow(rowNumber);
+							subrow.createCell(0).setCellValue(products.get(p).getName());
+							subrow.createCell(1).setCellValue(products.get(p).getInventory());
+							subrow.createCell(2).setCellValue(products.get(p).getMinimumAvailability());
+							subrow.createCell(3).setCellValue(products.get(p).getCurrentStock());
+							rowNumber++;
+						}
 					}
-				}
-				try {
-					previousRowId = products.get(p).getCategory().getId(); // Store last record category id
-				} catch (Exception e) {
-					e.printStackTrace();
+					try {
+						previousRowId = products.get(p).getCategory().getId(); // Store last record category id
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
 			}
 		}
+
 		rowNumber = 1; // Should start from first line of excel sheet
 		// Resize all columns to fit the content size
 		for (int i = 0; i < columns.length; i++) {
