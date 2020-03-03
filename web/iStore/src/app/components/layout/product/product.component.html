@@ -59,7 +59,7 @@
             [(ngModel)]="model.price"
           />
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" *ngIf="model?.category?.rawMaterial">
           <input
             type="number"
             class="form-control"
@@ -68,7 +68,7 @@
             [(ngModel)]="model.inventory"
           />
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12" *ngIf="model?.category?.rawMaterial">
           <input
             type="number"
             class="form-control"
@@ -130,7 +130,7 @@
       </div>
       <div class="float-right" >
         <button class="btn btn-sm" *ngIf="selectedCategory != 'All'" (click)="SetUpdateableInventory(inventoryUpdate)">Update {{ selectedCategory }} Inventory</button>
-        <button class="btn btn-sm ml-2" (click)="downloadInventoryExcel()">Download Raw Inventory</button>
+        <!-- <button class="btn btn-sm ml-2" (click)="downloadInventoryExcel()">Download Raw Inventory</button> -->
         <button class="btn btn-sm ml-2" (click)="orderInventory(orderProducts)">Order Raw Inventory</button>
       </div>
     </div>
@@ -139,7 +139,7 @@
         <a
           class="nav-item nav-link"
           [ngClass]="{ active: selectedCategory == 'All' }"
-          (click)="filter(0, 'All')"
+          (click)="filter('All')"
         >
           All</a
         >
@@ -149,7 +149,7 @@
           class="nav-item nav-link"
           *ngIf="!cat.activeStatus"
           [ngClass]="{ active: selectedCategory == cat.name }"
-          (click)="filter(cat.id, cat.name)"
+          (click)="filter(cat.name)"
           >{{ cat.name }}</a
         >
       </li>
@@ -176,10 +176,10 @@
           <th>
             Price
           </th>
-          <th>
+          <th *ngIf="isRaw">
             Inventory
           </th>
-          <th>
+          <th *ngIf="isRaw">
             Minimum Availability
           </th>
           <th>
@@ -208,10 +208,10 @@
             <td>
               {{ product.price }}
             </td>
-            <td>
+            <td *ngIf="isRaw">
               {{ product.inventory }}
             </td>
-            <td>
+            <td *ngIf="isRaw">
               {{ product.minimumAvailability }}
             </td>
             <td>
@@ -303,12 +303,12 @@
     </div>
     <div class="modal-body">
       <nav class="nav nav-tabs">
-        <li class="nav-item" *ngFor="let cat of orderProductsList; let i = index">
+        <li class="nav-item" *ngFor="let cat of orderProductsList | keyvalue; let i = index">
           <a
             class="nav-item nav-link"
-            [ngClass]="{ active: num == i}"
-            (click)="setIndexOfList(i)"
-            >{{ cat.categoryName }}</a
+            [ngClass]="{ active: num == cat.key}"
+            (click)="setIndexOfList(cat.key)"
+            >{{ cat.key }}</a
           >
         </li>
       </nav>
@@ -330,19 +330,19 @@
           </tr>
         </thead>
         <tbody>
-          <ng-container *ngFor="let product of orderProductsList[num].products">
+          <ng-container *ngFor="let product of orderProductsList[num]">
             <tr >
               <td>
-                {{ product.productName }}
+                {{ product.name }}
               </td>
               <td>
                 {{ product.inventory }}
               </td>
               <td>
-                {{ product.minAvailability }}
+                {{ product.minimumAvailability }}
               </td>
               <td>
-                <input type="number" class="form-control" [(ngModel)]="product.orderCount">
+                <input type="number" id="popInputNumber" class="form-control form-control-sm" [(ngModel)]="product.currentStock">
               </td>
             </tr>
           </ng-container>
@@ -353,7 +353,7 @@
       <button
         type="button"
         class="btn btn-secondary"
-        (click)="getExcel()"
+        (click)="downloadInventoryExcel()"
       >
         Download
       </button>

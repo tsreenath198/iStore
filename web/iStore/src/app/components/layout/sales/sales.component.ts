@@ -24,7 +24,7 @@ export class SalesComponent implements OnInit {
   //     this.salesList = resp as any;
   //   });
   // }
-  private getTotalData(){
+  public getTotalData(){
     let noOfDays = 0;
     let currentDate:any = new Date();
     switch(this.selectedDay){

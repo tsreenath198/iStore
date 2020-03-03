@@ -30,14 +30,14 @@
   <div class="col-md-5">
     <div class="accordion" *ngIf="totalTable.length > 0" id="accordionExample">
       <div class="card" *ngFor="let temp of totalTable; let i = index">
-        <div class="card-header card-hover" [attr.id]="'heading' + i">
+        <div class="card-header card-hover" 
+        (click)="filterData(temp.date)" [attr.id]="'heading' + i">
           <div
             class="mb-0 clearfix"
             data-toggle="collapse"
             [attr.data-target]="'#collapse' + i"
             aria-expanded="false"
             [attr.aria-controls]="'#collapse' + i"
-            (click)="filterData(temp.date)"
           >
             <span class="float-left">
               <strong>Date:</strong> {{ temp.date | date }}

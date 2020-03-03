@@ -5,6 +5,7 @@ export class URLConstants {
   ProductUpdate = 'product/update';
   ProductDelete = 'product/delete?id=';
   ProductGetById = 'product/get?id=';
+  ProductGetInventory = 'product/getCurrentInventory';
   ProductInventoryUpdate = 'product/setInventory';
   GetRawInventory = 'product/downloadInventory';
  

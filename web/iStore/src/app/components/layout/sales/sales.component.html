@@ -16,8 +16,8 @@
       </select> 
     </div>
     <div class="col-md-4">
-      <div class="accordion" id="accordionExample">
-        <div class="card" *ngFor="let temp of salesList | keyvalue; let i = index">
+      <div class="accordion" id="accordionExample" *ngIf="salesList">
+        <div class="card" *ngFor="let sale of salesList | keyvalue; let i = index">
           <div class="card-header card-hover" [attr.id]="'heading' + i">
             <div
               class="mb-0 clearfix"
@@ -26,7 +26,7 @@
               aria-expanded="false"
               [attr.aria-controls]="'#collapse' + i"
             >
-              <span class="float-left"> <strong>Date:</strong> {{ temp.key | date }} </span>
+              <span class="float-left"> <strong>Date:</strong> {{ sale.key | date }} </span>
             </div>
           </div>
   
@@ -49,7 +49,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <ng-container *ngFor="let order of temp.value">
+                  <ng-container *ngFor="let order of sale.value">
                     <tr >
                       <td >
                         {{ order.category }}
@@ -67,6 +67,11 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="pt-5 pl-5" *ngIf="!salesList">
+        <h3>
+          No data available!
+        </h3>
       </div>
     </div>
   </div>
