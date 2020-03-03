@@ -25,7 +25,13 @@ export class URLConstants {
   CategoryDelete = 'category/delete?id=';
   CategoryGetById = 'category/get?id=';
 
-
+  /** User */
+  UserCreate = 'user/create';
+  UserGetAll = 'user/getAll';
+  UserUpdate = 'user/update';
+  UserDelete = 'user/delete?id=';
+  UserGetById = 'user/get?id=';
+  
   /**Sales */
   SalesTotal = 'sales/getTotal?days='
 }

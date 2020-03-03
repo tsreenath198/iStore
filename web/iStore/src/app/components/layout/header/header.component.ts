@@ -12,4 +12,6 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
   }
 
+  tabs= ['bill','product','category','report','sales','user','customer'];
+
 }

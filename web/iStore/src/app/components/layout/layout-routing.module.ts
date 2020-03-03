@@ -1,6 +1,8 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
 import { LayoutComponent } from "./layout.component";
+import { UserComponent } from './user/user.component';
+import { CustomerComponent } from './customer/customer.component';
 
 const routes: Routes = [
   {
@@ -8,6 +10,8 @@ const routes: Routes = [
     component: LayoutComponent,
     children: [
       { path: "", redirectTo: "bill", pathMatch: "prefix" },
+      { path: "user", component: UserComponent },
+      { path: "customer", component: CustomerComponent },
       {
         path: "product",
         loadChildren: "./product/product.module#ProductModule"
