@@ -16,6 +16,7 @@ export class UserComponent implements OnInit {
   public component: String = "User";
   public url = new URLConstants();
   public userList: Array<User> = [];
+  public actionLabel:string = "Create";
   private roleTypes = UserRole;
   public roleTypeOptions = [];
   ngOnInit() {
@@ -28,6 +29,7 @@ export class UserComponent implements OnInit {
       this.http.post(this.user, this.url.UserCreate).subscribe(
         res => {
           this.successHandler(this.component);
+          f.reset();
         },
         err => {
           this.errorHandler(this.component);
@@ -68,10 +70,10 @@ export class UserComponent implements OnInit {
     );
   }
   public getById(id: number) {
+    this.actionLabel = 'Update';
     this.http.get(this.url.UserGetById + id).subscribe(
       res => {
         this.user = res as User;
-        this.successHandler(this.component);
       },
       err => {
         this.errorHandler(this.component);
@@ -79,6 +81,7 @@ export class UserComponent implements OnInit {
     );
   }
   private successHandler(type: String) {
+    this.getAll();
     alert("SuccessFully " + type + " Created");
   }
   private errorHandler(type: String) {

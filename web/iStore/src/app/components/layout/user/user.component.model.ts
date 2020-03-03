@@ -8,4 +8,5 @@ export class User{
     address:string;
     id:number;
     description:string;
+    rolesAllowed:Array<string>
 }
