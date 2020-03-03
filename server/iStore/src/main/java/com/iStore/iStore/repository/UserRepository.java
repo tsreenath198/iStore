@@ -15,9 +15,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
 	Optional<User> findByIdAndActiveFlag(Integer id, int i);
 	
-//	Optional<User> validateUser2(String name, int i,String password);
-
-	List<User> findAllByActiveFlagAllIgnoreCase(int i);
+	List<User> findAllByActiveFlagAllIgnoreCaseOrderByCreatedDateDesc(int i);
 
 	@Query(value = "SELECT * FROM user WHERE name= :name and password=:password and active_flag=0", nativeQuery = true)
 	Optional<User> validateUser(@Param(value = "name") String name, @Param(value = "password") String password);

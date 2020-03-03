@@ -50,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> getAll() {
-		return (List<User>) userRepo.findAllByActiveFlagAllIgnoreCase(0);
+		return (List<User>) userRepo.findAllByActiveFlagAllIgnoreCaseOrderByCreatedDateDesc(0);
 	}
 
 	@Override
