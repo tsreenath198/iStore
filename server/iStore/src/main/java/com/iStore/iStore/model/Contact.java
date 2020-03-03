@@ -39,4 +39,8 @@ public class Contact {
 	private String description;
 	@Column
 	private Integer activeFlag = 0;
+	@Column
+	private Boolean subscribe = true;
+	@Column
+	private Date lastContactDate;
 }

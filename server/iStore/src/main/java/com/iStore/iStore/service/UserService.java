@@ -17,4 +17,6 @@ public interface UserService {
 
 	public User get(Integer id);
 
+	public User validateUser(String name, String password);
+
 }

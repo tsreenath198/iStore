@@ -19,6 +19,8 @@ public interface ISTOREConstants {
 	String DOWNLOAD_INVENTORY = "/downloadInventory";
 	String CURRENT_INVENTORY = "/getCurrentInventory";
 	String USER = "/user";
+	String LOGIN = "/login";
+	String VALIDATE_USER = "/validateUser";
 
 	String SUCCESS = "Successfully";
 	String DELETED = "Deleted Successfully";

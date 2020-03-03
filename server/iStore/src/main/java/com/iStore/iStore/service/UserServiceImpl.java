@@ -1,7 +1,9 @@
 package com.iStore.iStore.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import javax.validation.ValidationException;
 
@@ -22,9 +24,8 @@ public class UserServiceImpl implements UserService {
 	public User createOrUpdate(User entity) {
 		if (entity != null) {
 			try {
-				if (entity.getName() != null && entity.getPassword() != null && entity.getConfirmPassword() != null) {
-					return userRepo.save(entity);
-				}
+				entity.setToken(UUID.randomUUID().toString());
+				return userRepo.save(entity);
 			} catch (Exception e) {
 				throw new ValidationException(e.getMessage());
 			}
@@ -65,5 +66,24 @@ public class UserServiceImpl implements UserService {
 			return user.get();
 		else
 			throw new ValidationException("Record not found with the id" + id);
+	}
+
+	@Override
+	public User validateUser(String name, String password) {
+		User u = null;
+		Optional<User> user = userRepo.validateUser(name, password);
+		if (user.isPresent()) {
+			u = user.get();
+			if (u.getRole().equalsIgnoreCase("Admin")) {
+				u.setRolesAllowed(Arrays.asList("All"));
+			} else if (u.getRole().equalsIgnoreCase("Associate")) {
+				u.setRolesAllowed(Arrays.asList("Bill"));
+			} else if (u.getRole().equalsIgnoreCase("Store Manager")) {
+				u.setRolesAllowed(Arrays.asList("Bill", "Product", "Report", "Sales"));
+			}
+			return u;
+		} else {
+			throw new ValidationException("incorrect Username and Password ");
+		}
 	}
 }
