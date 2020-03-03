@@ -88,6 +88,7 @@
       <thead>
         <tr>
           <th><span>User Name</span></th>
+          <th><span>Password</span></th>
           <th><span>Role</span></th>
           <th><span>Phone</span></th>
           <th><span>Address</span></th>
@@ -97,6 +98,7 @@
         <ng-container *ngFor="let user of userList">
           <tr>
             <td>{{ user.name }}</td>
+            <td>{{ user.password }}</td>
             <td>{{ user.role }}</td>
             <td>{{ user.phone }}</td>
             <td>{{ user.address }}</td>
