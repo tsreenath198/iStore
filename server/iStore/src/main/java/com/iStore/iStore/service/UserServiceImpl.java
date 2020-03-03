@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserService {
 			}
 			return u;
 		} else {
-			throw new ValidationException("incorrect Username and Password ");
+			throw new ValidationException("invalid Username and Password ");
 		}
 	}
 }
