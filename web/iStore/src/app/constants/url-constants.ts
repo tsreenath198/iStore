@@ -31,7 +31,9 @@ export class URLConstants {
   UserUpdate = 'user/update';
   UserDelete = 'user/delete?id=';
   UserGetById = 'user/get?id=';
-  
+
+  /** Login */
+  login = 'login/validateUser?name=';
   /**Sales */
   SalesTotal = 'sales/getTotal?days='
 }

@@ -3,7 +3,8 @@
         <div class="login">
             <img class="logo" src="../../../assets/logo/logo .png" height="150px" width="250px">
             <h3 class="mb-5" style="margin-top: 50px;">Login</h3>
-            <input type="password" pattern="\d+" [(ngModel)]="loginPin" inputmode="numeric" id="login" placeholder="Enter pin">
+            <input type="text" [(ngModel)]="username" id="username" placeholder="Username">
+            <input type="password" [(ngModel)]="password" id="password" placeholder="Password">
             <button class="btn mt-4" (click)="signIn()">Sign in</button>
         </div>
     </div>
