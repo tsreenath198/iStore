@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
   constructor(private route: Router, private http: HttpService) {}
 
   ngOnInit() {
-    localStorage.setItem("loggedInUser", null);
+    localStorage.setItem("loggedInUser", null); //  when user sign out default to null 
   }
   signIn() {
     if (
