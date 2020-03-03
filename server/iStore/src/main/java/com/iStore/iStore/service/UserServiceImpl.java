@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.iStore.iStore.constants.ISTOREConstants;
+import com.iStore.iStore.constants.UserRole;
 import com.iStore.iStore.model.GenericResponse;
 import com.iStore.iStore.model.User;
 import com.iStore.iStore.repository.UserRepository;
@@ -74,11 +75,11 @@ public class UserServiceImpl implements UserService {
 		Optional<User> user = userRepo.validateUser(name, password);
 		if (user.isPresent()) {
 			u = user.get();
-			if (u.getRole().equalsIgnoreCase("Admin")) {
+			if (u.getRole().equalsIgnoreCase(UserRole.Admin.toString())) {
 				u.setRolesAllowed(Arrays.asList("All"));
-			} else if (u.getRole().equalsIgnoreCase("Associate")) {
+			} else if (u.getRole().equalsIgnoreCase(UserRole.Associate.toString())) {
 				u.setRolesAllowed(Arrays.asList("Bill"));
-			} else if (u.getRole().equalsIgnoreCase("Store Manager")) {
+			} else if (u.getRole().equalsIgnoreCase(UserRole.Store_Manager.toString())) {
 				u.setRolesAllowed(Arrays.asList("Bill", "Product", "Report", "Sales"));
 			}
 			return u;
