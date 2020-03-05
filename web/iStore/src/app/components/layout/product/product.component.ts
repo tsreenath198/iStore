@@ -42,11 +42,14 @@ export class ProductComponent implements OnInit {
   public sortReverse = false;
   public closeResult = "";
   private modalRef: NgbModalRef;
+  public role='';
   constructor(
     private http: HttpService,
     private modalService: NgbModal,
     private excelService: ExcelServicesService
-  ) {}
+  ) {
+    this.role = localStorage.getItem('loggedInUser');
+  }
 
   ngOnInit() {
     this.getResult();
@@ -151,7 +154,7 @@ export class ProductComponent implements OnInit {
             product.inventory < product.minimumAvailability &&
             product.category.name == this.selectedCategory
           ) {
-            if (product.category.rawMaterial) {
+            if (product.category.rawMaterial || this.selectedCategory == 'All') {
               this.isRaw = true;
             } else {
               this.isRaw = false;

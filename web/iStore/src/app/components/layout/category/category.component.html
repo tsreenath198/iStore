@@ -41,6 +41,7 @@
             class="form-control"
             name="discount"
             placeholder="Discount(%)"
+            min="1" max="100"
             [(ngModel)]="model.defaultDiscount"
           />
         </div>
@@ -61,20 +62,8 @@
               #rm="ngModel"
             /><span class="ml-2">Raw Material</span></label
           >
-          <!-- <select
-              class="form-control"
-              name="rm"
-              [(ngModel)]="model.rawMaterial"
-              #rm="ngModel"
-              required
-            >
-              <option [ngValue]="undefined" hidden selected> Material Type </option>
-              <option *ngFor="let option of rawMatOpt" [ngValue]="option.value">
-                {{ option.name }}
-              </option>
-            </select> -->
         </div>
-        <div class="col-md-12">
+        <div class="col-md-12 text-center mt-2">
           <button *ngIf="actionType == 'C'" class="btn mt-2" type="submit">
             Create
           </button>
@@ -87,19 +76,18 @@
             Update
           </button>
           <button
-            *ngIf="actionType == 'U'"
             class="btn mt-2 ml-2"
             (click)="new(f)"
             type="button"
           >
-            New
+            Cancel
           </button>
         </div>
       </div>
     </form>
   </div>
   <div class="col-md-8" style="height: 90vh;overflow-y: scroll;">
-    <table class="table table-bordered">
+    <table class="table table-bordered table-striped">
       <thead>
         <tr>
           <th>
@@ -110,6 +98,9 @@
           </th>
           <th>
             Order
+          </th>
+          <th>
+            Raw Material
           </th>
           <th>
             Actions
@@ -129,6 +120,9 @@
           </td>
           <td>
             {{ category.categoryOrder }}
+          </td>
+          <td>
+            {{ category.rawMaterial?"Yes":"No"}}
           </td>
           <td>
             <button class="btn" type="submit" (click)="getById(category.id)">

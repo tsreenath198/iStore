@@ -11,6 +11,7 @@
             id="cname"
             name="cname"
             placeholder="Name"
+            [pattern]="'/^[a-zA-Z]*$/'"
             [(ngModel)]="customerDetails.name"
           />
           <label class="required" for="cname">*</label>

@@ -105,7 +105,10 @@ export class ItemComponent implements OnInit {
     let bill: any = <any>{};
     bill.price = p.price;
     bill.product = p;
-    if (p.category.defaultDiscount) {
+    if(p.defaultDiscount){
+      bill.discount = p.defaultDiscount;
+    }
+    else if (p.category.defaultDiscount) {
       bill.discount = p.category.defaultDiscount;
     } else {
       bill.discount = 0;
@@ -251,4 +254,5 @@ export class ItemComponent implements OnInit {
       this.calculateOrderTotal(this.itemList);
     }
   }
+  
 }

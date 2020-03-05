@@ -17,7 +17,7 @@ export class UserComponent implements OnInit {
   public url = new URLConstants();
   public userList: Array<User> = [];
   public actionLabel:string = "Create";
-  private roleTypes = UserRole;
+  public roleTypes = UserRole;
   public roleTypeOptions = [];
   ngOnInit() {
     this.getAll();

@@ -112,3 +112,10 @@ select {
 .text-red {
   color: tomato;
 }
+
+#productsInBill{
+  text-align: center;
+}
+#productsInBill :hover{
+  cursor: pointer;
+}

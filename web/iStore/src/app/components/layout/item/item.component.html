@@ -11,6 +11,7 @@
             id="cname"
             name="cname"
             placeholder="Name"
+            pattern="[A-Za-z]"
             [(ngModel)]="customerDetails.name"
           />
         </div>
@@ -109,12 +110,12 @@
           </td>
         </tr>
         <tr *ngIf="itemList.length">
-          <td colspan="5">
+          <td colspan="3">
             <button class="btn" style="float: right;" (click)="cancelBill()">
               Cancel
             </button>
           </td>
-          <td colspan="5">
+          <td colspan="1">
             <button
               class="btn"
               style="float: right;"
@@ -152,7 +153,7 @@
       <div
         *ngFor="let product of productList"
         class="col-md-2 p-1"
-        style="text-align: center;"
+        id = "productsInBill"
         [hidden]="
           !product.inventory ||
           product.activeStatus ||
