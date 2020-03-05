@@ -38,14 +38,18 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	public OrderDetail create(OrderDetail entity) {
 		try {
 			Contact contact = entity.getContact();
-			String name = contact.getName().trim();
-			String phone = contact.getPhone().trim();
-			if (name != null && !RegexValidator.isValidName(name)) {
-				throw new ValidationException("please enter valid name");
+			if (contact.getName() != null) {
+				if (!RegexValidator.isValidName(contact.getName().trim())) {
+					throw new ValidationException("please enter valid name");
+				}
 			}
-			if (phone != null && !RegexValidator.isValidPhoneNumber(phone)) {
-				throw new ValidationException("please enter valid phone number");
+
+			if (contact.getPhone() != null) {
+				if (!RegexValidator.isValidPhoneNumber(contact.getPhone().trim())) {
+					throw new ValidationException("please enter valid phone number");
+				}
 			}
+
 			productService.deleteInventory(entity.getItems());
 			List<Item> list = entity.getItems();
 			for (Item i : list) {
