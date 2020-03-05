@@ -20,6 +20,7 @@ public interface ISTOREConstants {
 	String CURRENT_INVENTORY = "/getCurrentInventory";
 	String GROUP_BY = "/groupBy";
 	String USER = "/user";
+	String CONTACT = "/contact";
 	String LOGIN = "/login";
 	String VALIDATE_USER = "/validateUser";
 
