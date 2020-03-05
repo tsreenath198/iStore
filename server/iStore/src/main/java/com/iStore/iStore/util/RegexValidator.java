@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 
 public class RegexValidator {
 	public static boolean isValidName(String str) {
-		return ((str != null) && (!str.equals("")) && (str.matches("^[a-zA-Z]*$") && (str.length() <= 3)));
+		return ((str != null) && (!str.equals("")) && (str.matches("^[a-zA-Z]*$")));
 	}
 
 	public static boolean isValidPhoneNumber(String s) {
