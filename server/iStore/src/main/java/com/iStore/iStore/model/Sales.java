@@ -12,4 +12,5 @@ public class Sales {
 	private Float cashTotal;
 	private Float bankTotal;
 	private String date;
+	private Integer quantity;
 }

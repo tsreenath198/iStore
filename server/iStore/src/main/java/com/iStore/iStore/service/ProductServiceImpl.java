@@ -142,17 +142,21 @@ public class ProductServiceImpl implements ProductService {
 	public Map<String, List<Product>> getCurrentInventory() {
 		Set<String> uniqueCategories = new HashSet<String>();
 
-		List<Product> products = repository.downloadInventory(); // Get all records of products
+		List<Product> products = repository.downloadInventory(); // Get all
+																	// records
+																	// of
+																	// products
 		List<Product> newProducts = null;
 		Map<String, List<Product>> inventory = new HashMap<String, List<Product>>();
 		// Assign currentstock and get unique Categories
 		for (Product product : products) {
-			uniqueCategories.add(product.getCategory().getName()); // unique Catgories
-			// If availability less than inventory calculate inventory minus availability
+			uniqueCategories.add(product.getCategory().getName()); // unique
+																	// Catgories
+			// If availability less than inventory calculate inventory minus
+			// availability
 			// else return zero
 			product.setCurrentStock(product.getInventory() < product.getMinimumAvailability()
-					? product.getMinimumAvailability() - product.getInventory()
-					: 0);
+					? product.getMinimumAvailability() - product.getInventory() : 0);
 		}
 		// Map category with its products
 		for (Iterator<String> iterator = uniqueCategories.iterator(); iterator.hasNext();) {
@@ -170,7 +174,8 @@ public class ProductServiceImpl implements ProductService {
 
 	@Override
 	public byte[] downloadInventory(Map<String, List<Product>> products) throws IOException {
-		// List<Product> products = repository.downloadInventory(); // Get all records
+		// List<Product> products = repository.downloadInventory(); // Get all
+		// records
 		// of products
 		return generateExcel(products); // Create Excel
 	}
@@ -210,13 +215,15 @@ public class ProductServiceImpl implements ProductService {
 					if (previousRowId < 0) {
 						Row row = sheet.createRow(rowNumber);
 						row.createCell(0).setCellValue(products.get(p).getCategory().getName());
-						mergeRow(sheet, rowNumber); // Merge column cells into one
+						mergeRow(sheet, rowNumber); // Merge column cells into
+													// one
 						generateRow(sheet, products, p); // generate row
 					} else {
 						if (previousRowId > 0 && previousRowId != products.get(p).getCategory().getId()) {
 							Row row = sheet.createRow(rowNumber);
 							row.createCell(0).setCellValue(products.get(p).getCategory().getName());
-							mergeRow(sheet, rowNumber); // Merge column cells into one
+							mergeRow(sheet, rowNumber); // Merge column cells
+														// into one
 							generateRow(sheet, products, p); // generate row
 						} else {
 							Row subrow = sheet.createRow(rowNumber);
@@ -228,7 +235,11 @@ public class ProductServiceImpl implements ProductService {
 						}
 					}
 					try {
-						previousRowId = products.get(p).getCategory().getId(); // Store last record category id
+						previousRowId = products.get(p).getCategory().getId(); // Store
+																				// last
+																				// record
+																				// category
+																				// id
 					} catch (Exception e) {
 						e.printStackTrace();
 					}
@@ -262,11 +273,22 @@ public class ProductServiceImpl implements ProductService {
 	}
 
 	private void mergeRow(Sheet sheet, int rowIndex) {
-		sheet.addMergedRegion(new CellRangeAddress(rowIndex, // first row (0-based)
+		sheet.addMergedRegion(new CellRangeAddress(rowIndex, // first row
+																// (0-based)
 				rowIndex, // last row (0-based)
 				0, // first column (0-based)
 				3 // last column (0-based)
 		));
+	}
+
+	@Override
+	public List<Product> getByCategoryId(Integer id) {
+		try {
+			return repository.findByCategoryId(id);
+		} catch (Exception e) {
+			throw new ValidationException(e.getMessage());
+		}
+
 	}
 
 }

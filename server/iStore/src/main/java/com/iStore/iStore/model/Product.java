@@ -60,4 +60,6 @@ public class Product {
 	private Integer activeStatus = 0;
 	@Column
 	private Integer activeFlag = 0;
+	@Column
+	private Integer defaultDiscount;
 }

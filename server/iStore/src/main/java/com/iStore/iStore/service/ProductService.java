@@ -30,4 +30,6 @@ public interface ProductService {
 
 	public Map<String, List<Product>> getCurrentInventory();
 
+	public List<Product> getByCategoryId(Integer categoryId);
+
 }

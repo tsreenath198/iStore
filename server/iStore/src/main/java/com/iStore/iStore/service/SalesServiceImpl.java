@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +16,7 @@ import com.iStore.iStore.constants.PaymentMode;
 import com.iStore.iStore.model.Category;
 import com.iStore.iStore.model.Item;
 import com.iStore.iStore.model.OrderDetail;
+import com.iStore.iStore.model.OrderDetails;
 import com.iStore.iStore.model.Sales;
 import com.iStore.iStore.repository.CategoryRepository;
 import com.iStore.iStore.repository.OrderDetailRepository;
@@ -77,6 +79,32 @@ public class SalesServiceImpl implements SalesService {
 
 	private List<Category> getAllCategories() {
 		return categoryRepository.findAllByActiveFlagAllIgnoreCaseOrderByCategoryOrderAsc(0);
+	}
+
+	@Override
+	public Map<Integer, List<OrderDetails>> getSalesByType(String groupBy, String fromDate, String toDate)
+			throws ParseException {
+		Map<String, List<Sales>> salesMap = new HashMap<String, List<Sales>>();
+		List<Sales> sales = new ArrayList<>();
+		List<Category> categories = getAllCategories();
+		List<OrderDetails> orders = orderRepository.getSalesByType(fromDate, toDate);
+		System.out.println("Size::" + orders.size());
+		Set<Integer> months = new HashSet<>();
+		for (Category category : categories) {
+		}
+
+		for (OrderDetails order : orders) {
+			System.out.println("month---" + order.getMonth() + "--" + order.getCreatedDate().getMonth() + 1);
+			months.add(order.getMonth());
+		}
+		Map<Integer, List<OrderDetails>> m = new HashMap<Integer, List<OrderDetails>>();
+		for (OrderDetails orderDetails : orders) {
+			for (Integer month : months) {
+				if (month.equals(orderDetails.getCreatedDate().getMonth() + 1))
+					m.put(month, orders);
+			}
+		}
+		return m;
 	}
 
 }

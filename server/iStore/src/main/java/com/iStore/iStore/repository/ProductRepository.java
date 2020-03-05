@@ -32,4 +32,7 @@ public interface ProductRepository extends CrudRepository<Product, Integer> {
 	@Transactional
 	List<Product> downloadInventory();
 
+	@Query(value = "SELECT product.* FROM product WHERE product.category_id=:id", nativeQuery = true)
+	List<Product> findByCategoryId(@Param(value = "id") Integer id);
+
 }

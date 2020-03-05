@@ -18,6 +18,7 @@ public interface ISTOREConstants {
 	String SET_INVENTORY = "/setInventory";
 	String DOWNLOAD_INVENTORY = "/downloadInventory";
 	String CURRENT_INVENTORY = "/getCurrentInventory";
+	String GROUP_BY = "/groupBy";
 	String USER = "/user";
 	String LOGIN = "/login";
 	String VALIDATE_USER = "/validateUser";

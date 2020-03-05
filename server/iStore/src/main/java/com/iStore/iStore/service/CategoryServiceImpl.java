@@ -11,22 +11,35 @@ import org.springframework.stereotype.Service;
 import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.model.Category;
 import com.iStore.iStore.model.GenericResponse;
+import com.iStore.iStore.model.Product;
 import com.iStore.iStore.repository.CategoryRepository;
+import com.iStore.iStore.repository.ProductRepository;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	CategoryRepository categoryRepo;
 
+	@Autowired
+	ProductRepository productRepository;
+	@Autowired
+	ProductService productService;
+
 	@Override
 	public Category createOrUpdate(Category entity) {
 		try {
+			Integer categoryId = entity.getId();
+			List<Product> products = productService.getByCategoryId(categoryId);
+			for (Product product : products) {
+				System.out.println("id:::" + product.getId());
+				product.setDefaultDiscount(entity.getDefaultDiscount());
+				productRepository.save(product);
+			}
 			return categoryRepo.save(entity);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
 		}
 	}
-
 
 	@Override
 	public GenericResponse delete(Integer id) {

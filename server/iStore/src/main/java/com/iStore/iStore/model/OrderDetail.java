@@ -56,6 +56,6 @@ public class OrderDetail {
 	@JoinColumn(name = "orderId")
 	private List<Item> items;
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "contact", referencedColumnName = "id",nullable = true)
+	@JoinColumn(name = "contact", referencedColumnName = "id", nullable = true)
 	private Contact contact;
 }

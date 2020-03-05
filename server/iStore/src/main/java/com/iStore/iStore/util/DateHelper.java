@@ -28,11 +28,12 @@ public class DateHelper {
 	}
 
 	public static Date convertDateWithouTime(Date cd) throws ParseException {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.parse(sdf.format(cd));
 	}
 
 	public static String convertDateToString(Date date) {
 		return new SimpleDateFormat("yyyy-MM-dd").format(date);
 	}
+
 }
