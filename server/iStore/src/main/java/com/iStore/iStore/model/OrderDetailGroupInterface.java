@@ -5,5 +5,11 @@ public interface OrderDetailGroupInterface {
 
 	public Integer getValue();
 
+	public Integer getYear();
+
+	public Integer getMonth();
+
 	public Float getSum();
+	
+	public Float getId();
 }

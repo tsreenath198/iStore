@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.iStore.iStore.model.OrderDetail;
 import com.iStore.iStore.model.OrderDetailGroupInterface;
 import com.iStore.iStore.repository.OrderDetailRepository;
 
@@ -19,12 +20,30 @@ public class ReportServiceImpl implements ReportService {
 		List<OrderDetailGroupInterface> orders = new ArrayList<OrderDetailGroupInterface>();
 		if (groupBy.equalsIgnoreCase("Month")) {
 
-			orders = orderRepository.findAllByMonths(fromDate, toDate);
+			orders = orderRepository.findAllByGroupMonths(fromDate, toDate);
 		} else {
 
-			orders = orderRepository.findAllByYears(fromDate, toDate);
+			orders = orderRepository.findAllByGroupYears(fromDate, toDate);
 		}
 		return orders;
+	}
+
+	@Override
+	public List<OrderDetailGroupInterface> getTotalByValue(String type, Integer value, Integer month, Integer year) {
+		List<OrderDetailGroupInterface> orders = new ArrayList<OrderDetailGroupInterface>();
+		if (type.equalsIgnoreCase("month")) {
+			orders = orderRepository.findAllByMonth(year, value);
+		} else if (type.equalsIgnoreCase("year")) {
+			orders = orderRepository.findAllByYear(value);
+		} else {
+			orders = orderRepository.findAllByDay(year, month, value);
+		}
+		return orders;
+	}
+
+	@Override
+	public List<OrderDetail> findAllRecordsByDay(Integer value, Integer month, Integer year) {
+		return orderRepository.findAllRecordsByDay(year, month, value);
 	}
 
 }
