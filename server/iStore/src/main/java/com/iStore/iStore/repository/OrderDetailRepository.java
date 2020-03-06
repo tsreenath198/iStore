@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import com.iStore.iStore.model.OrderDetail;
-import com.iStore.iStore.model.OrderDetailInterface;
+import com.iStore.iStore.model.OrderDetailGroupInterface;
 import com.iStore.iStore.model.OrderDetails;
 
 @Repository
@@ -40,28 +40,12 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
 	List<OrderDetails> getSalesByType(@Param(value = "fromDate") String fromDate,
 			@Param(value = "toDate") String toDate);
 
-	@Query(value = "SELECT *,monthname(order_detail.created_date) as month FROM order_detail where DATE(created_date) > (NOW() - INTERVAL :days DAY) and active_flag=0 ORDER BY created_date DESC", nativeQuery = true)
-	List<OrderDetail> findAllByDaysWithExtra(@Param(value = "days") int days);
-
-	@Query(value = "SELECT * FROM order_detail where   MONTH(created_date) = :month and active_flag=0 ORDER BY created_date DESC ", nativeQuery = true)
-	List<OrderDetail> findAllByMonth(@Param(value = "month") Integer month);
-
-	@Query(value = "select  YEAR(od.created_date) as year, SUM(od.total) as sum from order_detail od where \r\n"
-			+ "od.created_date > :fromDate and od.created_date < :toDate group by \r\n"
-			+ "YEAR(od.created_date)", nativeQuery = true)
-	List<OrderDetailInterface> findAllByMonths(@Param(value = "fromDate") String fromDate,
+	@Query(value = "select 'year' as type, year(od.created_date) as value, SUM(od.total) as sum from order_detail od where od.created_date > :fromDate and od.created_date <= :toDate group by Year(od.created_date)", nativeQuery = true)
+	List<OrderDetailGroupInterface> findAllByYears(@Param(value = "fromDate") String fromDate,
 			@Param(value = "toDate") String toDate);
 
-	@Query(value = "select  month(od.created_date) as year, SUM(od.total) as sum from order_detail od where \r\n"
-			+ "od.created_date > :fromDate and od.created_date < :toDate and YEAR(od.created_date) =:value group by "
-			+ "month(od.created_date)", nativeQuery = true)
-	List<OrderDetailInterface> findAllByMonths(@Param(value = "fromDate") String fromDate,
-			@Param(value = "toDate") String toDate, @Param(value = "value") Integer value);
-
-	@Query(value = "select YEAR(od.created_date) as year, SUM(od.total) as sum from order_detail od where \r\n"
-			+ "od.created_date > :fromDate and od.created_date < :toDate group by \r\n"
-			+ "YEAR(od.created_date)", nativeQuery = true)
-	List<OrderDetailInterface> findAllByYears(@Param(value = "fromDate") String fromDate,
+	@Query(value = "select 'month' as type, Month(od.created_date) as value, SUM(od.total) as sum from order_detail od where od.created_date > :fromDate and od.created_date <= :toDate group by Month(od.created_date)", nativeQuery = true)
+	List<OrderDetailGroupInterface> findAllByMonths(@Param(value = "fromDate") String fromDate,
 			@Param(value = "toDate") String toDate);
 
 }

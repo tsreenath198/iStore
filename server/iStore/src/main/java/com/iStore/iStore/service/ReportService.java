@@ -4,12 +4,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.iStore.iStore.model.OrderDetailInterface;
+import com.iStore.iStore.model.OrderDetailGroupInterface;
 
 @Service
 public interface ReportService {
 
-	public List<OrderDetailInterface> getTotalByGroup(String fromDate, String toDate, String groupBy);
-
-	public List<OrderDetailInterface> getTotalByType(String fromDate, String toDate, Integer value);
+	public List<OrderDetailGroupInterface> getTotalByGroup(String fromDate, String toDate, String groupBy);
 }
