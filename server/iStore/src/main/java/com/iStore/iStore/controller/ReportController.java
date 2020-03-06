@@ -33,16 +33,17 @@ public class ReportController {
 	}
 
 	@GetMapping(ISTOREConstants.GET_REPORT_TOTAL_BY_VALUE)
-	public ResponseEntity<List<OrderDetailGroupInterface>> getTotalByValue(@RequestParam String type,
-			@RequestParam Integer value, @RequestParam Integer month, @RequestParam Integer year)
-			throws ParseException, JsonProcessingException {
+	public ResponseEntity<List<OrderDetailGroupInterface>> getTotalByValue(@RequestParam(required = false) String type,
+			@RequestParam Integer value, @RequestParam(required = false) Integer month,
+			@RequestParam(required = false) Integer year) throws ParseException, JsonProcessingException {
 		return new ResponseEntity<List<OrderDetailGroupInterface>>(
 				reportService.getTotalByValue(type, value, month, year), HttpStatus.OK);
 	}
 
 	@GetMapping(ISTOREConstants.GET_ALL_RECORDS_BY_DAY)
 	public ResponseEntity<List<OrderDetail>> getAllRecordsByDay(@RequestParam Integer value,
-			@RequestParam Integer month, @RequestParam Integer year) throws ParseException, JsonProcessingException {
+			@RequestParam(required = false) Integer month, @RequestParam(required = false) Integer year)
+			throws ParseException, JsonProcessingException {
 		return new ResponseEntity<List<OrderDetail>>(reportService.findAllRecordsByDay(value, month, year),
 				HttpStatus.OK);
 	}
