@@ -70,9 +70,9 @@ export class CategoryComponent implements OnInit {
       this.actionType = "U";
     });
   }
-  public delete(product: any) {
-    if (window.confirm("Do you want to delete " + product.name + "?")) {
-      this.http.delete(this.url.ProductDelete + product.id).subscribe(resp => {
+  public delete(category: any) {
+    if (window.confirm("Do you want to delete " + category.name + "?")) {
+      this.http.delete(this.url.CategoryDelete + category.id).subscribe(resp => {
         this.getAll();
       });
     }

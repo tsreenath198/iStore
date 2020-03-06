@@ -30,6 +30,7 @@ export class UserComponent implements OnInit {
         res => {
           this.successHandler(this.component);
           f.reset();
+          this.actionLabel = 'Create';
         },
         err => {
           this.errorHandler(this.component);
@@ -41,16 +42,6 @@ export class UserComponent implements OnInit {
   }
   public deleteById(id: number) {
     this.http.delete(this.url.UserDelete + id).subscribe(
-      res => {
-        this.successHandler(this.component);
-      },
-      err => {
-        this.errorHandler(this.component);
-      }
-    );
-  }
-  public update() {
-    this.http.post(this.user, this.url.UserUpdate).subscribe(
       res => {
         this.successHandler(this.component);
       },
@@ -82,7 +73,7 @@ export class UserComponent implements OnInit {
   }
   private successHandler(type: String) {
     this.getAll();
-    alert("SuccessFully " + type + " Created");
+    console.log("SuccessFully " + type + " Created");
   }
   private errorHandler(type: String) {
     alert("Error in " + type);

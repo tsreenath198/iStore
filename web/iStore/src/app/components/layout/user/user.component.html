@@ -44,7 +44,9 @@
           #role="ngModel"
           required
         >
-          <option [ngValue]="undefined" hidden selected> Role <span>*</span></option>
+          <option [ngValue]="undefined" hidden selected>
+            Role <span>*</span></option
+          >
           <option
             *ngFor="let key of roleTypeOptions"
             [value]="key"
@@ -81,7 +83,8 @@
         ></textarea>
       </div>
       <div class="text-center mt-2">
-        <button type="submit" class="btn">{{actionLabel}}</button>
+        <button type="submit" class="btn">{{ actionLabel }}</button>
+        <button type="reset" class="btn ml-1">Cancel</button>
       </div>
     </form>
   </div>

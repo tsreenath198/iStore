@@ -33,7 +33,7 @@ export class URLConstants {
   UserGetById = 'user/get?id=';
 
   /** Login */
-  login = 'login/validateUser?name=';
+  Login = 'login/validateUser?name=';
   /**Sales */
   SalesTotal = 'sales/getTotal?days='
 }

@@ -14,6 +14,8 @@ import {
   ModalDismissReasons
 } from "@ng-bootstrap/ng-bootstrap";
 import { ExcelServicesService } from "src/app/services/excel-services.service";
+import { StorageService } from "src/app/services/storage.service";
+import { User } from "../user/user.component.model";
 
 @Component({
   selector: "app-product",
@@ -42,13 +44,14 @@ export class ProductComponent implements OnInit {
   public sortReverse = false;
   public closeResult = "";
   private modalRef: NgbModalRef;
-  public role='';
+  public loggedInUser: User;
   constructor(
     private http: HttpService,
+    private storage: StorageService,
     private modalService: NgbModal,
     private excelService: ExcelServicesService
   ) {
-    this.role = localStorage.getItem('loggedInUser');
+    this.loggedInUser = storage.getLoggedInUserName();
   }
 
   ngOnInit() {
@@ -154,7 +157,10 @@ export class ProductComponent implements OnInit {
             product.inventory < product.minimumAvailability &&
             product.category.name == this.selectedCategory
           ) {
-            if (product.category.rawMaterial || this.selectedCategory == 'All') {
+            if (
+              product.category.rawMaterial ||
+              this.selectedCategory == "All"
+            ) {
               this.isRaw = true;
             } else {
               this.isRaw = false;

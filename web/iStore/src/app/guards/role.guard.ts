@@ -9,7 +9,6 @@ export class RoleGuard implements CanActivate {
   public user: User;
   constructor(private router: Router) {}
   canActivate(route: ActivatedRouteSnapshot) {
-    debugger
     if (localStorage.getItem("loggedInUser") != "null") {
       this.user = JSON.parse(localStorage.getItem("loggedInUser"));
       if (route.data.roles && route.data.roles.indexOf(this.user.role) === -1) {

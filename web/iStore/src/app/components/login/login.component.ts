@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
       this.password.length > 3
     ) {
       this.http
-        .post({}, this.url.login + this.username + "&password=" + this.password)
+        .post({}, this.url.Login + this.username + "&password=" + this.password)
         .subscribe(
           res => {
             this.user = res as User;

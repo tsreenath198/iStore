@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-3" style="height: 90vh; background-color: #343a40;">
+  <div class="col-md-3" style=" background-color: #343a40;">
     <form
       name="form"
       class="ml-3 mr-2"
@@ -95,16 +95,9 @@
             [(ngModel)]="model.productOrder"
           />
         </div>
-        <!-- <div class="col-md-12">
-          <div class="form-group">
-            <input type="file"
-                   id="file"
-                   (change)="handleFileInput($event)">
-        </div>
-        </div> -->
       </div>
       <div class=" text-center mt-2">
-        <button *ngIf="actionType == 'C' && role == 'Admin'" class="btn " type="submit">
+        <button *ngIf="actionType == 'C' && loggedInUser.role == 'Admin'" class="btn " type="submit">
           Create
         </button>
         <button
