@@ -119,3 +119,7 @@ select {
 #productsInBill :hover{
   cursor: pointer;
 }
+.alert-danger{
+  color:red;
+  background-color: transparent;
+}

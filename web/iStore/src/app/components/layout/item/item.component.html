@@ -11,9 +11,24 @@
             id="cname"
             name="cname"
             placeholder="Name"
+            required
+            minlength="3"
+            #cname="ngModel"
             pattern="[A-Za-z]"
             [(ngModel)]="customerDetails.name"
-          />
+            ngModel
+          /><span class="alert-danger">*</span>
+          <div
+            *ngIf="cname.invalid && (cname.dirty ||cname.touched)"
+            class="alert-danger"
+          >
+            <div *ngIf="cname.errors.required">
+              Name is required.
+            </div>
+            <div *ngIf="cname.errors.minlength">
+              Name must be at least 3 characters long.
+            </div>
+          </div>
         </div>
         <div class="float-right">
           <input
@@ -153,7 +168,7 @@
       <div
         *ngFor="let product of productList"
         class="col-md-2 p-1"
-        id = "productsInBill"
+        id="productsInBill"
         [hidden]="
           !product.inventory ||
           product.activeStatus ||
