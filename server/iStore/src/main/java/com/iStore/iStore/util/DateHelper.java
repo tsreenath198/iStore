@@ -3,6 +3,7 @@ package com.iStore.iStore.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -31,9 +32,20 @@ public class DateHelper {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		return sdf.parse(sdf.format(cd));
 	}
+	
+	public static Date convertDateWithoutSeconds(Date cd) throws ParseException {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.parse(sdf.format(cd));
+	}
 
 	public static String convertDateToString(Date date) {
 		return new SimpleDateFormat("yyyy-MM-dd").format(date);
+	}
+	
+	public static Calendar convertDateToCalenderDate(Date date) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar;
 	}
 
 }

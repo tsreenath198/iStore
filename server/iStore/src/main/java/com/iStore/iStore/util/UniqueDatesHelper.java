@@ -25,4 +25,12 @@ public class UniqueDatesHelper {
 		}
 		return uni;
 	}
+	public static Set<Date> uniqueDatesWithoutSeconds(List<OrderDetail> orders) throws ParseException {
+		Set<Date> uni = new LinkedHashSet<Date>();
+		for (OrderDetail od : orders) {
+			Date dateWithoutTime = DateHelper.convertDateWithoutSeconds(od.getCreatedDate());
+			uni.add(dateWithoutTime);
+		}
+		return uni;
+	}
 }

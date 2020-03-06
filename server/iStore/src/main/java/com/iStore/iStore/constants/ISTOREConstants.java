@@ -10,10 +10,13 @@ public interface ISTOREConstants {
 	String BILL = "/bill";
 	String CATEGORY = "/category";
 	String SALES = "/sales";
+	String REPORT = "/report";
 	String ORDER = "/order";
 	String GET_ALL = "/getAll";
 	String GET_TOTAL = "/getTotal";
 	String GET_TOTAL_BY_DAYS = "/getTotalByDays";
+	String GET_TOTAL_BY_YEARS = "/getTotalByYear";
+	String GET_TOTAL_BY_MONTH = "/getTotalByMonth";
 	String GET_TOTAL_RECORD_COUNT = "/getTotalRecordCount";
 	String SET_INVENTORY = "/setInventory";
 	String DOWNLOAD_INVENTORY = "/downloadInventory";
