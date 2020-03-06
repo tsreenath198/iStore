@@ -141,6 +141,7 @@ export class ItemComponent implements OnInit {
     finalOrder.paymentMode = this.printingBill.paymentMode;
     finalOrder.totalDiscount = this.printingBill.totalDiscount;
     this.http.post(finalOrder, this.url.OrderCreate).subscribe(resp => {
+      alert("Successfully created");
       this.cancelBill();
       this.close();
     });

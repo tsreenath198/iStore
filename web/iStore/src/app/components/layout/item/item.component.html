@@ -136,6 +136,7 @@
               style="float: right;"
               *ngIf="!updateMode"
               (click)="setPrintingBill(paymentModeContent)"
+              [disabled]="!cname.dirty"
             >
               Generate
             </button>
@@ -377,6 +378,7 @@
       <button
         type="button"
         class="btn btn-secondary"
+        [disabled]="!paymentMode"
         (click)="proceedToPrint(billContent)"
       >
         Next

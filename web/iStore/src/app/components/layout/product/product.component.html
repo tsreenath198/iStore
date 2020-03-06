@@ -120,10 +120,11 @@
   </div>
   <div class="col-md-8" style="height: 90vh;overflow-y: scroll;">
     <div class="clearfix m-2">
-      <div class="float-left">
+      <div class="float-left" *ngIf="isRaw">
         <input
           class="mt-2"
           type="checkbox"
+          name="showMinStock"
           id="checkStock"
           [(ngModel)]="showMinStock"
           (change)="showEndingInventories($event.target.checked)"
@@ -155,7 +156,7 @@
         >
       </li>
     </nav>
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered">
       <thead>
         <tr>
           <th>

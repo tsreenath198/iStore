@@ -122,12 +122,6 @@ export class ProductComponent implements OnInit {
       });
     }
   }
-  // public handleFileInput(Event: any) {
-  //   let selectedFile = Event.target.files[0];
-  //   let formData = new FormData();
-  //   formData.append("file", selectedFile);
-  //   this.model.image = formData;
-  // }
 
   /**Filter */
   public filter(categoryName) {
