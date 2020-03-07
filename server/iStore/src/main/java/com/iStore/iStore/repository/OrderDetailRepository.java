@@ -61,7 +61,8 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
 	List<OrderDetailGroupInterface> findAllByYear(@Param(value = "value") Integer value);
 
 	@Query(value = "select od.id as id,year(od.created_date) as year,month(od.created_date) as month,'day' as type, Day(od.created_date) as value, "
-			+ "SUM(od.total) as sum from order_detail od where month(od.created_date)=:value and year(od.created_date)=:year group by Day(od.created_date)", nativeQuery = true)
+			+ " ROUND(SUM(CASE WHEN od.payment_mode='Cash' THEN od.total ELSE 0 END)) as cashSum ,ROUND(SUM(CASE WHEN od.payment_mode='Bank' "
+			+ "THEN od.total ELSE 0 END)) as bankSum , ROUND(SUM(od.total)) as sum from order_detail od where month(od.created_date)=:value and year(od.created_date)=:year group by Day(od.created_date)", nativeQuery = true)
 	List<OrderDetailGroupInterface> findAllByMonth(@Param(value = "year") Integer year,
 			@Param(value = "value") Integer value);
 
