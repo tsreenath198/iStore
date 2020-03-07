@@ -10,6 +10,10 @@ public interface OrderDetailGroupInterface {
 	public Integer getMonth();
 
 	public Float getSum();
-	
+
 	public Float getId();
+
+	public Float getCashSum();
+
+	public Float getBankSum();
 }

@@ -36,26 +36,39 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
 	Integer getTotalRecordsCount();
 
 	@Query(value = "SELECT o.id as id,o.total as total,o.created_date as createdDate,o.updated_date as updatedDate,o.description as description,"
-			+ "o.total_discount as totalDiscount,o.active_flag as activeFlag,o.payment_mode as paymentMode,o.contact as contact, MONTH(o.created_date) as month FROM order_detail o WHERE o.created_date >= :fromDate and o.created_date <=:toDate and o.active_flag=0 ORDER BY o.created_date  DESC ", nativeQuery = true)
+			+ "o.total_discount as totalDiscount,o.active_flag as activeFlag,o.payment_mode as paymentMode,o.contact as contact, MONTH(o.created_date) as month "
+			+ "FROM order_detail o WHERE o.created_date >= :fromDate and o.created_date <=:toDate and o.active_flag=0 ORDER BY o.created_date  DESC ", nativeQuery = true)
 	List<OrderDetails> getSalesByType(@Param(value = "fromDate") String fromDate,
 			@Param(value = "toDate") String toDate);
 
-	@Query(value = "select od.id as id,year(od.created_date) as year,month(od.created_date) as month,'year' as type, year(od.created_date) as value, SUM(od.total) as sum from order_detail od where od.created_date > :fromDate and od.created_date <= :toDate group by Year(od.created_date)", nativeQuery = true)
+	@Query(value = "select od.id as id,year(od.created_date) as year,month(od.created_date) as month,'year' as type, year(od.created_date) as value, "
+			+ " ROUND(SUM(CASE WHEN od.payment_mode='cash' THEN od.total ELSE 0 END)) as cashSum ,ROUND(SUM(CASE WHEN od.payment_mode='bank' "
+			+ "THEN od.total ELSE 0 END)) as bankSum , ROUND(SUM(od.total)) as sum from order_detail od where od.created_date > :fromDate and od.created_date <= :toDate"
+			+ " group by Year(od.created_date)", nativeQuery = true)
 	List<OrderDetailGroupInterface> findAllByGroupYears(@Param(value = "fromDate") String fromDate,
 			@Param(value = "toDate") String toDate);
 
-	@Query(value = "select od.id as id,year(od.created_date) as year,month(od.created_date) as month,'month' as type, Month(od.created_date) as value, SUM(od.total) as sum from order_detail od where od.created_date > :fromDate and od.created_date <= :toDate group by Month(od.created_date)", nativeQuery = true)
+	@Query(value = "select od.id as id,year(od.created_date) as year,month(od.created_date) as month,'month' as type, Month(od.created_date) as value,"
+			+ " ROUND(SUM(CASE WHEN od.payment_mode='cash' THEN od.total ELSE 0 END)) as cashSum ,ROUND(SUM(CASE WHEN od.payment_mode='bank' "
+			+ "THEN od.total ELSE 0 END)) as bankSum , ROUND(SUM(od.total)) as sum from order_detail od where od.created_date > :fromDate and "
+			+ "od.created_date <= :toDate group by Month(od.created_date)", nativeQuery = true)
 	List<OrderDetailGroupInterface> findAllByGroupMonths(@Param(value = "fromDate") String fromDate,
 			@Param(value = "toDate") String toDate);
 
-	@Query(value = "select od.id as id,year(od.created_date) as year,month(od.created_date) as month,'month' as type, Month(od.created_date) as value, SUM(od.total) as sum from order_detail od where year(od.created_date)=:value group by Month(od.created_date)", nativeQuery = true)
+	@Query(value = "select od.id as id,year(od.created_date) as year,month(od.created_date) as month,'month' as type, Month(od.created_date) as value, "
+			+ " ROUND(SUM(CASE WHEN od.payment_mode='cash' THEN od.total ELSE 0 END)) as cashSum ,ROUND(SUM(CASE WHEN od.payment_mode='bank' "
+			+ "THEN od.total ELSE 0 END)) as bankSum , ROUND(SUM(od.total)) as sum  from order_detail od where year(od.created_date)=:value group by Month(od.created_date)", nativeQuery = true)
 	List<OrderDetailGroupInterface> findAllByYear(@Param(value = "value") Integer value);
 
-	@Query(value = "select od.id as id,year(od.created_date) as year,month(od.created_date) as month,'day' as type, Day(od.created_date) as value, SUM(od.total) as sum from order_detail od where month(od.created_date)=:value and year(od.created_date)=:year group by Day(od.created_date)", nativeQuery = true)
+	@Query(value = "select od.id as id,year(od.created_date) as year,month(od.created_date) as month,'day' as type, Day(od.created_date) as value, "
+			+ "SUM(od.total) as sum from order_detail od where month(od.created_date)=:value and year(od.created_date)=:year group by Day(od.created_date)", nativeQuery = true)
 	List<OrderDetailGroupInterface> findAllByMonth(@Param(value = "year") Integer year,
 			@Param(value = "value") Integer value);
 
-	@Query(value = "select od.id as id,year(od.created_date) as year,month(od.created_date) as month,'day' as type, Day(od.created_date) as value, SUM(od.total) as sum from order_detail od where month(od.created_date)=:month and year(od.created_date)=:year and day(od.created_date)=:value group by Day(od.created_date)", nativeQuery = true)
+	@Query(value = "select od.id as id,year(od.created_date) as year,month(od.created_date) as month,'day' as type, Day(od.created_date) as value, "
+			+ " ROUND(SUM(CASE WHEN od.payment_mode='cash' THEN od.total ELSE 0 END)) as cashSum ,ROUND(SUM(CASE WHEN od.payment_mode='bank' "
+			+ "THEN od.total ELSE 0 END)) as bankSum , ROUND(SUM(od.total)) as sum  from order_detail od where month(od.created_date)=:month and year(od.created_date)=:year and day(od.created_date)=:value "
+			+ "group by Day(od.created_date)", nativeQuery = true)
 	List<OrderDetailGroupInterface> findAllByDay(@Param(value = "year") Integer year,
 			@Param(value = "month") Integer month, @Param(value = "value") Integer value);
 

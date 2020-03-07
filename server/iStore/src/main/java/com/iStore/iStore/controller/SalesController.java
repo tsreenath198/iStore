@@ -40,4 +40,6 @@ public class SalesController {
 				salesService.getSalesByType(groupBy, fromDate, toDate), HttpStatus.OK);
 	}
 
+	
+	
 }

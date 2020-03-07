@@ -67,7 +67,7 @@ public class ProductController {
 		return new ResponseEntity<Map<String, List<Product>>>(productService.getCurrentInventory(), HttpStatus.OK);
 	}
 
-	@PostMapping(ISTOREConstants.DOWNLOAD_INVENTORY)
+	@PutMapping(ISTOREConstants.DOWNLOAD_INVENTORY)
 	public GenericResponse downloadInventory(@RequestBody Map<String, List<Product>> products,
 			HttpServletResponse httpServletResponse) throws IOException {
 		byte[] bytes = productService.downloadInventory(products);
