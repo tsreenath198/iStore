@@ -21,6 +21,9 @@ public class ReportServiceImpl implements ReportService {
 		if (groupBy.equalsIgnoreCase("Month")) {
 
 			orders = orderRepository.findAllByGroupMonths(fromDate, toDate);
+		} else if (groupBy.equalsIgnoreCase("day")) {
+
+			orders = orderRepository.findAllByGroupDays(fromDate, toDate);
 		} else {
 
 			orders = orderRepository.findAllByGroupYears(fromDate, toDate);
