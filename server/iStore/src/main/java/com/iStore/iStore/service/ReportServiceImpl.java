@@ -40,6 +40,7 @@ public class ReportServiceImpl implements ReportService {
 			orders = orderRepository.findAllByDay(year, month, value, fromDate, toDate);
 		}
 		return orders;
+		
 	}
 
 	@Override
