@@ -58,7 +58,7 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
 	@Query(value = "select od.id as id,year(od.created_date) as year,month(od.created_date) as month,'day' as type, Day(od.created_date) as value,"
 			+ " ROUND(SUM(CASE WHEN od.payment_mode='Cash' THEN od.total ELSE 0 END)) as cashSum ,ROUND(SUM(CASE WHEN od.payment_mode='Bank' "
 			+ "THEN od.total ELSE 0 END)) as bankSum , ROUND(SUM(od.total)) as sum from order_detail od where od.created_date > :fromDate and "
-			+ "od.created_date <= :toDate and o.active_flag=0 group by Year(od.created_date), Month(od.created_date) , Day(od.created_date) ORDER BY created_date DESC", nativeQuery = true)
+			+ "od.created_date <= :toDate and od.active_flag=0 group by Year(od.created_date), Month(od.created_date) , Day(od.created_date) ORDER BY created_date DESC", nativeQuery = true)
 	List<OrderDetailGroupInterface> findAllByGroupDays(@Param(value = "fromDate") String fromDate,
 			@Param(value = "toDate") String toDate);
 
