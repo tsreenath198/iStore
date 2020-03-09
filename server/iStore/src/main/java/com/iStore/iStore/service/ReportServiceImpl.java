@@ -18,15 +18,12 @@ public class ReportServiceImpl implements ReportService {
 	@Override
 	public List<OrderDetailGroupInterface> getTotalByGroup(String fromDate, String toDate, String groupBy) {
 		List<OrderDetailGroupInterface> orders = new ArrayList<OrderDetailGroupInterface>();
-		if (groupBy.equalsIgnoreCase("Month")) {
-
+		if (groupBy.equalsIgnoreCase("year")) {
+			orders = orderRepository.findAllByGroupYears(fromDate, toDate);
+		} else if (groupBy.equalsIgnoreCase("month")) {
 			orders = orderRepository.findAllByGroupMonths(fromDate, toDate);
 		} else if (groupBy.equalsIgnoreCase("day")) {
-
 			orders = orderRepository.findAllByGroupDays(fromDate, toDate);
-		} else {
-
-			orders = orderRepository.findAllByGroupYears(fromDate, toDate);
 		}
 		return orders;
 	}
@@ -35,10 +32,10 @@ public class ReportServiceImpl implements ReportService {
 	public List<OrderDetailGroupInterface> getTotalByValue(String type, Integer value, Integer month, Integer year,
 			String fromDate, String toDate) {
 		List<OrderDetailGroupInterface> orders = new ArrayList<OrderDetailGroupInterface>();
-		if (type.equalsIgnoreCase("month")) {
-			orders = orderRepository.findAllByMonth(year, value, fromDate, toDate);
-		} else if (type.equalsIgnoreCase("year")) {
+		if (type.equalsIgnoreCase("year")) {
 			orders = orderRepository.findAllByYear(value);
+		} else if (type.equalsIgnoreCase("month")) {
+			orders = orderRepository.findAllByMonth(year, value, fromDate, toDate);
 		} else {
 			orders = orderRepository.findAllByDay(year, month, value, fromDate, toDate);
 		}
