@@ -36,7 +36,7 @@ public class ReportServiceImpl implements ReportService {
 		String uptoDate = DateHelper.getNextDay(toDate);
 		List<OrderDetailGroupInterface> orders = new ArrayList<OrderDetailGroupInterface>();
 		if (type.equalsIgnoreCase("year")) {
-			orders = orderRepository.findAllByYear(value);
+			orders = orderRepository.findAllByYear(value, fromDate, uptoDate);
 		} else if (type.equalsIgnoreCase("month")) {
 			orders = orderRepository.findAllByMonth(year, value, fromDate, uptoDate);
 		} else {
@@ -46,6 +46,7 @@ public class ReportServiceImpl implements ReportService {
 
 	}
 
+	// 08462224999
 	@Override
 	public List<OrderDetail> findAllRecordsByDay(Integer value, Integer month, Integer year) {
 		return orderRepository.findAllRecordsByDay(year, month, value);
