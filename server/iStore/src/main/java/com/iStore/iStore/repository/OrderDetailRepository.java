@@ -79,7 +79,7 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
 			@Param(value = "month") Integer month, @Param(value = "value") Integer value,
 			@Param(value = "fromDate") String fromDate, @Param(value = "toDate") String toDate);
 
-	@Query(value = "select * from order_detail od where year(od.created_date)=:year and month(od.created_date)=:month and day(od.created_date)=:value and active_flag=0 ORDER BY created_date DESC", nativeQuery = true)
+	@Query(value = "select * from order_detail od where year(od.created_date)=:year and month(od.created_date)=:month and day(od.created_date)=:value and active_flag=0 ", nativeQuery = true)
 	List<OrderDetail> findAllRecordsByDay(@Param(value = "year") Integer year, @Param(value = "month") Integer month,
 			@Param(value = "value") Integer value);
 
