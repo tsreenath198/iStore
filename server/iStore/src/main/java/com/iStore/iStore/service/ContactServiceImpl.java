@@ -47,14 +47,14 @@ public class ContactServiceImpl implements ContactService {
 
 	@Override
 	public List<Contact> getAll() {
-		return (List<Contact>) contactRepo.findAllByActiveFlagAllIgnoreCaseOrderByCreatedDateDesc(0);
+		return (List<Contact>) contactRepo.getAll();
 	}
 
 	@Override
 	public Contact get(Integer id) {
 		Optional<Contact> contact = null;
 		try {
-			contact = contactRepo.findByIdAndActiveFlag(id, 0);
+			contact = contactRepo.getByIdAndActiveFlag(id);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
 		}

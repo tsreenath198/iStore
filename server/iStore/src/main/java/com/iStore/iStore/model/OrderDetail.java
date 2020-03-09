@@ -58,4 +58,5 @@ public class OrderDetail {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "contact", referencedColumnName = "id", nullable = true)
 	private Contact contact;
+
 }

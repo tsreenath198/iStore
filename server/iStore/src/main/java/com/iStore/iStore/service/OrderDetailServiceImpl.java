@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.constants.PaymentMode;
-import com.iStore.iStore.model.Contact;
 import com.iStore.iStore.model.GenericResponse;
 import com.iStore.iStore.model.Item;
 import com.iStore.iStore.model.OrderDetail;
@@ -22,7 +21,6 @@ import com.iStore.iStore.model.OrderTotal;
 import com.iStore.iStore.repository.ItemRepository;
 import com.iStore.iStore.repository.OrderDetailRepository;
 import com.iStore.iStore.util.DateHelper;
-import com.iStore.iStore.util.RegexValidator;
 import com.iStore.iStore.util.UniqueDatesHelper;
 
 @Service
@@ -37,19 +35,6 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	@Override
 	public OrderDetail create(OrderDetail entity) {
 		try {
-			Contact contact = entity.getContact();
-			if (!contact.getName().isEmpty()) {
-				if (!RegexValidator.isValidName(contact.getName().trim())) {
-					throw new ValidationException("please enter valid name");
-				}
-			}
-
-			if (contact.getPhone() != null && !contact.getPhone().isEmpty()) {
-				if (!RegexValidator.isValidPhoneNumber(contact.getPhone().trim())) {
-					throw new ValidationException("please enter valid phone number");
-				}
-			}
-
 			productService.deleteInventory(entity.getItems());
 			List<Item> list = entity.getItems();
 			for (Item i : list) {
