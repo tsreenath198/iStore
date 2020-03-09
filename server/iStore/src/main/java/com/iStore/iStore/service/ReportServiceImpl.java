@@ -29,14 +29,15 @@ public class ReportServiceImpl implements ReportService {
 	}
 
 	@Override
-	public List<OrderDetailGroupInterface> getTotalByValue(String type, Integer value, Integer month, Integer year) {
+	public List<OrderDetailGroupInterface> getTotalByValue(String type, Integer value, Integer month, Integer year,
+			String fromDate, String toDate) {
 		List<OrderDetailGroupInterface> orders = new ArrayList<OrderDetailGroupInterface>();
 		if (type.equalsIgnoreCase("month")) {
-			orders = orderRepository.findAllByMonth(year, value);
+			orders = orderRepository.findAllByMonth(year, value, fromDate, toDate);
 		} else if (type.equalsIgnoreCase("year")) {
 			orders = orderRepository.findAllByYear(value);
 		} else {
-			orders = orderRepository.findAllByDay(year, month, value);
+			orders = orderRepository.findAllByDay(year, month, value, fromDate, toDate);
 		}
 		return orders;
 	}

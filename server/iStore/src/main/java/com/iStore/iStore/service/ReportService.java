@@ -12,7 +12,8 @@ public interface ReportService {
 
 	public List<OrderDetailGroupInterface> getTotalByGroup(String fromDate, String toDate, String groupBy);
 
-	public List<OrderDetailGroupInterface> getTotalByValue(String type, Integer value,Integer month, Integer year);
-	
-	public List<OrderDetail> findAllRecordsByDay(Integer value,Integer month, Integer year);
+	public List<OrderDetailGroupInterface> getTotalByValue(String type, Integer value, Integer month, Integer year,
+			String fromDate, String toDate);
+
+	public List<OrderDetail> findAllRecordsByDay(Integer value, Integer month, Integer year);
 }
