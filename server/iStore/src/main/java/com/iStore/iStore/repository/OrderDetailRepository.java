@@ -93,12 +93,12 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
 	List<OrderDetail> findAllRecordsByDay(@Param(value = "year") Integer year, @Param(value = "month") Integer month,
 			@Param(value = "value") Integer value);
 
-	@Query(value = "SELECT DISTINCT c.name as name,	Count(c.name) as count FROM  product p,category c,item i,order_detail od where p.category_id=c.id and i.product_id=p.id"
+	@Query(value = "SELECT DISTINCT c.name as name,	Count(i.quantity) as count FROM  product p,category c,item i,order_detail od where p.category_id=c.id and i.product_id=p.id"
 			+ " and i.order_id=od.id and  od.created_date > :fromDate and od.created_date <:toDate and od.active_flag=0 GROUP by c.name  ", nativeQuery = true)
 	List<CategoryDetailInterface> getSalesByCategory(@Param(value = "fromDate") String fromDate,
 			@Param(value = "toDate") String toDate);
 
-	@Query(value = "SELECT  p.name as name,	Count(p.name) as count FROM  product p,category c,item i,order_detail od where p.category_id=c.id and i.product_id=p.id"
+	@Query(value = "SELECT  p.name as name,	Count(i.quantity) as count FROM  product p,category c,item i,order_detail od where p.category_id=c.id and i.product_id=p.id"
 			+ " and i.order_id=od.id and  od.created_date > :fromDate and od.created_date <:toDate and od.active_flag=0 and c.name=:category GROUP by p.name  ", nativeQuery = true)
 	List<CategoryDetailInterface> getProductByProduct(@Param(value = "category") String category,
 			@Param(value = "fromDate") String fromDate, @Param(value = "toDate") String toDate);
