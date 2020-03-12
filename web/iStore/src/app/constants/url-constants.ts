@@ -50,5 +50,6 @@ export class URLConstants {
   /** Login */
   Login = 'login/validateUser?name=';
   /**Sales */
-  SalesTotal = 'sales/getTotal?days='
+  SalesGetCategories = 'sales/getByCategory?fromDate='
+  SalesGetProducts = 'sales/getByProduct?category='
 }
