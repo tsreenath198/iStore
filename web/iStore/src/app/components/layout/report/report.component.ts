@@ -7,8 +7,8 @@ import {
   NgbModal,
   ModalDismissReasons
 } from "@ng-bootstrap/ng-bootstrap";
-import { StorageService } from 'src/app/services/storage.service';
-import { Router } from '@angular/router';
+import { StorageService } from "src/app/services/storage.service";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-report",
@@ -20,74 +20,173 @@ export class ReportComponent implements OnInit {
   public URL = new URLConstants();
   public popupContent: any = {};
   public cardTable: any = [];
-  public totalTable: any = [];
-  public chooseDays:any=['Day','Week' , 'Month' , "Year" ];
-  public selectedDay:string = 'Day';
-  public grandTotal: number = 0;
+  public groupByData: any = [];
+  public valueByData: any = [];
+  public finalBills: Array<any> = [];
+  public valueByData2: any = [];
+  public showTable: string = "";
+  public chooseDays: any = ["Day", "Month", "Year"];
+  public choosePrePopulateDays: any = ["Current week", "Current month", "Current year","Manual"];
+  public choosenDay: string = "Day";
+  public selectedDay: string = "Day";
+  public getBillURLData = {};
+  public months: Array<string> = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+  ];
+  public groupReq: any = {
+    fromDate: "",
+    groupBy: "",
+    toDate: ""
+  };
   private modalRef: NgbModalRef;
   public closeResult = "";
-  constructor(public router: Router,private http: HttpService, private modalService: NgbModal, private storageService: StorageService) {}
+  constructor(
+    public router: Router,
+    private http: HttpService,
+    private modalService: NgbModal,
+    private storageService: StorageService
+  ) {}
 
   ngOnInit() {
-    this.getAllReports();
+    this.groupReq.groupBy = "Day";
+    this.setCurrentDates();
+    // let date = new Date();
+
+    // let day = date.getDate();
+    // let month = date.getMonth() + 1;
+    // let year = date.getFullYear();
+
+    // if (month < 10) {
+    //   month = 0 + month;
+    // }
+    // if (day < 10) day = 0 + day;
+
+    // var today = year + "-" + month + "-" + day;
+
     this.getTotalData();
   }
-
-  private getAllReports() {
-    this.http.get(this.URL.OrderGetAll).subscribe(resp => {
-      this.orderList = resp as any;
-    });
-    
+  public setCurrentDates() {
+    this.groupReq.fromDate = new Date().toISOString().substring(0, 10);
+    this.groupReq.toDate = new Date().toISOString().substring(0, 10);
   }
-  getTotalData(){
-    let noOfDays = 0;
-    let currentDate:any = new Date();
-    switch(this.selectedDay){
-      case 'Day':
-        noOfDays =1;
-        break;
-      case 'Week':
-        noOfDays = currentDate.getDay()+1;
-        break;
-      case 'Month':
-        noOfDays= currentDate.getDate();
-        break;
-      case 'Year':
-        let startDate:any = new Date(currentDate.getFullYear(), 0, 0);
-        let diff = currentDate - startDate;
-        let oneDay = 1000 * 60 * 60 * 24;
-        noOfDays = Math.floor(diff / oneDay);
-        break;
+
+  public getTotalData() {
+    this.finalBills = [];
+    this.http
+      .get(
+        this.URL.ReportByGroup +
+          this.groupReq.fromDate +
+          "&groupBy=" +
+          this.groupReq.groupBy +
+          "&toDate=" +
+          this.groupReq.toDate
+      )
+      .subscribe(resp => {
+        this.groupByData = resp as any;
+      });
+  }
+
+  public valueBy1(data: any) {
+    this.valueByData2 = [];
+    this.finalBills = [];
+    console.log(data);
+    let reqUrl: string = "";
+    if (data.type == "day") {
+      this.getDateBills(data);
+      this.showTable = "cardBody1";
+    } else if (data.type == "month") {
+      document.body.style.cursor = "progress";
+      reqUrl =
+        this.URL.ReportByValue +
+        data.value +
+        "&month=" +
+        data.month +
+        "&type=" +
+        data.type +
+        "&year=" +
+        data.year +
+        "&fromDate=" +
+        this.groupReq.fromDate +
+        "&toDate=" +
+        this.groupReq.toDate;
+      this.http.get(reqUrl).subscribe(resp => {
+        this.valueByData2 = resp as any;
+        document.body.style.cursor = "default";
+      });
     }
-    this.http.get(this.URL.OrderTotalByDays+ noOfDays).subscribe(resp =>{
-      this.totalTable = resp as any;
-      this.calculateTotal(this.totalTable);
-    })
-    
-    
   }
-
-  private calculateTotal(data){
-    this.grandTotal = 0;
-    data.forEach(element => {
-      this.grandTotal += element.total;
-    });
-    console.log(this.grandTotal)
-  }
-
-  public delete(order: any,date) {
-    if (window.confirm("Do you want to delete " + order.contact.name+ "'s bill?")) {
-      this.http.delete(this.URL.OrderDelete + order.id).subscribe(resp => {
-        this.getTotalData();
-        this.getAllReports()
-        this.filterData(date);
+  public groupBy(data: any) {
+    this.valueByData = [];
+    this.valueByData2 = [];
+    this.finalBills = [];
+    console.log(data);
+    if (data.type == "day") {
+      this.getDateBills(data);
+    } else {
+      let reqUrl: string = "";
+      reqUrl =
+        this.URL.ReportByValue +
+        data.value +
+        "&month=" +
+        data.month +
+        "&type=" +
+        data.type +
+        "&year=" +
+        data.year +
+        "&fromDate=" +
+        this.groupReq.fromDate +
+        "&toDate=" +
+        this.groupReq.toDate;
+      this.http.get(reqUrl).subscribe(resp => {
+        this.valueByData = resp as any;
       });
     }
   }
 
-  public edit(order:any){
+  public valueBy2(data: any) {
+    this.showTable = "cardBody2";
+    this.getDateBills(data);
+  }
+
+  public getDateBills(data: any): any {
+    this.finalBills = [];
+    this.getBillURLData = data;
+    let reqUrl =
+      this.URL.ReportGetBills +
+      data.month +
+      "&value=" +
+      data.value +
+      "&year=" +
+      data.year;
+    this.http.get(reqUrl).subscribe(resp => {
+      this.finalBills = resp as any;
+    });
+  }
+
+  public delete(order: any) {
+    if (window.confirm("Do you want to delete the bill?")) {
+      this.http.delete(this.URL.OrderDelete + order.id).subscribe(resp => {
+        this.getDateBills(this.getBillURLData);
+        //this.filterData(date);
+        window.alert("Bill deleted successfully");
+      });
+    }
+  }
+
+  public edit(order: any) {
     this.storageService.orderId = order.id;
-    this.router.navigate(['/bill'])
+    this.router.navigate(["layout/bill"]);
   }
 
   public openPopup(order, billContent) {
@@ -122,28 +221,41 @@ export class ReportComponent implements OnInit {
       return `with: ${reason}`;
     }
   }
-  public getDate(orderDate):string{
-    let temp = new Date(orderDate);
-      let year:any = temp.getFullYear();
-      let month:any = temp.getMonth() + 1;
-      if(month<10){
-        month ="0"+month;
-      }
-      let date:any = temp.getDate() ;
-      if(date<10){
-        date ="0"+date;
-      }
-      let formatedDate =
-        year + "-" + month + "-" + date;
-    return formatedDate
-  }
-  public filterData(cmpDate: any) {
-    this.cardTable = [];
-    this.orderList.filter(order => {
-      let orderDate = this.getDate(order.createdDate);
-      if (orderDate == cmpDate) {
-        this.cardTable.push(order);
-      }
-    });
+  // public setToDate() {
+  //   let temp = new Date(this.groupReq.fromDate);
+
+  //   this.groupReq.toDate = temp;
+  // }
+
+  public setDates() {
+    this.setCurrentDates();
+    if (this.choosenDay == this.choosePrePopulateDays[0]) {
+      //week
+      var now = new Date();
+      var firstDayOfWeek = new Date(
+        now.setDate(now.getDate() - now.getDay() )
+      );
+
+      this.groupReq.fromDate=firstDayOfWeek.toISOString().substring(0, 10);
+    } else if (this.choosenDay == this.choosePrePopulateDays[1]) {
+      //month
+      //new Date(date.getFullYear(), date.getMonth(), 1)
+      this.groupReq.fromDate = new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        2
+      )
+        .toISOString()
+        .substring(0, 10);
+    } else if(this.choosenDay == this.choosePrePopulateDays[2]){
+      //year
+      new Date().toISOString().substring(0, 10);
+      this.groupReq.fromDate = new Date(new Date().getFullYear(), 0, 2)
+        .toISOString()
+        .substring(0, 10);
+    }else{
+      this.groupReq.fromDate = '';
+      this.groupReq.toDate = '';
+    }
   }
 }

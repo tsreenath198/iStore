@@ -12,7 +12,7 @@ export class HttpService {
   post(data: any, url: string) {
     return this.http.post(this.base_url + url, data);
   }
-  postImage( url: string,data: any) {
+  postImage(url: string,data: any) {
     return this.http.post(this.base_url + url,data);
   }
   get(URL: string) {

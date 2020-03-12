@@ -1,1 +1,110 @@
-<p>customer works!</p>
+<div class="row">
+    <div class="col-md-3" style="height: 90vh; background-color: #343a40;">
+      <form
+        name="form"
+        class="ml-3 mr-2"
+        id="userForm"
+        #f="ngForm"
+        (ngSubmit)="create(f)"
+      >
+        <div class="row">
+          <div class="col-md-12">
+            <input
+              type="text"
+              class="form-control mt-2"
+              name="uName"
+              [(ngModel)]="customer.name"
+              #uName="ngModel"
+              placeholder="User Name *"
+              required
+            />
+          </div>
+          <div class="col-md-12">
+            <input
+              type="text"
+              class="form-control mt-2"
+              #phone="ngModel"
+              name="phone"
+              [(ngModel)]="customer.phone"
+              placeholder="Phone Number *"
+              required
+            />
+          </div>
+          <div class="col-md-12 mt-3">
+              <label for="lastContactDate">Last contacted</label>
+            <input
+              type="date"
+              class="form-control "
+              style="margin-top: 0;"
+              name="lastContactDate"
+              [(ngModel)]="customer.lastContactDate"
+              #confirmPassword="ngModel"
+              placeholder="Last contact date"
+            />
+          </div>
+          <div class="col-md-12">
+            <label>
+                <input
+                  type="checkbox"name="rm"
+                  [(ngModel)]="customer.subscribe"
+                  #rm="ngModel"
+                /><span class="ml-2">Subscribe</span></label
+              >
+          </div>
+          <div class="col-md-12">
+            <textarea
+              class="form-control mt-2"
+              name="description"
+              [(ngModel)]="customer.description"
+              #description="ngModel"
+              cols="2"
+              rows="2"
+              placeholder="Description"
+            ></textarea>
+          </div>
+        </div>
+        <div class="text-center mt-2">
+          <button type="submit" class="btn">{{ actionLabel }}</button>
+          <button type="reset" class="btn ml-1">Cancel</button>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-9 item-view-pane">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <tr>
+            <th width="180"><span>Customer Name</span></th>
+            <th width="100"><span>Phone</span></th>
+            <th width="150"><span>Last Contacted</span></th>
+            <th width="100"><span>Subscribe</span></th>
+            <th width ='200'><span>Actions</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <ng-container *ngFor="let customer of customersList">
+            <tr>
+              <td width="180">{{ customer.name | titlecase }}</td>
+              <td width="100">{{ customer.phone }}</td>
+              <td width="150">{{ customer.lastContactDate | date }}</td>
+              <td width="100">{{ customer.subscribe?"Yes":"No" }}</td>
+              <td width ='200'>
+                <button class="btn" type="submit" (click)="getById(customer.id)">
+                  Edit
+                  <i class="fa fa-edit" aria-hidden="true"></i>
+                </button>
+                <button
+                  class="btn ml-2"
+                  type="submit"
+                  (click)="deleteById(customer.id)"
+                >
+                  Delete
+                  <i class="fa fa-trash" aria-hidden="true"></i>
+                </button>
+              </td>
+            </tr>
+          </ng-container>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  

@@ -45,6 +45,7 @@ export class ProductComponent implements OnInit {
   public closeResult = "";
   private modalRef: NgbModalRef;
   public loggedInUser: User;
+  public component:string = "Product"
   constructor(
     private http: HttpService,
     private storage: StorageService,
@@ -89,11 +90,37 @@ export class ProductComponent implements OnInit {
     this.model.activeStatus = 0;
   }
 
-  public create(form: NgForm) {
-    this.http.post(this.model, this.url.ProductCreate).subscribe(resp => {
-      this.commonInHTTP();
-      //form.resetForm();
-    });
+  public create(f: NgForm) {
+    // this.http.post(this.model, this.url.ProductCreate).subscribe(resp => {
+    //   this.commonInHTTP();
+    //   //form.resetForm();
+    // });
+    if(!this.model.category.rawMaterial){
+      this.model.inventory = 0;
+      this.model.minimumAvailability=0;
+    }
+
+    if (f.valid) {
+      this.http.post(this.model, this.url.ProductCreate).subscribe(
+        res => {
+          this.successHandler(this.component);
+          f.reset();
+        },
+        err => {
+          this.errorHandler(this.component);
+        }
+      );
+    }else{
+      alert("Please enter all required fields");
+    }
+  }
+
+  private successHandler(type: String) {
+    this.commonInHTTP();
+    alert("SuccessFully " + type + " Created");
+  }
+  private errorHandler(type: String) {
+    alert("Error in " + type);
   }
 
   public update() {
@@ -298,7 +325,7 @@ export class ProductComponent implements OnInit {
     //   }
     // }
     console.log(this.orderProductsList);
-    this.http.post(this.orderProductsList, this.url.GetRawInventory).subscribe(
+    this.http.update(this.orderProductsList, this.url.GetRawInventory).subscribe(
       resp => {},
       err => {
         if (err.status == 200) window.open(err.url);

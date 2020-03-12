@@ -19,68 +19,80 @@
             required
           />
         </div>
-        <input
-          type="text"
-          class="form-control mt-2"
-          name="password"
-          [(ngModel)]="user.password"
-          #password="ngModel"
-          placeholder="Password *"
-          required
-        />
-        <input
-          type="text"
-          class="form-control mt-2"
-          name="confirmPassword"
-          [(ngModel)]="user.confirmPassword"
-          #confirmPassword="ngModel"
-          placeholder="Confirm Password *"
-          required
-        />
-        <select
-          class="form-control mt-2"
-          name="role"
-          [(ngModel)]="user.role"
-          #role="ngModel"
-          required
-        >
-          <option [ngValue]="undefined" hidden selected>
-            Role <span>*</span></option
+        <div class="col-md-12">
+          <input
+            type="text"
+            class="form-control mt-2"
+            name="password"
+            [(ngModel)]="user.password"
+            #password="ngModel"
+            placeholder="Password *"
+            required
+          />
+        </div>
+        <div class="col-md-12">
+          <input
+            type="text"
+            class="form-control mt-2"
+            name="confirmPassword"
+            [(ngModel)]="user.confirmPassword"
+            #confirmPassword="ngModel"
+            placeholder="Confirm Password *"
+            required
+          />
+        </div>
+        <div class="col-md-12">
+          <select
+            class="form-control mt-2"
+            name="role"
+            [(ngModel)]="user.role"
+            #role="ngModel"
+            required
           >
-          <option
-            *ngFor="let key of roleTypeOptions"
-            [value]="key"
-            [label]="roleTypes[key]"
-          ></option>
-        </select>
-        <input
-          type="text"
-          class="form-control mt-2"
-          #phone="ngModel"
-          name="phone"
-          [(ngModel)]="user.phone"
-          placeholder="Phone Number *"
-          required
-        />
-        <textarea
-          class="form-control mt-2"
-          name="address"
-          [(ngModel)]="user.address"
-          #address="ngModel"
-          cols="2"
-          rows="2"
-          placeholder="Address *"
-          required
-        ></textarea>
-        <textarea
-          class="form-control mt-2"
-          name="description"
-          [(ngModel)]="user.description"
-          #description="ngModel"
-          cols="2"
-          rows="2"
-          placeholder="Description"
-        ></textarea>
+            <option [ngValue]="undefined" hidden selected>
+              Role <span>*</span></option
+            >
+            <option
+              *ngFor="let key of roleTypeOptions"
+              [value]="key"
+              [label]="roleTypes[key]"
+            ></option>
+          </select>
+        </div>
+        <div class="col-md-12">
+          <input
+            type="text"
+            class="form-control mt-2"
+            #phone="ngModel"
+            name="phone"
+            [(ngModel)]="user.phone"
+            placeholder="Phone Number *"
+            required
+          />
+        </div>
+        <div class="col-md-12">
+          <textarea
+            class="form-control mt-2"
+            name="address"
+            [(ngModel)]="user.address"
+            #address="ngModel"
+            cols="2"
+            rows="2"
+            placeholder="Address *"
+            required
+          ></textarea>
+        </div>
+        <div class="col-md-12">
+          <textarea
+            class="form-control mt-2"
+            name="description"
+            [(ngModel)]="user.description"
+            #description="ngModel"
+            cols="2"
+            rows="2"
+            placeholder="Description"
+          ></textarea>
+        </div>
       </div>
       <div class="text-center mt-2">
         <button type="submit" class="btn">{{ actionLabel }}</button>

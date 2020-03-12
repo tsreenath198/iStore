@@ -5,7 +5,7 @@ form {
 form textarea,
 form input,
 form select {
-    margin-top: 40px;
+    margin-top: 20px;
     font-size: 1rem;
     border: 0;
     border-bottom: 2px solid greenyellow;
@@ -17,9 +17,6 @@ form option {
     background-color: black;
 }
 
-.bg-yellow {
-    background-color: #FFFF66;
-}
 
 .btn {
     font-size: 1rem;

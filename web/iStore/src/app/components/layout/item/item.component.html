@@ -1,157 +1,162 @@
+
+<!-- <combo-box [dataList]="datalistEx" [columnName]="'name'"></combo-box> -->
 <div class="row">
   <div
     class="col-md-5"
     style="height: 90vh; background-color: #343a40;overflow-y: scroll;"
   >
-    <div class="row p-3">
-      <div class="col-md-12 clearfix">
-        <div class="float-left form-group">
-          <input
-            type="text"
-            id="cname"
-            name="cname"
-            placeholder="Name"
-            required
-            minlength="3"
-            #cname="ngModel"
-            pattern="[A-Za-z]"
-            [(ngModel)]="customerDetails.name"
-            ngModel
-          /><span class="alert-danger">*</span>
-          <div
-            *ngIf="cname.invalid && (cname.dirty ||cname.touched)"
-            class="alert-danger"
-          >
-            <div *ngIf="cname.errors.required">
-              Name is required.
-            </div>
-            <div *ngIf="cname.errors.minlength">
-              Name must be at least 3 characters long.
-            </div>
+    <form #form="ngForm" id="ngForm" novalidate>
+      <div class="row p-3">
+        <div class="col-md-12 clearfix">
+          <div class="float-left form-group">
+            <input
+              type="text"
+              id="cname"
+              name="cname"
+              placeholder="Name"
+              minlength="3"
+              #cname="ngModel"
+              list="id-list"
+              pattern="[A-Za-z]"
+              [(ngModel)]="customerDetails.name"
+              (change)="onChange()"
+              value="{{ customerDetails.name }}"
+              ngModel
+            />
+            <datalist id="id-list">
+              <option
+                *ngFor="let data of datalistEx | keyvalue; let i = index"
+                [value]="data.value + i"
+                >{{ data.key }}
+              </option>
+            </datalist>
+          </div>
+          <div class="float-right">
+            <input
+              type="text"
+              placeholder="Phone"
+              name="phone"
+              [(ngModel)]="customerDetails.phone"
+            />
           </div>
         </div>
-        <div class="float-right">
-          <input
-            type="text"
-            placeholder="Phone"
-            [(ngModel)]="customerDetails.phone"
-          />
-        </div>
       </div>
-    </div>
-    <table class="table table-dark table-sm table-striped istore-table">
-      <thead>
-        <tr>
-          <th></th>
-          <th>Name</th>
-          <th>Qty</th>
-          <th>Price</th>
-          <th>Discount(%)</th>
-          <th>Total</th>
-        </tr>
-      </thead>
-      <tbody *ngIf="itemList.length">
-        <tr *ngFor="let item of itemList; let i = index">
-          <td
-            style="position: relative;cursor: pointer;"
-            (click)="removeItemFromBill(i)"
-          >
-            <span
-              style="color: greenyellow; margin: 0;
+      <table class="table table-dark table-sm table-striped istore-table">
+        <thead>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>Qty</th>
+            <th>Price</th>
+            <th>Discount(%)</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="itemList.length">
+          <tr *ngFor="let item of itemList; let i = index">
+            <td
+              style="position: relative;cursor: pointer;"
+              (click)="removeItemFromBill(i)"
+            >
+              <span
+                style="color: greenyellow; margin: 0;
           font-size: 15px ;
         position: relative;
         margin-top: 50%;"
-            >
-              <i class="fa fa-minus" aria-hidden="true"></i
-            ></span>
-          </td>
-          <td>
-            <p>{{ item.product.name }}({{ item.product.category.name }})</p>
-          </td>
-          <td>
-            <div>
-              <input
-                type="number"
-                class="form-control"
-                min="1"
-                [(ngModel)]="item.quantity"
-                (change)="setTotal(item)"
-              />
-            </div>
-          </td>
-          <td>
-            <p>{{ item.price }}</p>
-          </td>
-          <td>
-            <div>
-              <input
-                type="number"
-                class="form-control"
-                [(ngModel)]="item.discount"
-                step="5"
-                max="100"
-                min="0"
-                (change)="setTotal(item)"
-              />
-            </div>
-          </td>
-          <td>
-            <p>{{ item.total }}</p>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="5">
-            <p><b>Add discount</b></p>
-          </td>
-          <td>
-            <div style="width:50px">
-              <input
-                type="number"
-                class="form-control"
-                [(ngModel)]="totalDiscount"
-                (keyup)="calculateDiscount($event)"
-              />
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td colspan="5">
-            <p><b>Total</b></p>
-          </td>
-          <td>
-            <p>
-              <b>{{ totalBill }}</b>
-            </p>
-          </td>
-        </tr>
-        <tr *ngIf="itemList.length">
-          <td colspan="3">
-            <button class="btn" style="float: right;" (click)="cancelBill()">
-              Cancel
-            </button>
-          </td>
-          <td colspan="1">
-            <button
-              class="btn"
-              style="float: right;"
-              *ngIf="!updateMode"
-              (click)="setPrintingBill(paymentModeContent)"
-              [disabled]="!cname.dirty"
-            >
-              Generate
-            </button>
-            <button
-              class="btn"
-              style="float: right;"
-              *ngIf="updateMode"
-              (click)="update(billContent)"
-            >
-              Update
-            </button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+              >
+                <i class="fa fa-minus" aria-hidden="true"></i
+              ></span>
+            </td>
+            <td>
+              <p>{{ item.product.name }}({{ item.product.category.name }})</p>
+            </td>
+            <td>
+              <div>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="quantity"
+                  min="1"
+                  [(ngModel)]="item.quantity"
+                  (change)="setTotal(item)"
+                />
+              </div>
+            </td>
+            <td>
+              <p>{{ item.price }}</p>
+            </td>
+            <td>
+              <div>
+                <input
+                  type="number"
+                  class="form-control"
+                  name="discount"
+                  [(ngModel)]="item.discount"
+                  step="5"
+                  max="100"
+                  min="0"
+                  (change)="setTotal(item)"
+                />
+              </div>
+            </td>
+            <td>
+              <p>{{ item.total }}</p>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <p><b>Add discount</b></p>
+            </td>
+            <td>
+              <div style="width:50px">
+                <input
+                  type="number"
+                  class="form-control"
+                  name="totalDiscount"
+                  [(ngModel)]="totalDiscount"
+                  (keyup)="calculateDiscount($event)"
+                />
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td colspan="5">
+              <p><b>Total</b></p>
+            </td>
+            <td>
+              <p>
+                <b>{{ totalBill }}</b>
+              </p>
+            </td>
+          </tr>
+          <tr *ngIf="itemList.length">
+            <td colspan="3">
+              <button class="btn" style="float: right;" (click)="cancelBill()">
+                Cancel
+              </button>
+            </td>
+            <td colspan="1">
+              <button
+                class="btn"
+                style="float: right;"
+                *ngIf="!updateMode"
+                (click)="setPrintingBill(paymentModeContent)"
+              >
+                Generate
+              </button>
+              <button
+                class="btn"
+                style="float: right;"
+                *ngIf="updateMode"
+                (click)="update(billContent)"
+              >
+                Update
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
   </div>
   <div class="col-md-7 item-view-pane">
     <nav class="nav nav-tabs">
@@ -218,19 +223,20 @@
         <hr />
         <div style="display: inline;">
           <div style="float: left;">
-            <p *ngIf="printingBill.contact.name">
+            <p *ngIf="printingBill?.contact?.name">
               <small>Name: {{ printingBill.contact.name }}</small>
             </p>
             <p>
-              <small>Date:{{ printingBill.date | date }}</small>
+              <small
+                >Date:{{ printingBill.date | date }},{{
+                  printingBill.date | date: "h:mm:ss a"
+                }}</small
+              >
             </p>
           </div>
           <div style="float: right;">
-            <p *ngIf="printingBill.contact.phone">
+            <p *ngIf="printingBill?.contact?.phone?.length >= 10">
               <small>Phone: {{ printingBill.contact.phone }}</small>
-            </p>
-            <p>
-              <small>Time:{{ printingBill.date | date: "h:mm:ss a" }}</small>
             </p>
           </div>
         </div>

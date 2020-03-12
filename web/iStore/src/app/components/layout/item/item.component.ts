@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { HttpService } from "src/app/services/http.service";
 import { ProductModel } from "../product/product.component.model";
 import {
@@ -12,6 +12,7 @@ import { CategoryModel } from "../category/category.component.model";
 import { ToastrService } from "ngx-toastr";
 import { StorageService } from "src/app/services/storage.service";
 import { chainedInstruction } from "@angular/compiler/src/render3/view/util";
+import { NgForm } from "@angular/forms";
 
 @Component({
   selector: "app-item",
@@ -19,6 +20,7 @@ import { chainedInstruction } from "@angular/compiler/src/render3/view/util";
   styleUrls: ["./item.component.css"]
 })
 export class ItemComponent implements OnInit {
+  @ViewChild("form", { read: NgForm, static: true }) form: any;
   public productList: Array<any> = [];
   public filterProductList: Array<any> = [];
   public itemList: Array<any> = [];
@@ -28,6 +30,16 @@ export class ItemComponent implements OnInit {
   public categoryList: Array<CategoryModel> = [];
   public paymentTypes: Array<any> = ["Cash", "Bank"];
   public paymentMode: string;
+  public datalistEx: any = {
+    9248032919: "Anurag",
+    8796542130: "Anurag",
+    523654785: "Pavan",
+    7564952135: "Gangasai",
+    7854965123: "Prassad",
+    4521653280: "Manoj",
+    78547552123: "Manikanth",
+    4527523280: "Manisha"
+  };
   public updateMode: boolean = false;
   public totalDiscount: number = 0;
   public totalBill: number = 0.0;
@@ -105,10 +117,9 @@ export class ItemComponent implements OnInit {
     let bill: any = <any>{};
     bill.price = p.price;
     bill.product = p;
-    if(p.defaultDiscount){
+    if (p.defaultDiscount) {
       bill.discount = p.defaultDiscount;
-    }
-    else if (p.category.defaultDiscount) {
+    } else if (p.category.defaultDiscount) {
       bill.discount = p.category.defaultDiscount;
     } else {
       bill.discount = 0;
@@ -132,10 +143,9 @@ export class ItemComponent implements OnInit {
     let finalOrder: OrderModel = <OrderModel>{};
     finalOrder.total = this.printingBill.total;
     finalOrder.items = this.printingBill.items;
-    if(Object.keys(this.printingBill.contact).length === 0){
+    if (Object.keys(this.printingBill.contact).length === 0) {
       finalOrder.contact = null;
-    }
-    else{
+    } else {
       finalOrder.contact = this.printingBill.contact;
     }
     finalOrder.paymentMode = this.printingBill.paymentMode;
@@ -143,6 +153,7 @@ export class ItemComponent implements OnInit {
     this.http.post(finalOrder, this.url.OrderCreate).subscribe(resp => {
       alert("Successfully created");
       this.cancelBill();
+      this.form.reset();
       this.close();
     });
   }
@@ -174,15 +185,16 @@ export class ItemComponent implements OnInit {
   }
   /**Printing bill model */
   public setPrintingBill(billContent) {
-      this.http.get(this.url.OrderGetId).subscribe(resp => {
-        this.printingBill["id"] = resp as any;
-      });
-      this.printingBill["items"] = this.itemList;
-      this.printingBill["total"] = Math.ceil(this.totalBill);
-      this.printingBill["contact"] = this.customerDetails;
-      this.printingBill["date"] = new Date();
-      this.printingBill["totalDiscount"] = this.totalDiscount;
-      this.open(billContent);
+    this.http.get(this.url.OrderGetId).subscribe(resp => {
+      this.printingBill["id"] = resp as any;
+    });
+    this.printingBill["items"] = this.itemList;
+    this.printingBill["total"] = Math.ceil(this.totalBill);
+    this.printingBill["contact"] = this.customerDetails;
+    this.printingBill["date"] = new Date();
+    this.printingBill["totalDiscount"] = this.totalDiscount;
+
+    this.open(billContent);
   }
   public cancelBill() {
     this.itemList = [];
@@ -243,17 +255,27 @@ export class ItemComponent implements OnInit {
   }
   public calculateBill(event) {
     console.log(event);
-    this.giveAmount = 0
-      this.giveAmount = Math.floor(event.target.value - this.totalBill);
+    this.giveAmount = 0;
+    this.giveAmount = Math.floor(event.target.value - this.totalBill);
   }
   public calculateDiscount(event) {
-    console.log(event)
-    if (this.totalDiscount > 0 && ((event.keyCode >= 48 && event.keyCode <= 57) || (event.keyCode >= 96 && event.keyCode <= 105))) {
+    console.log(event);
+    if (
+      this.totalDiscount > 0 &&
+      ((event.keyCode >= 48 && event.keyCode <= 57) ||
+        (event.keyCode >= 96 && event.keyCode <= 105))
+    ) {
       let temp = (this.totalBill * this.totalDiscount) / 100;
       this.totalBill -= temp;
-    } else if(this.totalDiscount == 0 || this.totalDiscount == null){
+    } else if (this.totalDiscount == 0 || this.totalDiscount == null) {
       this.calculateOrderTotal(this.itemList);
     }
   }
-  
+  public onChange(details: any) {
+    for(let k in this.datalistEx){
+      if(this.datalistEx[k] == this.customerDetails.name){
+        this.customerDetails.phone= k;
+      }
+    }
+  }
 }

@@ -5,10 +5,11 @@ import { FormsModule } from '@angular/forms';
 import { ItemComponent } from './item.component';
 import { ItemRoutingModule } from './item-routing.module';
 import { NgxPrintModule } from 'ngx-print';
+import { ComboBoxComponent } from '../common/combo-box/combo-box.component';
 
 
 @NgModule({
-  declarations: [ItemComponent],
+  declarations: [ItemComponent,ComboBoxComponent],
   imports: [
     CommonModule,
     ItemRoutingModule,

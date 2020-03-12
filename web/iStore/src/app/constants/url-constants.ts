@@ -18,6 +18,13 @@ export class URLConstants {
   OrderTotalByDays = 'order/getTotalByDays?days='
   OrderGetId = 'order/getTotalRecordCount'
 
+  /**Reporr */
+
+  ReportByGroup='report/getReportTotalByGroup?fromDate='
+  ReportByValue = 'report/getReportTotalByValue?value='
+  ReportGetBills = 'report/getAllRecordsByDay?month='
+
+  
   /**Category */
   CategoryCreate = 'category/create';
   CategoryGetAll = 'category/getAll';
@@ -31,6 +38,14 @@ export class URLConstants {
   UserUpdate = 'user/update';
   UserDelete = 'user/delete?id=';
   UserGetById = 'user/get?id=';
+
+
+  /**Customers */
+  CustomerCreate = 'contact/create';
+  CustomerGetAll = 'contact/getAll';
+  CustomerUpdate = 'contact/update';
+  CustomerDelete = 'contact/delete?id=';
+  CustomerGetById = 'contact/get?id=';
 
   /** Login */
   Login = 'login/validateUser?name=';

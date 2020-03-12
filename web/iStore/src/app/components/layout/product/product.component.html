@@ -4,7 +4,7 @@
       name="form"
       class="ml-3 mr-2"
       id="productEntryForm"
-      (ngSubmit)="create()"
+      (ngSubmit)="create(f)"
       #f="ngForm"
       novalidate
     >
@@ -18,7 +18,7 @@
             [compareWith]="compareFn"
             required
           >
-            <option [ngValue]="undefined" hidden selected> Category </option>
+            <option [ngValue]="undefined" hidden selected> Category* </option>
             <option *ngFor="let cl of categoryList" [ngValue]="cl">
               {{ cl.name }}
             </option>
@@ -29,8 +29,9 @@
             type="text"
             class="form-control"
             name="pName"
-            placeholder="Name"
+            placeholder="Name*"
             [(ngModel)]="model.name"
+            required
           />
         </div>
         <div class="col-md-12">
@@ -54,9 +55,10 @@
           <input
             type="number"
             class="form-control"
-            name="price"
+            name="price*"
             placeholder="Price (e.g.100.00)"
             [(ngModel)]="model.price"
+            required
           />
         </div>
         <div class="col-md-12">
@@ -86,7 +88,7 @@
             [(ngModel)]="model.minimumAvailability"
           />
         </div>
-        <div class="col-md-12">
+        <!-- <div class="col-md-12">
           <input
             type="number"
             class="form-control"
@@ -94,7 +96,7 @@
             placeholder="Order"
             [(ngModel)]="model.productOrder"
           />
-        </div>
+        </div> -->
       </div>
       <div class=" text-center mt-2">
         <button *ngIf="actionType == 'C' && loggedInUser.role == 'Admin'" class="btn " type="submit">
@@ -188,9 +190,6 @@
             Minimum Availability
           </th>
           <th>
-            Order
-          </th>
-          <th>
             Actions
           </th>
         </tr>
@@ -221,9 +220,6 @@
             </td>
             <td *ngIf="isRaw">
               {{ product.minimumAvailability }}
-            </td>
-            <td>
-              {{ product.productOrder }}
             </td>
             <td>
               <button class="btn" type="submit" (click)="getById(product.id)">
