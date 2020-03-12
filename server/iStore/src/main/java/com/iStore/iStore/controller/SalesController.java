@@ -40,4 +40,12 @@ public class SalesController {
 				HttpStatus.OK);
 	}
 
+	@GetMapping(ISTOREConstants.GET_BY_PRODUCT)
+	public ResponseEntity<List<CategoryDetailInterface>> getProductByProduct(
+			@RequestParam(required = true) String category, @RequestParam(required = true) String fromDate,
+			@RequestParam(required = true) String toDate) throws ParseException {
+		return new ResponseEntity<List<CategoryDetailInterface>>(
+				salesService.getProductByProduct(category, fromDate, toDate), HttpStatus.OK);
+	}
+
 }

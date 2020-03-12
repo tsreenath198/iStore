@@ -14,4 +14,6 @@ public interface SalesService {
 
 	List<CategoryDetailInterface> getSalesByCategory(String fromDate, String toDate) throws ParseException;
 
+	List<CategoryDetailInterface> getProductByProduct(String category, String fromDate, String toDate);
+
 }

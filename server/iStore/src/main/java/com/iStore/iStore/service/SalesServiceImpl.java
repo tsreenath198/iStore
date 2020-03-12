@@ -85,4 +85,9 @@ public class SalesServiceImpl implements SalesService {
 		return orderRepository.getSalesByCategory(fromDate, toDate);
 	}
 
+	@Override
+	public List<CategoryDetailInterface> getProductByProduct(String category, String fromDate, String toDate) {
+		return orderRepository.getProductByProduct(category, fromDate, toDate);
+	}
+
 }
