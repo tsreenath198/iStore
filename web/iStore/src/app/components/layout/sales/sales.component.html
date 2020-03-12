@@ -1,24 +1,56 @@
 <div class="row">
-    <div class="col-md-4">
-      <h4>
-        Choose Days:
-      </h4>
-      <select
-        class="form-control"
-        name="pm"
-        [(ngModel)]="selectedDay"
-        #pm="ngModel"
-        (change)="getTotalData()"
-      >
-      <option *ngFor="let cl of chooseDays"
-      >{{ cl }}
-    </option>
-      </select> 
+  <div class="col-md-4">
+    <div class="row">
+      <div class="col-md-4 p-3">
+        <h4>
+          Set dates by:
+        </h4>
+      </div>
+      <div class="col-md-8 p-3">
+        <select
+          class="form-control"
+         [(ngModel)]="choosenDay"
+          (change)="setDates()">
+          <option *ngFor="let cl of choosePrePopulateDays">{{ cl }} </option>
+        </select>
+      </div>
+      <div class="col-md-4 p-3">
+        <h4>
+          From Date:
+        </h4>
+      </div>
+      <div class="col-md-8 p-3">
+        <input
+          type="date"
+          class="form-control"
+          id="fromDate"
+          [(ngModel)]="groupReq.fromDate "
+        />
+      </div>
+      <div class="col-md-4 p-3">
+        <h4>
+          To Date:
+        </h4>
+      </div>
+      <div class="col-md-8 p-3">
+        <input
+          type="date"
+          class="form-control"
+          min="{{ groupReq.fromDate | date: 'yyyy-MM-dd' }}"
+          [(ngModel)]="groupReq.toDate"
+        />
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <button class="btn ml-4" (click)="getTotalData()">Get Data</button>
+        </div>
+      </div>
     </div>
+  </div>
     <div class="col-md-4">
-      <div class="accordion" id="accordionExample" *ngIf="salesList">
-        <div class="card" *ngFor="let sale of salesList | keyvalue; let i = index">
-          <div class="card-header card-hover" [attr.id]="'heading' + i">
+      <div class="accordion" id="accordionOne" *ngIf="salesCategoriesList">
+        <div class="card" *ngFor="let cat of salesCategoriesList; let i = index">
+          <div class="card-header card-hover" [attr.id]="'heading' + i" (click)="getProductsData(cat.name)">
             <div
               class="mb-0 clearfix"
               data-toggle="collapse"
@@ -26,7 +58,8 @@
               aria-expanded="false"
               [attr.aria-controls]="'#collapse' + i"
             >
-              <span class="float-left"> <strong>Date:</strong> {{ sale.key | date }} </span>
+              <span class="float-left"> <strong>Category:</strong> {{ cat.name }} </span>
+              <span class="float-right"> <strong>Count:</strong> {{ cat.count }} </span>
             </div>
           </div>
   
@@ -34,41 +67,69 @@
             [attr.id]="'collapse' + i"
             class="collapse"
             [attr.aria-labelledby]="'heading' + i"
-            data-parent="#accordionExample"
+            data-parent="#accordionOne"
           >
             <div
               class="card-body table table-sm table-responsive table-hover table-striped"
               style="padding: 0;"
             >
-              <table style="width: 100%;table-layout: fixed;">
-                <thead>
-                  <tr>
-                    <th>Category</th>
-                    <th>Cash</th>
-                    <th>Bank</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <ng-container *ngFor="let order of sale.value">
-                    <tr >
-                      <td >
-                        {{ order.category }}
-                      </td>
-                      <td >
-                        {{ order.cashTotal }}
-                      </td>
-                      <td >
-                        {{ order.bankTotal }}
-                      </td>
-                    </tr>
-                  </ng-container>
-                </tbody>
-              </table>
+            <!-- <div class="accordion" id="accordionTwo">
+              <div class="card" *ngFor="let sale of salesCategoriesList | keyvalue; let j = index">
+                <div class="card-header card-hover" [attr.id]="'heading' + j">
+                  <div
+                    class="mb-0 clearfix"
+                    data-toggle="collapse"
+                    [attr.data-target]="'#collapse' + j"
+                    aria-expanded="false"
+                    [attr.aria-controls]="'#collapse' + j"
+                  >
+                    <span class="float-left"> <strong>Date:</strong> {{ sale.key | date }} </span>
+                  </div>
+                </div>
+        
+                <div
+                  [attr.id]="'collapse' + j"
+                  class="collapse"
+                  [attr.aria-labelledby]="'heading' + j"
+                  data-parent="#accordionTwo"
+                >
+                  <div
+                    class="card-body table table-sm table-responsive table-hover table-striped"
+                    style="padding: 0;"
+                  >
+                    <table style="width: 100%;table-layout: fixed;">
+                      <thead>
+                        <tr>
+                          <th>Category</th>
+                          <th>Cash</th>
+                          <th>Bank</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <ng-container *ngFor="let order of sale.value">
+                          <tr >
+                            <td >
+                              {{ order.category }}
+                            </td>
+                            <td >
+                              {{ order.cashTotal }}
+                            </td>
+                            <td >
+                              {{ order.bankTotal }}
+                            </td>
+                          </tr>
+                        </ng-container>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div> -->
             </div>
           </div>
         </div>
       </div>
-      <div class="pt-5 pl-5" *ngIf="!salesList">
+      <div class="pt-5 pl-5" *ngIf="!salesCategoriesList">
         <h3>
           No data available!
         </h3>

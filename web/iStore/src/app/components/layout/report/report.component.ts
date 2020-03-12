@@ -28,7 +28,6 @@ export class ReportComponent implements OnInit {
   public chooseDays: any = ["Day", "Month", "Year"];
   public choosePrePopulateDays: any = ["Current week", "Current month", "Current year","Manual"];
   public choosenDay: string = "Day";
-  public selectedDay: string = "Day";
   public getBillURLData = {};
   public months: Array<string> = [
     "Jan",

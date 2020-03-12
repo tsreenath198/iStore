@@ -8,15 +8,31 @@ import { HttpService } from "src/app/services/http.service";
   styleUrls: ["./sales.component.css"]
 })
 export class SalesComponent implements OnInit {
-  public salesList: Array<any> = [];
+  public salesCategoriesList: Array<any> = [];
+  public salesProductsList: Array<any>=[];
   public URL = new URLConstants();
   public totalTable: any = [{ date: "2020-01-20" }];
-  public chooseDays:any=['Day','Week' , 'Month' , "Year" ];
-  public selectedDay:string = 'Day';
+  public choosePrePopulateDays: any = [
+    "Current week",
+    "Current month",
+    "Current year",
+    "Manual"
+  ];
+  public choosenDay: string = "Day";
+  public selectedDay: string = "Day";
+  public groupReq: any = {
+    fromDate: "",
+    toDate: ""
+  };
   constructor(private http: HttpService) {}
 
   ngOnInit() {
-    this.getTotalData();
+    //this.getTotalData();
+    this.setCurrentDates();
+  }
+  public setCurrentDates() {
+    this.groupReq.fromDate = new Date().toISOString().substring(0, 10);
+    this.groupReq.toDate = new Date().toISOString().substring(0, 10);
   }
 
   // private getAllSales() {
@@ -24,28 +40,61 @@ export class SalesComponent implements OnInit {
   //     this.salesList = resp as any;
   //   });
   // }
-  public getTotalData(){
-    let noOfDays = 0;
-    let currentDate:any = new Date();
-    switch(this.selectedDay){
-      case 'Day':
-        noOfDays =1;
-        break;
-      case 'Week':
-        noOfDays = currentDate.getDay()+1;
-        break;
-      case 'Month':
-        noOfDays= currentDate.getDate();
-        break;
-      case 'Year':
-        let startDate:any = new Date(currentDate.getFullYear(), 0, 0);
-        let diff = currentDate - startDate;
-        let oneDay = 1000 * 60 * 60 * 24;
-        noOfDays = Math.floor(diff / oneDay);
-        break;
+  public getTotalData() {
+    // this.http.get(this.URL.SalesGetCategories+ this.groupReq.fromDate +'&toDate='+this.groupReq.toDate).subscribe(resp =>{
+    //   this.salesCategoriesList = resp as any;
+    // })
+    this.salesCategoriesList = [
+      { categoryName: "Cup", count: 20 },
+      { categoryName: "Tub", count: 40 },
+      { categoryName: "Shakes", count: 80 },
+      { categoryName: "Bulk", count: 27 },
+      { categoryName: "Sundaes", count: 85 },
+      { categoryName: "Toppings", count: 54 }
+    ];
+    console.log(this.salesCategoriesList);
+  }
+  public getProductsData(catName) {
+    this.http
+      .get(
+        this.URL.SalesGetProducts +
+          catName +
+          "&fromDate" +
+          this.groupReq.fromDate +
+          "&toDate" +
+          this.groupReq.toDate
+      )
+      .subscribe(resp => {
+        this.salesProductsList = resp as any;
+      });
+  }
+  public setDates() {
+    this.setCurrentDates();
+    if (this.choosenDay == this.choosePrePopulateDays[0]) {
+      //week
+      var now = new Date();
+      var firstDayOfWeek = new Date(now.setDate(now.getDate() - now.getDay()));
+
+      this.groupReq.fromDate = firstDayOfWeek.toISOString().substring(0, 10);
+    } else if (this.choosenDay == this.choosePrePopulateDays[1]) {
+      //month
+      //new Date(date.getFullYear(), date.getMonth(), 1)
+      this.groupReq.fromDate = new Date(
+        new Date().getFullYear(),
+        new Date().getMonth(),
+        2
+      )
+        .toISOString()
+        .substring(0, 10);
+    } else if (this.choosenDay == this.choosePrePopulateDays[2]) {
+      //year
+      new Date().toISOString().substring(0, 10);
+      this.groupReq.fromDate = new Date(new Date().getFullYear(), 0, 2)
+        .toISOString()
+        .substring(0, 10);
+    } else {
+      this.groupReq.fromDate = "";
+      this.groupReq.toDate = "";
     }
-    this.http.get(this.URL.SalesTotal+ noOfDays).subscribe(resp =>{
-      this.salesList = resp as any;
-    })
   }
 }

@@ -16,18 +16,19 @@
               placeholder="Name"
               minlength="3"
               #cname="ngModel"
+              (change)="onChange()"
               list="id-list"
               pattern="[A-Za-z]"
               [(ngModel)]="customerDetails.name"
-              (change)="onChange()"
               value="{{ customerDetails.name }}"
               ngModel
             />
-            <datalist id="id-list">
-              <option
-                *ngFor="let data of datalistEx | keyvalue; let i = index"
-                [value]="data.value + i"
-                >{{ data.key }}
+            <datalist id="id-list" 
+            >
+              <option 
+                *ngFor="let data of datalistEx1; let i = index"
+                [value]="data.name "
+                >{{ data.phone }}
               </option>
             </datalist>
           </div>
@@ -176,7 +177,7 @@
         class="col-md-2 p-1"
         id="productsInBill"
         [hidden]="
-          !product.inventory ||
+          (product.category.rawMaterial && !product?.inventory) ||
           product.activeStatus ||
           product.category.activeStatus
         "
