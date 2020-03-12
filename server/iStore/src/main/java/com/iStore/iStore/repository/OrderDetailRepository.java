@@ -9,6 +9,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.iStore.iStore.model.CategoryDetailInterface;
 import com.iStore.iStore.model.OrderDetail;
 import com.iStore.iStore.model.OrderDetailGroupInterface;
 import com.iStore.iStore.model.OrderDetails;
@@ -91,5 +92,9 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
 	@Query(value = "select * from order_detail od where year(od.created_date)=:year and month(od.created_date)=:month and day(od.created_date)=:value and od.active_flag=0 ", nativeQuery = true)
 	List<OrderDetail> findAllRecordsByDay(@Param(value = "year") Integer year, @Param(value = "month") Integer month,
 			@Param(value = "value") Integer value);
+
+	@Query(value = "SELECT DISTINCT c.name as name,	Count(c.name) as count FROM  product p,category c,item i,order_detail od where p.category_id=c.id and i.product_id=p.id and i.order_id=od.id and  od.created_date > :fromDate and od.created_date <:toDate and od.active_flag=0 GROUP by c.name  ", nativeQuery = true)
+	List<CategoryDetailInterface> getSalesByCategory(@Param(value = "fromDate") String fromDate,
+			@Param(value = "toDate") String toDate);
 
 }

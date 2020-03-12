@@ -14,6 +14,7 @@ public interface ISTOREConstants {
 	String ORDER = "/order";
 	String GET_ALL = "/getAll";
 	String GET_TOTAL = "/getTotal";
+	String GET_BY_CATEGORY = "/getByCategory";
 
 	String GET_TOTAL_BY_DAYS = "/getTotalByDays";
 	String GET_TOTAL_BY_YEARS = "/getTotalByYear";
