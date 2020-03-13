@@ -34,6 +34,7 @@ public interface ISTOREConstants {
 	String CONTACT = "/contact";
 	String LOGIN = "/login";
 	String VALIDATE_USER = "/validateUser";
+	String SEARCH = "/search";
 
 	String SUCCESS = "Successfully";
 	String DELETED = "Deleted Successfully";

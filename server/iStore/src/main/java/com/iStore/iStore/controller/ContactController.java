@@ -51,4 +51,9 @@ public class ContactController {
 	public ResponseEntity<List<Contact>> getAll() {
 		return new ResponseEntity<List<Contact>>(contactService.getAll(), HttpStatus.OK);
 	}
+
+	@GetMapping(ISTOREConstants.SEARCH)
+	public ResponseEntity<List<Contact>> search(@RequestParam String searchKey) {
+		return new ResponseEntity<List<Contact>>(contactService.search(searchKey), HttpStatus.OK);
+	}
 }

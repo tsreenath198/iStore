@@ -65,4 +65,13 @@ public class ContactServiceImpl implements ContactService {
 			throw new ValidationException("Record not found with the id" + id);
 	}
 
+	@Override
+	public List<Contact> search(String searchKey) {
+		if (searchKey != null) {
+			searchKey = "%" + searchKey.replaceAll("%", "").toUpperCase() + "%";
+			return contactRepo.search(searchKey);
+		}
+		return null;
+	}
+
 }

@@ -16,5 +16,7 @@ public interface ContactService {
 	public List<Contact> getAll();
 
 	public Contact get(Integer id);
+	
+	public List<Contact> search(String searchKey);
 
 }
