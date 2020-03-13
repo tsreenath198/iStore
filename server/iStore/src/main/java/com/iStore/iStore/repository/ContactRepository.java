@@ -15,7 +15,7 @@ public interface ContactRepository extends CrudRepository<Contact, Integer> {
 	@Query(value = "SELECT  * FROM contact WHERE id=:id and active_flag=0 and LENGTH(phone) >=10 and  phone REGEXP '[0-9]'", nativeQuery = true)
 	Optional<Contact> getByIdAndActiveFlag(Integer id);
 
-	@Query(value = "SELECT *,COUNT(phone) AS `value_occurrence` FROM contact WHERE LENGTH(phone) >=10 and active_flag=0 and phone REGEXP '[0-9]' GROUP BY phone ORDER BY COUNT(phone) DESC", nativeQuery = true)
+	@Query(value = "SELECT * FROM contact WHERE LENGTH(phone) >=10 and active_flag=0  GROUP BY phone ORDER BY COUNT(phone) DESC", nativeQuery = true)
 	List<Contact> getAll();
 
 	@Query(value = "SELECT * FROM contact WHERE LENGTH(phone) >=10 and (Upper(name) LIKE :searchKey OR phone LIKE :searchKey) GROUP BY name, phone", nativeQuery = true)
