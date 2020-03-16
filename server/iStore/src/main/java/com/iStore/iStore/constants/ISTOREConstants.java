@@ -12,6 +12,8 @@ public interface ISTOREConstants {
 	String SALES = "/sales";
 	String REPORT = "/report";
 	String ORDER = "/order";
+	String SMS = "/sms";
+	String SEND = "/send";
 	String GET_ALL = "/getAll";
 	String GET_TOTAL = "/getTotal";
 	String GET_BY_CATEGORY = "/getByCategory";
