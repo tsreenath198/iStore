@@ -44,12 +44,11 @@ public class SMSController {
 
 	@PostMapping(ISTOREConstants.SEND)
 	public ResponseEntity<String> sendSMS(@RequestBody SMS sms) {
-		String htmlMsg = "Thanks for your visit, and I hope to see you soon!";
+		String htmlMsg = "Thanks for your visit, and We hope to see you soon!";
 		StringBuilder sb = new StringBuilder();
 		sb.append(htmlMsg);
-		sb.append("\n Please review us at");
+		sb.append("\n Write us a review at");
 		sb.append("\n https://bit.ly/2WkvYMb");
-		sb.append("\n Sincerely,");
 		sb.append("\n Natural Fresh Ice Creams Nizamabad");
 
 		String contacts = sms.getContact();
