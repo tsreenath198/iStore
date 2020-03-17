@@ -44,18 +44,13 @@ public class SMSController {
 
 	@PostMapping(ISTOREConstants.SEND)
 	public ResponseEntity<String> sendSMS(@RequestBody SMS sms) {
-		String htmlMsg = "Thanks for your visit, and We hope to see you soon!";
-		StringBuilder sb = new StringBuilder();
-		sb.append(htmlMsg);
-		sb.append("\n Write us a review at");
-		sb.append("\n https://bit.ly/2WkvYMb");
-		sb.append("\n Natural Fresh Ice Creams Nizamabad");
-
+		String htmlMsg = "Thank you for visiting Natural Fresh Ice Creams. "
+				+ "Please review us at (https://bit.ly/2WkvYMb). Wish to see you again in our store soon.";
 		String contacts = sms.getContact();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		String body = "authkey=" + authKey + "&sender=" + sender + "&route=" + route + "&message=" + sb + "&mobiles="
-				+ contacts;
+		String body = "authkey=" + authKey + "&sender=" + sender + "&route=" + route + "&message=" + htmlMsg
+				+ "&mobiles=" + contacts;
 		HttpEntity<String> request = new HttpEntity<String>(body, headers);
 		try {
 			ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
