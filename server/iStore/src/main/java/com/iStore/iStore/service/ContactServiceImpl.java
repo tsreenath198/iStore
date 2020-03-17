@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.model.Contact;
+import com.iStore.iStore.model.ContactView;
 import com.iStore.iStore.model.GenericResponse;
 import com.iStore.iStore.repository.ContactRepository;
 
@@ -46,8 +47,8 @@ public class ContactServiceImpl implements ContactService {
 	}
 
 	@Override
-	public List<Contact> getAll() {
-		return (List<Contact>) contactRepo.getAll();
+	public List<ContactView> getAll() {
+		return (List<ContactView>) contactRepo.getAll();
 	}
 
 	@Override

@@ -62,4 +62,6 @@ public class Product {
 	private Integer activeFlag = 0;
 	@Column
 	private Integer defaultDiscount;
+	@Column
+	private Float unitPrice;
 }

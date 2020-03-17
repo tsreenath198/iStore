@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.iStore.iStore.model.Contact;
+import com.iStore.iStore.model.ContactView;
 import com.iStore.iStore.model.GenericResponse;
 
 @Service
@@ -13,7 +14,7 @@ public interface ContactService {
 
 	public GenericResponse delete(Integer id);
 
-	public List<Contact> getAll();
+	public List<ContactView> getAll();
 
 	public Contact get(Integer id);
 	

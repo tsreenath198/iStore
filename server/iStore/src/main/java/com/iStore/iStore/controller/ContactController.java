@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.iStore.iStore.constants.ISTOREConstants;
 import com.iStore.iStore.model.Contact;
+import com.iStore.iStore.model.ContactView;
 import com.iStore.iStore.model.GenericResponse;
 import com.iStore.iStore.service.ContactService;
 
@@ -48,8 +49,8 @@ public class ContactController {
 	}
 
 	@GetMapping(ISTOREConstants.GET_ALL)
-	public ResponseEntity<List<Contact>> getAll() {
-		return new ResponseEntity<List<Contact>>(contactService.getAll(), HttpStatus.OK);
+	public ResponseEntity<List<ContactView>> getAll() {
+		return new ResponseEntity<List<ContactView>>(contactService.getAll(), HttpStatus.OK);
 	}
 
 	@GetMapping(ISTOREConstants.SEARCH)
