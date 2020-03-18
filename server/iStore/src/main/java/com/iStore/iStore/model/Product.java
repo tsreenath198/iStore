@@ -63,5 +63,6 @@ public class Product {
 	@Column
 	private Integer defaultDiscount;
 	@Column
+	@NotNull
 	private Float unitPrice;
 }
