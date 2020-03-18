@@ -10,6 +10,7 @@ public interface ISTOREConstants {
 	String BILL = "/bill";
 	String CATEGORY = "/category";
 	String SALES = "/sales";
+	String PROFITANDLOSS = "/profitAndLoss";
 	String REPORT = "/report";
 	String ORDER = "/order";
 	String SMS = "/sms";

@@ -37,11 +37,6 @@ public class SMSController {
 	@Autowired
 	private RestTemplate restTemplate;
 
-	@Bean
-	public RestTemplate restTemplate() {
-		return new RestTemplate();
-	}
-
 	@PostMapping(ISTOREConstants.SEND)
 	public ResponseEntity<String> sendSMS(@RequestBody SMS sms) {
 		String htmlMsg = "Thank you for visiting Natural Fresh Ice Creams. "
