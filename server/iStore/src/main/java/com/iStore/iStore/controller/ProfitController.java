@@ -18,7 +18,7 @@ import com.iStore.iStore.service.ProfitService;
 
 @RestController
 @CrossOrigin
-@RequestMapping(ISTOREConstants.PROFITANDLOSS)
+@RequestMapping(ISTOREConstants.PROFIT)
 public class ProfitController {
 	@Autowired
 	ProfitService profitService;
