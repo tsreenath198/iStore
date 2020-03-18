@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.iStore.iStore.constants.ISTOREConstants;
-import com.iStore.iStore.model.CategoryDetailInterface;
 import com.iStore.iStore.model.ProfitInterface;
 import com.iStore.iStore.service.ProfitService;
 
@@ -32,11 +31,11 @@ public class ProfitController {
 	}
 
 	@GetMapping(ISTOREConstants.GET_BY_PRODUCT)
-	public ResponseEntity<List<CategoryDetailInterface>> getProductByProduct(
-			@RequestParam(required = true) String category, @RequestParam(required = true) String fromDate,
-			@RequestParam(required = true) String toDate) throws ParseException {
-		return new ResponseEntity<List<CategoryDetailInterface>>(
-				profitService.getProductByProduct(category, fromDate, toDate), HttpStatus.OK);
+	public ResponseEntity<List<ProfitInterface>> getProductByProduct(@RequestParam(required = true) String category,
+			@RequestParam(required = true) String fromDate, @RequestParam(required = true) String toDate)
+			throws ParseException {
+		return new ResponseEntity<List<ProfitInterface>>(profitService.getProductByProduct(fromDate, toDate, category),
+				HttpStatus.OK);
 	}
 
 }
