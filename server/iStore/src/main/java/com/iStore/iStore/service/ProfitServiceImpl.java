@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.iStore.iStore.model.ProfitInterface;
 import com.iStore.iStore.repository.OrderDetailRepository;
+import com.iStore.iStore.util.DateHelper;
 
 @Service
 public class ProfitServiceImpl implements ProfitService {
@@ -16,12 +17,14 @@ public class ProfitServiceImpl implements ProfitService {
 
 	@Override
 	public List<ProfitInterface> getProfitByCategory(String fromDate, String toDate) throws ParseException {
-		return repository.getProfitsByCategory(fromDate, toDate);
+		String uptoDate = DateHelper.getNextDay(toDate);
+		return repository.getProfitsByCategory(fromDate, uptoDate);
 	}
 
 	@Override
 	public List<ProfitInterface> getProductByProduct(String fromDate, String toDate, String category) {
-		return repository.getProfitsByProducts(fromDate, toDate, category);
+		String uptoDate = DateHelper.getNextDay(toDate);
+		return repository.getProfitsByProducts(fromDate, uptoDate, category);
 	}
 
 }

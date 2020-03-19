@@ -82,12 +82,14 @@ public class SalesServiceImpl implements SalesService {
 
 	@Override
 	public List<CategoryDetailInterface> getSalesByCategory(String fromDate, String toDate) throws ParseException {
-		return orderRepository.getSalesByCategory(fromDate, toDate);
+		String uptoDate = DateHelper.getNextDay(toDate);
+		return orderRepository.getSalesByCategory(fromDate, uptoDate);
 	}
 
 	@Override
 	public List<CategoryDetailInterface> getProductByProduct(String category, String fromDate, String toDate) {
-		return orderRepository.getProductByProduct(category, fromDate, toDate);
+		String uptoDate = DateHelper.getNextDay(toDate);
+		return orderRepository.getProductByProduct(category, fromDate, uptoDate);
 	}
 
 }
