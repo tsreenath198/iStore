@@ -24,15 +24,6 @@ public class SMSController {
 	@Value("${sms.url}")
 	private String url;
 
-	@Value("${sms.auth.key}")
-	private String authKey;
-
-	@Value("${sms.sender}")
-	private String sender;
-
-	@Value("${sms.route}")
-	private String route;
-
 	@Autowired
 	private RestTemplate restTemplate;
 
@@ -43,8 +34,7 @@ public class SMSController {
 		String contacts = sms.getContact();
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-		String body = "authkey=" + authKey + "&sender=" + sender + "&route=" + route + "&message=" + htmlMsg
-				+ "&mobiles=" + contacts;
+		String body = "&contacts=" + contacts + "&msg=" + htmlMsg;
 		HttpEntity<String> request = new HttpEntity<String>(body, headers);
 		try {
 			ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
