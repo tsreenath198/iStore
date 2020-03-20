@@ -87,16 +87,17 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void deleteInventory(List<Item> items) {
 		items.forEach(i -> {
-			Optional<Product> product = null;
+			// Optional<Product> product = null;
 			try {
-				product = repository.findByIdAndActiveFlag(i.getProduct().getId(), 0);
-				int inventory = product.get().getInventory() - i.getQuantity();
-				if (inventory > -1) {
-					product.get().setInventory(inventory);
-					repository.save(product.get());
-				} else {
-					throw new ValidationException("Record not found with the product id " + i.getProduct().getId());
-				}
+				repository.deleteInventoryById(i.getProduct().getId(), i.getQuantity());
+//				product = repository.findByIdAndActiveFlag(i.getProduct().getId(), 0);
+//				int inventory = product.get().getInventory() - i.getQuantity();
+//				if (inventory > -1) {
+//					product.get().setInventory(inventory);
+//					repository.save(product.get());
+//				} else {
+//					throw new ValidationException("Record not found with the product id " + i.getProduct().getId());
+//				}
 
 			} catch (Exception e) {
 				throw new ValidationException(e.getMessage());
@@ -107,16 +108,18 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public void addInventory(List<Item> items) {
 		items.forEach(i -> {
-			Optional<Product> product = null;
+			// Optional<Product> product = null;
 			try {
-				product = repository.findByIdAndActiveFlag(i.getProduct().getId(), 0);
-				int inventory = product.get().getInventory() + i.getQuantity();
-				if (inventory > -1) {
-					product.get().setInventory(inventory);
-					repository.save(product.get());
-				} else {
-					throw new ValidationException("Record not found with the product id " + i.getProduct().getId());
-				}
+				// product = repository.findByIdAndActiveFlag(i.getProduct().getId(), 0);
+				repository.addInventoryById(i.getProduct().getId(), i.getQuantity());
+//				int inventory = product.get().getInventory() + i.getQuantity();
+//				if (inventory > -1) {
+//					product.get().setInventory(inventory);
+//					repository.save(product.get());
+//				} else {
+//					throw new ValidationException("Record not found with the product id " + i.getProduct().getId());
+//				}
+
 			} catch (Exception e) {
 				throw new ValidationException(e.getMessage());
 			}
@@ -129,7 +132,7 @@ public class ProductServiceImpl implements ProductService {
 		try {
 			for (Iterator<Product> pro = products.iterator(); pro.hasNext();) {
 				Product product = (Product) pro.next();
-				repository.updateInventoryById(product.getId(), product.getInventory());
+				repository.addInventoryById(product.getId(), product.getInventory());
 			}
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
@@ -156,7 +159,8 @@ public class ProductServiceImpl implements ProductService {
 			// availability
 			// else return zero
 			product.setCurrentStock(product.getInventory() < product.getMinimumAvailability()
-					? product.getMinimumAvailability() - product.getInventory() : 0);
+					? product.getMinimumAvailability() - product.getInventory()
+					: 0);
 		}
 		// Map category with its products
 		for (Iterator<String> iterator = uniqueCategories.iterator(); iterator.hasNext();) {

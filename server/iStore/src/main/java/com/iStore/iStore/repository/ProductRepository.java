@@ -24,7 +24,12 @@ public interface ProductRepository extends CrudRepository<Product, Integer> {
 	@Query(value = "UPDATE product SET inventory=inventory+:inventory WHERE id= :id", nativeQuery = true)
 	@Modifying
 	@Transactional
-	void updateInventoryById(@Param(value = "id") Integer id, @Param(value = "inventory") Integer inventory);
+	void addInventoryById(@Param(value = "id") Integer id, @Param(value = "inventory") Integer inventory);
+	
+	@Query(value = "UPDATE product SET inventory=inventory-:inventory WHERE id= :id", nativeQuery = true)
+	@Modifying
+	@Transactional
+	void deleteInventoryById(@Param(value = "id") Integer id, @Param(value = "inventory") Integer inventory);
 
 	@Query(value = "SELECT product.* FROM product " + "	LEFT JOIN category ON product.category_id = category.id "
 			+ "	WHERE product.category_id=category.id AND category.raw_material = 1 AND product.active_flag=0 "
