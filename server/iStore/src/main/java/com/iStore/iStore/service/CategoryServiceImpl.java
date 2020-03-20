@@ -29,11 +29,15 @@ public class CategoryServiceImpl implements CategoryService {
 	public Category createOrUpdate(Category entity) {
 		try {
 			Integer categoryId = entity.getId();
-			List<Product> products = productService.getByCategoryId(categoryId);
-			for (Product product : products) {
-				System.out.println("id:::" + product.getId());
-				product.setDefaultDiscount(entity.getDefaultDiscount());
-				productRepository.save(product);
+			if (categoryId != null) {
+				List<Product> products = productService.getByCategoryId(categoryId);
+				if (products.size() > 0) {
+					products.forEach(product -> {
+						System.out.println(product.getName());
+						product.setDefaultDiscount(entity.getDefaultDiscount());
+						productRepository.save(product);
+					});
+				}
 			}
 			return categoryRepo.save(entity);
 		} catch (Exception e) {
