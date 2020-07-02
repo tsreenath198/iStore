@@ -38,6 +38,7 @@ public interface ISTOREConstants {
 	String LOGIN = "/login";
 	String VALIDATE_USER = "/validateUser";
 	String SEARCH = "/search";
+	String EXPENSE = "/expense";
 
 	String SUCCESS = "Successfully";
 	String DELETED = "Deleted Successfully";
