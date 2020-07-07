@@ -7,11 +7,7 @@
         </h4>
       </div>
       <div class="col-md-8 p-3">
-        <select
-          class="form-control"
-          name="pm"
-          [(ngModel)]="groupReq.groupBy"
-          #pm="ngModel">
+        <select class="form-control" name="pm" [(ngModel)]="groupReq.groupBy" #pm="ngModel">
           <option *ngFor="let cl of chooseDays">{{ cl }} </option>
         </select>
       </div>
@@ -21,10 +17,7 @@
         </h4>
       </div>
       <div class="col-md-8 p-3">
-        <select
-          class="form-control"
-         [(ngModel)]="choosenDay"
-          (change)="setDates()">
+        <select class="form-control" [(ngModel)]="choosenDay" (change)="setDates()">
           <option *ngFor="let cl of choosePrePopulateDays">{{ cl }} </option>
         </select>
       </div>
@@ -34,12 +27,7 @@
         </h4>
       </div>
       <div class="col-md-8 p-3">
-        <input
-          type="date"
-          class="form-control"
-          id="fromDate"
-          [(ngModel)]="groupReq.fromDate "
-        />
+        <input type="date" class="form-control" id="fromDate" [(ngModel)]="groupReq.fromDate " />
       </div>
       <div class="col-md-4 p-3">
         <h4>
@@ -47,12 +35,8 @@
         </h4>
       </div>
       <div class="col-md-8 p-3">
-        <input
-          type="date"
-          class="form-control"
-          min="{{ groupReq.fromDate | date: 'yyyy-MM-dd' }}"
-          [(ngModel)]="groupReq.toDate"
-        />
+        <input type="date" class="form-control" min="{{ groupReq.fromDate | date: 'yyyy-MM-dd' }}"
+          [(ngModel)]="groupReq.toDate" />
       </div>
       <div class="row">
         <div class="col-md-12">
@@ -64,19 +48,10 @@
   <div class="col-md-5">
     <div class="accordion" *ngIf="groupByData.length > 0" id="accordionGroupBy">
       <div class="card" *ngFor="let group of groupByData; let i = index">
-        <div
-          class="card-header card-hover"
-          style="background-color: #808080;"
-          (click)="groupBy(group)"
-          [attr.id]="'heading' + i"
-        >
-          <div
-            class="mb-0 clearfix"
-            data-toggle="collapse"
-            [attr.data-target]="'#collapse' + i"
-            aria-expanded="false"
-            [attr.aria-controls]="'#collapse' + i"
-          >
+        <div class="card-header card-hover" style="background-color: #808080;" (click)="groupBy(group)"
+          [attr.id]="'heading' + i">
+          <div class="mb-0 clearfix" data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="false"
+            [attr.aria-controls]="'#collapse' + i">
             <div class="row">
               <div class="col-md-3">
                 <span *ngIf="group.type == 'year'">
@@ -106,38 +81,15 @@
           </div>
         </div>
 
-        <div
-          [attr.id]="'collapse' + i"
-          class="collapse"
-          [attr.aria-labelledby]="'heading' + i"
-          data-parent="#accordionGroupBy"
-        >
-          <div
-            class="card-body table  table-responsive table-hover table-striped"
-            style="padding: 0;"
-          >
-            <div
-              class="accordion"
-              *ngIf="valueByData.length > 0"
-              id="accordionFirstValue"
-            >
-              <div
-                class="card"
-                *ngFor="let group of valueByData; let j = index"
-              >
-                <div
-                  class="card-header card-hover"
-                  style="background-color: 	#A9A9A9	;"
-                  (click)="valueBy1(group)"
-                  [attr.id]="'headingOne' + j"
-                >
-                  <div
-                    class="mb-0 clearfix"
-                    data-toggle="collapse"
-                    [attr.data-target]="'#collapseOne' + j"
-                    aria-expanded="false"
-                    [attr.aria-controls]="'#collapseOne' + j"
-                  >
+        <div [attr.id]="'collapse' + i" class="collapse" [attr.aria-labelledby]="'heading' + i"
+          data-parent="#accordionGroupBy">
+          <div class="card-body table  table-responsive table-hover table-striped" style="padding: 0;">
+            <div class="accordion" *ngIf="valueByData.length > 0" id="accordionFirstValue">
+              <div class="card" *ngFor="let group of valueByData; let j = index">
+                <div class="card-header card-hover" style="background-color: 	#A9A9A9	;" (click)="valueBy1(group)"
+                  [attr.id]="'headingOne' + j">
+                  <div class="mb-0 clearfix" data-toggle="collapse" [attr.data-target]="'#collapseOne' + j"
+                    aria-expanded="false" [attr.aria-controls]="'#collapseOne' + j">
                     <div class="row">
                       <div class="col-md-3">
                         <span class="float-left" *ngIf="group.type == 'day'">
@@ -161,40 +113,17 @@
                   </div>
                 </div>
 
-                <div
-                  [attr.id]="'collapseOne' + j"
-                  class="collapse"
-                  [attr.aria-labelledby]="'headingOne' + j"
-                  data-parent="#accordionFirstValue"
-                >
-                  <div
-                    class="card-body table  table-responsive table-hover table-striped"
-                    style="padding: 0;"
-                    id="cardBody1"
-                  >
+                <div [attr.id]="'collapseOne' + j" class="collapse" [attr.aria-labelledby]="'headingOne' + j"
+                  data-parent="#accordionFirstValue">
+                  <div class="card-body table  table-responsive table-hover table-striped" style="padding: 0;"
+                    id="cardBody1">
                     <div *ngIf="valueByData2">
-                      <div
-                        class="accordion"
-                        *ngIf="valueByData.length > 0"
-                        id="accordionSecondValue"
-                      >
-                        <div
-                          class="card"
-                          *ngFor="let group of valueByData2; let k = index"
-                        >
-                          <div
-                            class="card-header card-hover"
-                            style="background-color: #DCDCDC;"
-                            (click)="valueBy2(group)"
-                            [attr.id]="'headingTwo' + k"
-                          >
-                            <div
-                              class="mb-0 clearfix"
-                              data-toggle="collapse"
-                              [attr.data-target]="'#collapseTwo' + k"
-                              aria-expanded="false"
-                              [attr.aria-controls]="'#collapseTwo' + k"
-                            >
+                      <div class="accordion" *ngIf="valueByData.length > 0" id="accordionSecondValue">
+                        <div class="card" *ngFor="let group of valueByData2; let k = index">
+                          <div class="card-header card-hover" style="background-color: #DCDCDC;"
+                            (click)="valueBy2(group)" [attr.id]="'headingTwo' + k">
+                            <div class="mb-0 clearfix" data-toggle="collapse" [attr.data-target]="'#collapseTwo' + k"
+                              aria-expanded="false" [attr.aria-controls]="'#collapseTwo' + k">
                               <div class="row">
                                 <div class="col-md-3">
                                   <span *ngIf="group.type == 'day'">
@@ -223,27 +152,16 @@
                             </div>
                           </div>
                           <div>
-                            <div
-                              [attr.id]="'collapseTwo' + k"
-                              class="collapse"
-                              [attr.aria-labelledby]="'headingTwo' + k"
-                              data-parent="#accordionSecondValue"
-                            >
-                              <div
-                                id="cardBody2"
-                                class="card-body table  table-responsive table-hover table-striped"
-                                style="padding: 0;"
-                              >
+                            <div [attr.id]="'collapseTwo' + k" class="collapse"
+                              [attr.aria-labelledby]="'headingTwo' + k" data-parent="#accordionSecondValue">
+                              <div id="cardBody2" class="card-body table  table-responsive table-hover table-striped"
+                                style="padding: 0;">
                                 <div>
-                                  <div
-                                    *ngIf="
+                                  <div *ngIf="
                                       finalBills.length > 0 &&
                                       showTable == 'cardBody2'
-                                    "
-                                  >
-                                    <table
-                                      style="width: 100%;table-layout: fixed;"
-                                    >
+                                    ">
+                                    <table style="width: 100%;table-layout: fixed;">
                                       <thead>
                                         <!-- <tr>
                                                   <td colspan="4">
@@ -260,57 +178,33 @@
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        <ng-container
-                                          *ngFor="let bill of finalBills"
-                                        >
+                                        <ng-container *ngFor="let bill of finalBills">
                                           <tr>
-                                            <td
-                                              (click)="
+                                            <td (click)="
                                                 openPopup(bill, billContent)
-                                              "
-                                            >
+                                              ">
                                               {{ bill.id }}
                                             </td>
-                                            <td
-                                              (click)="
+                                            <td (click)="
                                                 openPopup(bill, billContent)
-                                              "
-                                            >
+                                              ">
                                               {{ bill.createdDate | date }}
                                             </td>
-                                            <td
-                                              (click)="
+                                            <td (click)="
                                                 openPopup(bill, billContent)
-                                              "
-                                            >
+                                              ">
                                               {{ bill.total }}
                                             </td>
                                             <td>
-                                              <button
-                                                class="btn btn-sm "
-                                                type="submit"
-                                                (click)="edit(bill)"
-                                              >
+                                              <button class="btn btn-sm " type="submit" (click)="edit(bill)">
                                                 Edit
-                                                <i
-                                                  class="fa  fa-edit"
-                                                  style="font-size: 10px;"
-                                                  aria-hidden="true"
-                                                ></i>
+                                                <i class="fa  fa-edit" style="font-size: 10px;" aria-hidden="true"></i>
                                               </button>
                                             </td>
                                             <td>
-                                              <button
-                                                class="btn btn-sm "
-                                                type="submit"
-                                                (click)="delete(bill)"
-                                              >
+                                              <button class="btn btn-sm " type="submit" (click)="delete(bill)">
                                                 Delete
-                                                <i
-                                                  class="fa  fa-trash"
-                                                  style="font-size: 10px;"
-                                                  aria-hidden="true"
-                                                ></i>
+                                                <i class="fa  fa-trash" style="font-size: 10px;" aria-hidden="true"></i>
                                               </button>
                                             </td>
                                           </tr>
@@ -326,11 +220,9 @@
                       </div>
 
                       <div>
-                        <div
-                          *ngIf="
+                        <div *ngIf="
                             finalBills.length > 0 && showTable == 'cardBody1'
-                          "
-                        >
+                          ">
                           <table style="width: 100%;table-layout: fixed;">
                             <thead>
                               <tr>
@@ -354,31 +246,15 @@
                                     {{ bill.total }}
                                   </td>
                                   <td>
-                                    <button
-                                      class="btn btn-sm "
-                                      type="submit"
-                                      (click)="edit(bill)"
-                                    >
+                                    <button class="btn btn-sm " type="submit" (click)="edit(bill)">
                                       Edit
-                                      <i
-                                        class="fa  fa-edit"
-                                        style="font-size: 10px;"
-                                        aria-hidden="true"
-                                      ></i>
+                                      <i class="fa  fa-edit" style="font-size: 10px;" aria-hidden="true"></i>
                                     </button>
                                   </td>
                                   <td>
-                                    <button
-                                      class="btn btn-sm "
-                                      type="submit"
-                                      (click)="delete(bill)"
-                                    >
+                                    <button class="btn btn-sm " type="submit" (click)="delete(bill)">
                                       Delete
-                                      <i
-                                        class="fa  fa-trash"
-                                        style="font-size: 10px;"
-                                        aria-hidden="true"
-                                      ></i>
+                                      <i class="fa  fa-trash" style="font-size: 10px;" aria-hidden="true"></i>
                                     </button>
                                   </td>
                                 </tr>
@@ -392,10 +268,8 @@
                 </div>
               </div>
             </div>
-            <div
-              class="table  table-responsive table-hover table-striped"
-              *ngIf="groupReq.groupBy == 'Day' && finalBills.length > 0"
-            >
+            <div class="table  table-responsive table-hover table-striped"
+              *ngIf="groupReq.groupBy == 'Day' && finalBills.length > 0">
               <table style="width: 100%;table-layout: fixed;">
                 <thead>
                   <tr>
@@ -419,31 +293,15 @@
                         {{ bill.total }}
                       </td>
                       <td>
-                        <button
-                          class="btn btn-sm "
-                          type="submit"
-                          (click)="edit(bill)"
-                        >
+                        <button class="btn btn-sm " type="submit" (click)="edit(bill)">
                           Edit
-                          <i
-                            class="fa  fa-edit"
-                            style="font-size: 10px;"
-                            aria-hidden="true"
-                          ></i>
+                          <i class="fa  fa-edit" style="font-size: 10px;" aria-hidden="true"></i>
                         </button>
                       </td>
                       <td>
-                        <button
-                          class="btn btn-sm "
-                          type="submit"
-                          (click)="delete(bill)"
-                        >
+                        <button class="btn btn-sm " type="submit" (click)="delete(bill)">
                           Delete
-                          <i
-                            class="fa  fa-trash"
-                            style="font-size: 10px;"
-                            aria-hidden="true"
-                          ></i>
+                          <i class="fa  fa-trash" style="font-size: 10px;" aria-hidden="true"></i>
                         </button>
                       </td>
                     </tr>
@@ -455,7 +313,7 @@
         </div>
       </div>
     </div>
-    
+
     <div class="pt-5 pl-5" *ngIf="groupByData.length == 0">
       <h3>
         No data available!
@@ -468,7 +326,7 @@
     >
       <h3>No bills available on {{ this.groupReq.fromDate | date }}!</h3>
     </div> -->
-    
+
   </div>
 </div>
 
@@ -476,12 +334,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">Bill</h4>
-      <button
-        type="button"
-        class="close"
-        aria-label="Close"
-        (click)="d('Cross click')"
-      >
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -490,8 +343,7 @@
         <div style="text-align: center;">
           <small>NATURAL FRESH</small><br />
           <small>SRI YOGESHWARA ENTERPRISE</small><br />
-          <small>TAX INVOICE #{{ popupContent.id }}</small
-          ><br />
+          <small>TAX INVOICE #{{ popupContent.id }}</small><br />
           <small>YELLAMMAGUTTA, NZB</small><br />
         </div>
         <hr />
@@ -501,11 +353,9 @@
               <small>Name: {{ popupContent.contact.name }}</small>
             </p>
             <p>
-              <small
-                >Date:{{ popupContent.createdDate | date }},{{
+              <small>Date:{{ popupContent.createdDate | date }},{{
                   popupContent.createdDate | date: "h:mm:ss a"
-                }}</small
-              >
+                }}</small>
             </p>
           </div>
           <div style="float: right;">
@@ -563,8 +413,7 @@
           </table>
           <span *ngIf="popupContent.paymentMode">
             <hr />
-            Payment Mode : {{ popupContent?.paymentMode }}</span
-          >
+            Payment Mode : {{ popupContent?.paymentMode }}</span>
         </div>
         <div style="text-align: center;">
           <hr />
@@ -574,22 +423,12 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-secondary"
-        printSectionId="print-section"
-        [printStyle]="{
+      <button type="button" class="btn btn-secondary" printSectionId="print-section" [printStyle]="{
           div: { 'margin-left': '-5px', 'margin-right': '-5px' }
-        }"
-        ngxPrint
-      >
+        }" ngxPrint>
         Print
       </button>
-      <button
-        type="button"
-        class="btn btn-secondary"
-        (click)="close('Close click')"
-      >
+      <button type="button" class="btn btn-secondary" (click)="close('Close click')">
         Close
       </button>
     </div>

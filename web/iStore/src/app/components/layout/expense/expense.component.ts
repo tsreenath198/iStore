@@ -15,15 +15,16 @@ export class ExpenseComponent implements OnInit {
   public actionLabel: string = "Create";
   public component: String = "Expense";
   public paymentTypes: Array<any> = ["Cash", "Bank"];
+  public today = new Date().toISOString().substring(0, 10);
   public expenseList = [];
   constructor(private http: HttpService) { }
 
   ngOnInit() {
     this.getAll();
+    this.expense.date = this.today;
   }
 
   public create(f: NgForm): void {
-    if (this.actionLabel == 'Create') {
       if (f.valid) {
         this.http.post(this.expense, this.url.ExpenseCreate).subscribe(
           res => {
@@ -38,9 +39,6 @@ export class ExpenseComponent implements OnInit {
       } else {
         alert("Please enter all required fields");
       }
-    } else {
-      this.update();
-    }
   }
   public getAll() {
     this.http.get(this.url.ExpenseGetAll).subscribe(
@@ -53,9 +51,10 @@ export class ExpenseComponent implements OnInit {
       }
     );
   }
-  public editRow(e) {
+  public editRow(e: Expense) {
     this.actionLabel = 'Update';
     this.expense = JSON.parse(JSON.stringify(e));
+    this.expense.date = new Date(e.date).toISOString().substring(0, 10);
   }
   public update() {
     this.http.put(this.expense, this.url.ExpenseUpdate).subscribe(

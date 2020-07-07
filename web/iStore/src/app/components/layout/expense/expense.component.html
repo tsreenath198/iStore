@@ -16,7 +16,7 @@
                 </div>
                 <div class="col-md-12">
                     <input type="date" class="form-control mt-2" name="Date" [(ngModel)]="expense.date" #date="ngModel"
-                        placeholder="Date *" required />
+                        placeholder="Date *" max="{{today | date:'yyyy-MM-dd'}}" required />
                 </div>
                 <div class="col-md-12">
                     <select style="width: 98%;" id="payMode" name="pm" [(ngModel)]="expense.mode" #pm="ngModel" required>

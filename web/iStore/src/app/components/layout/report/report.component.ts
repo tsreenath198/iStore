@@ -26,7 +26,7 @@ export class ReportComponent implements OnInit {
   public valueByData2: any = [];
   public showTable: string = "";
   public chooseDays: any = ["Day", "Month", "Year"];
-  public choosePrePopulateDays: any = ["Current week", "Current month", "Current year","Manual"];
+  public choosePrePopulateDays: any = ["Current week", "Current month", "Current year", "Manual"];
   public choosenDay: string = "Day";
   public getBillURLData = {};
   public months: Array<string> = [
@@ -55,7 +55,7 @@ export class ReportComponent implements OnInit {
     private http: HttpService,
     private modalService: NgbModal,
     private storageService: StorageService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.groupReq.groupBy = "Day";
@@ -85,11 +85,11 @@ export class ReportComponent implements OnInit {
     this.http
       .get(
         this.URL.ReportByGroup +
-          this.groupReq.fromDate +
-          "&groupBy=" +
-          this.groupReq.groupBy +
-          "&toDate=" +
-          this.groupReq.toDate
+        this.groupReq.fromDate +
+        "&groupBy=" +
+        this.groupReq.groupBy +
+        "&toDate=" +
+        this.groupReq.toDate
       )
       .subscribe(resp => {
         this.groupByData = resp as any;
@@ -232,10 +232,10 @@ export class ReportComponent implements OnInit {
       //week
       var now = new Date();
       var firstDayOfWeek = new Date(
-        now.setDate(now.getDate() - now.getDay() )
+        now.setDate(now.getDate() - now.getDay())
       );
 
-      this.groupReq.fromDate=firstDayOfWeek.toISOString().substring(0, 10);
+      this.groupReq.fromDate = firstDayOfWeek.toISOString().substring(0, 10);
     } else if (this.choosenDay == this.choosePrePopulateDays[1]) {
       //month
       //new Date(date.getFullYear(), date.getMonth(), 1)
@@ -246,13 +246,13 @@ export class ReportComponent implements OnInit {
       )
         .toISOString()
         .substring(0, 10);
-    } else if(this.choosenDay == this.choosePrePopulateDays[2]){
+    } else if (this.choosenDay == this.choosePrePopulateDays[2]) {
       //year
       new Date().toISOString().substring(0, 10);
       this.groupReq.fromDate = new Date(new Date().getFullYear(), 0, 2)
         .toISOString()
         .substring(0, 10);
-    }else{
+    } else {
       this.groupReq.fromDate = '';
       this.groupReq.toDate = '';
     }
