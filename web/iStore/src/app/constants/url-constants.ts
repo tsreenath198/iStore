@@ -40,6 +40,12 @@ export class URLConstants {
   UserGetById = 'user/get?id=';
 
 
+  /** Expense */
+  ExpenseCreate = 'expense/create';
+  ExpenseGetAll = 'expense/getAll';
+  ExpenseUpdate = 'expense/update';
+  ExpenseDelete = 'expense/delete?id=';
+  ExpenseGetById = 'expense/get?id=';
   /**Customers */
   CustomerCreate = 'contact/create';
   CustomerGetAll = 'contact/getAll';

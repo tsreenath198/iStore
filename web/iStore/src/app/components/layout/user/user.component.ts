@@ -11,12 +11,12 @@ import { NgForm } from '@angular/forms';
   styleUrls: ["./user.component.css"]
 })
 export class UserComponent implements OnInit {
-  constructor(private http: HttpService) {}
+  constructor(private http: HttpService) { }
   public user: User = <User>{};
   public component: String = "User";
   public url = new URLConstants();
   public userList: Array<User> = [];
-  public actionLabel:string = "Create";
+  public actionLabel: string = "Create";
   public roleTypes = UserRole;
   public roleTypeOptions = [];
   ngOnInit() {
@@ -24,7 +24,7 @@ export class UserComponent implements OnInit {
     this.roleTypeOptions = Object.keys(this.roleTypes);
   }
 
-  public create(f:NgForm) {
+  public create(f: NgForm) {
     if (f.valid) {
       this.http.post(this.user, this.url.UserCreate).subscribe(
         res => {
@@ -36,7 +36,7 @@ export class UserComponent implements OnInit {
           this.errorHandler(this.component);
         }
       );
-    }else{
+    } else {
       alert("Please enter all required fields");
     }
   }

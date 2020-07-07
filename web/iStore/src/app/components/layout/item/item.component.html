@@ -1,44 +1,20 @@
-
 <!-- <combo-box [dataList]="datalistEx" [columnName]="'name'"></combo-box> -->
 <div class="row">
-  <div
-    class="col-md-5"
-    style="height: 90vh; background-color: #343a40;overflow-y: scroll;"
-  >
+  <div class="col-md-5" style="height: 90vh; background-color: #343a40;overflow-y: scroll;">
     <form #form="ngForm" id="ngForm" novalidate>
       <div class="row p-3">
         <div class="col-md-12 clearfix">
           <div class="float-left form-group">
-            <input
-              type="text"
-              id="cname"
-              name="cname"
-              placeholder="Name"
-              minlength="3"
-              #cname="ngModel"
-              (change)="onChange()"
-              list="id-list"
-              pattern="[A-Za-z]"
-              [(ngModel)]="customerDetails.name"
-              value="{{ customerDetails.name }}"
-              ngModel
-            />
-            <datalist id="id-list" 
-            >
-              <option 
-                *ngFor="let data of datalistEx1; let i = index"
-                [value]="data.name "
-                >{{ data.phone }}
+            <input type="text" id="cname" name="cname" placeholder="Name" minlength="3" #cname="ngModel"
+              (change)="onChange()" list="id-list" pattern="[A-Za-z]" [(ngModel)]="customerDetails.name"
+              value="{{ customerDetails.name }}" ngModel />
+            <datalist id="id-list">
+              <option *ngFor="let data of datalistEx1; let i = index" [value]="data.name ">{{ data.phone }}
               </option>
             </datalist>
           </div>
           <div class="float-right">
-            <input
-              type="text"
-              placeholder="Phone"
-              name="phone"
-              [(ngModel)]="customerDetails.phone"
-            />
+            <input type="text" placeholder="Phone" name="phone" [(ngModel)]="customerDetails.phone" />
           </div>
         </div>
       </div>
@@ -55,32 +31,20 @@
         </thead>
         <tbody *ngIf="itemList.length">
           <tr *ngFor="let item of itemList; let i = index">
-            <td
-              style="position: relative;cursor: pointer;"
-              (click)="removeItemFromBill(i)"
-            >
-              <span
-                style="color: greenyellow; margin: 0;
+            <td style="position: relative;cursor: pointer;" (click)="removeItemFromBill(i)">
+              <span style="color: greenyellow; margin: 0;
           font-size: 15px ;
         position: relative;
-        margin-top: 50%;"
-              >
-                <i class="fa fa-minus" aria-hidden="true"></i
-              ></span>
+        margin-top: 50%;">
+                <i class="fa fa-minus" aria-hidden="true"></i></span>
             </td>
             <td>
               <p>{{ item.product.name }}({{ item.product.category.name }})</p>
             </td>
             <td>
               <div>
-                <input
-                  type="number"
-                  class="form-control"
-                  name="quantity"
-                  min="1"
-                  [(ngModel)]="item.quantity"
-                  (change)="setTotal(item)"
-                />
+                <input type="number" class="form-control" name="quantity" min="1" [(ngModel)]="item.quantity"
+                  (change)="setTotal(item)" />
               </div>
             </td>
             <td>
@@ -88,16 +52,8 @@
             </td>
             <td>
               <div>
-                <input
-                  type="number"
-                  class="form-control"
-                  name="discount"
-                  [(ngModel)]="item.discount"
-                  step="5"
-                  max="100"
-                  min="0"
-                  (change)="setTotal(item)"
-                />
+                <input type="number" class="form-control" name="discount" [(ngModel)]="item.discount" step="5" max="100"
+                  min="0" (change)="setTotal(item)" />
               </div>
             </td>
             <td>
@@ -110,13 +66,8 @@
             </td>
             <td>
               <div style="width:50px">
-                <input
-                  type="number"
-                  class="form-control"
-                  name="totalDiscount"
-                  [(ngModel)]="totalDiscount"
-                  (keyup)="calculateDiscount($event)"
-                />
+                <input type="number" class="form-control" name="totalDiscount" [(ngModel)]="totalDiscount"
+                  (keyup)="calculateDiscount($event)" />
               </div>
             </td>
           </tr>
@@ -137,20 +88,11 @@
               </button>
             </td>
             <td colspan="1">
-              <button
-                class="btn"
-                style="float: right;"
-                *ngIf="!updateMode"
-                (click)="setPrintingBill(paymentModeContent)"
-              >
+              <button class="btn" style="float: right;" *ngIf="!updateMode"
+                (click)="setPrintingBill(paymentModeContent)">
                 Generate
               </button>
-              <button
-                class="btn"
-                style="float: right;"
-                *ngIf="updateMode"
-                (click)="update(billContent)"
-              >
+              <button class="btn" style="float: right;" *ngIf="updateMode" (click)="update(billContent)">
                 Update
               </button>
             </td>
@@ -162,39 +104,26 @@
   <div class="col-md-7 item-view-pane">
     <nav class="nav nav-tabs">
       <li class="nav-item" *ngFor="let cat of categoryList">
-        <a
-          class="nav-item nav-link"
-          *ngIf="!cat.activeStatus"
-          [ngClass]="{ active: selectedCategory == cat.name }"
-          (click)="filter(cat.id, cat.name)"
-          >{{ cat.name }}
+        <a class="nav-item nav-link" *ngIf="!cat.activeStatus" [ngClass]="{ active: selectedCategory == cat.name }"
+          (click)="filter(cat.id, cat.name)">{{ cat.name }}
         </a>
       </li>
     </nav>
     <div class="row">
-      <div
-        *ngFor="let product of productList"
-        class="col-md-2 p-1"
-        id="productsInBill"
-        [hidden]="
+      <div *ngFor="let product of productList" class="col-md-2 p-1" id="productsInBill" [hidden]="
           (product.category.rawMaterial && !product?.inventory) ||
           product.activeStatus ||
           product.category.activeStatus
-        "
-        [ngClass]="{
+        " [ngClass]="{
           'text-red': product.inventory < product.minimumAvailability
-        }"
-        (click)="addToList(product)"
-      >
-        <b
-          ><h5>{{ product.name }}</h5></b
-        >
-        <b
-          ><small>({{ selectedCategory }})</small></b
-        >
-        <b
-          ><p>{{ product.price }}.rs</p></b
-        >
+        }" (click)="addToList(product)">
+        <b>
+          <h5>{{ product.name }}</h5>
+        </b>
+        <b><small>({{ selectedCategory }})</small></b>
+        <b>
+          <p>{{ product.price }}.rs</p>
+        </b>
       </div>
     </div>
   </div>
@@ -203,12 +132,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">Bill</h4>
-      <button
-        type="button"
-        class="close"
-        aria-label="Close"
-        (click)="d('Cross click')"
-      >
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -228,11 +152,9 @@
               <small>Name: {{ printingBill.contact.name }}</small>
             </p>
             <p>
-              <small
-                >Date:{{ printingBill.date | date }},{{
+              <small>Date:{{ printingBill.date | date }},{{
                   printingBill.date | date: "h:mm:ss a"
-                }}</small
-              >
+                }}</small>
             </p>
           </div>
           <div style="float: right;">
@@ -300,23 +222,12 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-secondary"
-        printSectionId="print-section"
-        [printStyle]="{
+      <button type="button" class="btn btn-secondary" printSectionId="print-section" [printStyle]="{
           div: { 'margin-left': '-5px', 'margin-right': '-5px' }
-        }"
-        (click)="generateBill()"
-        ngxPrint
-      >
+        }" (click)="generateBill()" ngxPrint>
         Print
       </button>
-      <button
-        type="button"
-        class="btn btn-secondary"
-        (click)="close('Close click')"
-      >
+      <button type="button" class="btn btn-secondary" (click)="close('Close click')">
         Close
       </button>
     </div>
@@ -326,53 +237,42 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">Choose Payment Mode</h4>
-      <button
-        type="button"
-        class="close"
-        aria-label="Close"
-        (click)="d('Cross click')"
-      >
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
       <div class="p-3">
         <div class="col-md-12 form-group">
-          <select
-            style="width: 98%;"
-            id="payMode"
-            name="pm"
-            [(ngModel)]="paymentMode"
-            #pm="ngModel"
-            required
-          >
+          <select style="width: 98%;" id="payMode" name="pm" [(ngModel)]="paymentMode" #pm="ngModel" required>
             <option [ngValue]="undefined" hidden selected>
               Payment Mode
             </option>
-            <option *ngFor="let cl of paymentTypes">{{ cl }} </option> </select
-          ><label class="required" for="pm">*</label>
+            <option *ngFor="let cl of paymentTypes">{{ cl }} </option>
+          </select><label class="required" for="pm">*</label>
         </div>
         <div class="col-md-12" *ngIf="paymentMode == 'Cash'">
           <table>
             <tr>
-              <td><h3>Total:</h3></td>
+              <td>
+                <h3>Total:</h3>
+              </td>
               <td>
                 <h5>{{ totalBill }}</h5>
               </td>
             </tr>
             <tr>
-              <td><h3>Given:</h3></td>
               <td>
-                <input
-                  type="number"
-                  class="form-control"
-                  style="color: black;"
-                  (keyup)="calculateBill($event)"
-                />
+                <h3>Given:</h3>
+              </td>
+              <td>
+                <input type="number" class="form-control" style="color: black;" (keyup)="calculateBill($event)" />
               </td>
             </tr>
             <tr>
-              <td><h3>Return:</h3></td>
+              <td>
+                <h3>Return:</h3>
+              </td>
               <td>
                 <h5>{{ giveAmount }}</h5>
               </td>
@@ -382,19 +282,10 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-secondary"
-        [disabled]="!paymentMode"
-        (click)="proceedToPrint(billContent)"
-      >
+      <button type="button" class="btn btn-secondary" [disabled]="!paymentMode" (click)="proceedToPrint(billContent)">
         Next
       </button>
-      <button
-        type="button"
-        class="btn btn-secondary"
-        (click)="close('Close click')"
-      >
+      <button type="button" class="btn btn-secondary" (click)="close('Close click')">
         Close
       </button>
     </div>

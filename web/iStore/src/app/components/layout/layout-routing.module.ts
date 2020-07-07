@@ -5,6 +5,7 @@ import { UserComponent } from "./user/user.component";
 import { CustomerComponent } from "./customer/customer.component";
 import { RoleGuard } from "src/app/guards/role.guard";
 import { UserRole } from "./user/user.enum";
+import { ExpenseComponent } from './expense/expense.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,14 @@ const routes: Routes = [
         canActivate: [RoleGuard],
         data: {
           roles: [UserRole.Admin]
+        }
+      },
+      {
+        path: "expense",
+        component: ExpenseComponent,
+        canActivate: [RoleGuard],
+        data: {
+          roles: [UserRole.Admin,UserRole.Store_Manager]
         }
       },
       {

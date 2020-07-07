@@ -10,7 +10,7 @@ export class HeaderComponent implements OnInit {
   user: User;
   constructor() {}
   ngOnInit() {}
-  tabs = ["bill", "product", "category", "report", "sales", "user", "customer"];
+  tabs = ["bill", "product", "category", "report", "sales", "expense","user", "customer"];
   isAuthenticate(tab: string) {
     if (localStorage.getItem("loggedInUser") != "null") {
       this.user = JSON.parse(localStorage.getItem("loggedInUser"));

@@ -1,0 +1,69 @@
+<div class="row">
+    <div class="col-md-3" style="height: 90vh; background-color: #343a40;">
+        <form name="form" class="ml-3 mr-2" id="expenseForm" #f="ngForm" (ngSubmit)="create(f)">
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="number" class="form-control mt-2" name="Amount" [(ngModel)]="expense.amount"
+                        #amount="ngModel" placeholder="Amount *" required />
+                </div>
+                <div class="col-md-12">
+                    <input type="text" class="form-control mt-2" name="Description" [(ngModel)]="expense.description"
+                        #description="ngModel" placeholder="Description *" required />
+                </div>
+                <div class="col-md-12">
+                    <input type="text" class="form-control mt-2" name="Comment" [(ngModel)]="expense.comment"
+                        #comment="ngModel" placeholder="Comment *" required />
+                </div>
+                <div class="col-md-12">
+                    <input type="date" class="form-control mt-2" name="Date" [(ngModel)]="expense.date" #date="ngModel"
+                        placeholder="Date *" required />
+                </div>
+                <div class="col-md-12">
+                    <select style="width: 98%;" id="payMode" name="pm" [(ngModel)]="expense.mode" #pm="ngModel" required>
+                        <option [ngValue]="undefined" hidden selected>
+                            Payment Mode *
+                        </option>
+                        <option *ngFor="let cl of paymentTypes">{{ cl }} </option>
+                    </select>
+                </div>
+            </div>
+            <div class="text-center mt-2">
+                <button type="submit" class="btn">{{ actionLabel }}</button>
+                <button type="reset" class="btn ml-1">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-9">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th><span>Purpose</span></th>
+                    <th><span>Amount</span></th>
+                    <th><span>Date</span></th>
+                    <th><span>Mode</span></th>
+                    <th><span>Actions</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <ng-container *ngFor="let expense of expenseList">
+                    <tr>
+                        <td>{{expense.comment}}</td>
+                        <td>{{expense.amount}}</td>
+                        <td>{{expense.date | date}}</td>
+                        <td>{{expense.mode}}</td>
+                        <td>
+                            <button class="btn" (click)="editRow(expense)">
+                                Edit
+                                <i class="fa fa-edit" aria-hidden="true"></i>
+                            </button>
+                            <button class="btn ml-2" (click)="deleteRow(expense.id)">
+                                Delete
+                                <i class="fa fa-trash" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+</div>
