@@ -41,27 +41,18 @@ export class SalesComponent implements OnInit {
   //   });
   // }
   public getTotalData() {
-    // this.http.get(this.URL.SalesGetCategories+ this.groupReq.fromDate +'&toDate='+this.groupReq.toDate).subscribe(resp =>{
-    //   this.salesCategoriesList = resp as any;
-    // })
-    this.salesCategoriesList = [
-      { categoryName: "Cup", count: 20 },
-      { categoryName: "Tub", count: 40 },
-      { categoryName: "Shakes", count: 80 },
-      { categoryName: "Bulk", count: 27 },
-      { categoryName: "Sundaes", count: 85 },
-      { categoryName: "Toppings", count: 54 }
-    ];
-    console.log(this.salesCategoriesList);
+     this.http.get(this.URL.SalesGetCategories+ this.groupReq.fromDate +'&toDate='+this.groupReq.toDate).subscribe(resp =>{
+       this.salesCategoriesList = resp as any;
+     })
   }
   public getProductsData(catName) {
     this.http
       .get(
         this.URL.SalesGetProducts +
           catName +
-          "&fromDate" +
+          "&fromDate=" +
           this.groupReq.fromDate +
-          "&toDate" +
+          "&toDate=" +
           this.groupReq.toDate
       )
       .subscribe(resp => {
