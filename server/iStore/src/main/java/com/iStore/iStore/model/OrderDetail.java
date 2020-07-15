@@ -17,6 +17,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.iStore.iStore.constants.PaymentMode;
@@ -37,8 +38,8 @@ public class OrderDetail {
 	@Column
 	@NotNull
 	private Float total;
-
 	@Column
+	@CreationTimestamp
 	private Date createdDate;
 	@Column
 	@UpdateTimestamp
