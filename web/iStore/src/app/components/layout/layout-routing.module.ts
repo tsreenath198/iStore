@@ -76,6 +76,14 @@ const routes: Routes = [
         data: {
           roles: [UserRole.Admin, UserRole.Store_Manager]
         }
+      },
+      {
+        path: "profit",
+        loadChildren: "./profits/profits.module#ProfitsModule",
+        canActivate: [RoleGuard],
+        data: {
+          roles: [UserRole.Admin, UserRole.Store_Manager]
+        }
       }
     ]
   }

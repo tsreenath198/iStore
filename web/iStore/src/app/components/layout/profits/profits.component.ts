@@ -42,7 +42,7 @@ export class ProfitsComponent implements OnInit {
   //   });
   // }
   public getTotalData() {
-    this.http.get(this.URL.ProfitsGetCategories+ this.groupReq.fromDate +'&toDate='+this.groupReq.toDate).subscribe(resp =>{
+    this.http.get(this.URL.ProfitGetCategory+ this.groupReq.fromDate +'&toDate='+this.groupReq.toDate).subscribe(resp =>{
       this.profitsCategoriesList = resp as any;
     })
   }
@@ -50,7 +50,7 @@ export class ProfitsComponent implements OnInit {
     this.profitsProductsList=[];
     this.http
       .get(
-        this.URL.ProfitsGetProducts +
+        this.URL.ProfitGetProduct +
           catName +
           "&fromDate=" +
           this.groupReq.fromDate +

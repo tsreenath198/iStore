@@ -53,6 +53,10 @@ export class URLConstants {
   CustomerDelete = 'contact/delete?id=';
   CustomerGetById = 'contact/get?id=';
 
+  /** Profit */
+  ProfitGetCategory = 'profit/getByCategory?fromDate=';
+  ProfitGetProduct = 'profit/getByProduct?category=';
+
   /** Login */
   Login = 'login/validateUser?name=';
   /**Sales */

@@ -243,13 +243,18 @@
     </div>
     <div class="modal-body">
       <div class="p-3">
-        <div class="col-md-12 form-group">
-          <select style="width: 98%;" id="payMode" name="pm" [(ngModel)]="paymentMode" #pm="ngModel" required>
-            <option [ngValue]="undefined" hidden selected>
-              Payment Mode
-            </option>
-            <option *ngFor="let cl of paymentTypes">{{ cl }} </option>
-          </select><label class="required" for="pm">*</label>
+        <div class="row">
+          <div class="col-md-6 form-group">
+            <select style="width: 98%;" id="payMode" name="pm" [(ngModel)]="paymentMode" #pm="ngModel" required>
+              <option [ngValue]="undefined" hidden selected>
+                Payment Mode <label class="required" for="pm">*</label>
+              </option>
+              <option *ngFor="let cl of paymentTypes">{{ cl }} </option>
+            </select>
+          </div>
+          <div class="col-md-6 form-group">
+            <input type="date" class="form-control" name="invoicedt" [(ngModel)]="invoiceDate" #invoicedt="ngModel" required>
+            </div>
         </div>
         <div class="col-md-12" *ngIf="paymentMode == 'Cash'">
           <table>

@@ -2,7 +2,7 @@
   width: 100%;
 }
 
-input {
+input[type='text'],input[type='number'] {
   margin-top: 0px;
   font-size: 1rem;
   border: 0;
@@ -10,8 +10,14 @@ input {
   background-color: inherit;
   color: white;
 }
-
-input:focus {
+input[type='date'] {
+  margin-top: 0px;
+  font-size: 1rem;
+  border: 0;
+  border-bottom: 2px solid greenyellow;
+  background-color: inherit;
+}
+input[type='text']:focus,input[type='number']:focus {
   background-color: inherit;
   color: white;
 }

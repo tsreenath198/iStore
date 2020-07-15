@@ -12,6 +12,7 @@ export interface ItemModel{
 }
 
 export interface OrderModel{
+    invoiceDate: Date;
     id: number;
     total:number;
     paymentMode:string;

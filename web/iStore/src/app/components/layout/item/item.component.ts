@@ -29,10 +29,10 @@ export class ItemComponent implements OnInit {
   public selectedItem: ItemModel = <ItemModel>{};
   public selectedCategory: string = "Cup";
   public categoryList: Array<CategoryModel> = [];
-  public customerList: Array<CustomerModel> = [];
+  public customerList: Array<any> = [];
   public paymentTypes: Array<any> = ["Cash", "Bank"];
   public paymentMode: string;
-  public datalistEx1:Array<any>=[];
+  public invoiceDate: Date;
   public updateMode: boolean = false;
   public totalDiscount: number = 0;
   public totalBill: number = 0.0;
@@ -63,6 +63,7 @@ export class ItemComponent implements OnInit {
           this.totalBill = temp.total;
           this.customerDetails = temp.contact;
           this.paymentMode = temp.paymentMode;
+          this.invoiceDate = temp.invoiceDate;
         });
     }
   }
@@ -151,6 +152,7 @@ export class ItemComponent implements OnInit {
       finalOrder.contact = this.printingBill.contact;
     }
     finalOrder.paymentMode = this.printingBill.paymentMode;
+    finalOrder.invoiceDate = this.printingBill.invoiceDate;
     finalOrder.totalDiscount = this.printingBill.totalDiscount;
     this.http.post(finalOrder, this.url.OrderCreate).subscribe(resp => {
       alert("Successfully created");
@@ -167,6 +169,7 @@ export class ItemComponent implements OnInit {
     finalOrder.items = this.itemList;
     finalOrder.contact = this.customerDetails;
     finalOrder.paymentMode = this.paymentMode;
+    finalOrder.invoiceDate = this.invoiceDate;
     this.http.update(finalOrder, this.url.OrderUpdate).subscribe(resp => {
       // this.printingBill=resp as any;
       // this.setPrintingBill(event);
@@ -182,6 +185,7 @@ export class ItemComponent implements OnInit {
   }
   public proceedToPrint(event) {
     this.printingBill["paymentMode"] = this.paymentMode;
+    this.printingBill["invoiceDate"] = this.invoiceDate;
     this.close();
     this.open(event);
   }
@@ -202,6 +206,7 @@ export class ItemComponent implements OnInit {
     this.itemList = [];
     this.totalBill = 0.0;
     this.paymentMode = undefined;
+    this.invoiceDate = new Date();
     if (this.updateMode) {
       this.updateMode = false;
     }
@@ -279,7 +284,7 @@ export class ItemComponent implements OnInit {
     //     this.customerDetails.phone= k;
     //   }
     // }
-    this.datalistEx1.forEach((data) =>{
+    this.customerList.forEach((data) =>{
       if(data.name == this.customerDetails.name){
         this.customerDetails.phone = data.phone;
       }
