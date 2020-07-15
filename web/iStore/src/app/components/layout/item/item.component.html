@@ -244,15 +244,23 @@
     <div class="modal-body">
       <div class="p-3">
         <div class="row">
-          <div class="col-md-6 form-group">
-            <select style="width: 98%;" id="payMode" name="pm" [(ngModel)]="paymentMode" #pm="ngModel" required>
+          <div class="col-md-4">
+            <select  id="payMode" class="form-control" name="pm" [(ngModel)]="paymentMode" #pm="ngModel" required>
               <option [ngValue]="undefined" hidden selected>
                 Payment Mode <label class="required" for="pm">*</label>
               </option>
               <option *ngFor="let cl of paymentTypes">{{ cl }} </option>
             </select>
           </div>
-          <div class="col-md-6 form-group">
+          <div class="col-md-4">
+            <select id="ordertype" class="form-control" name="ot" [(ngModel)]="orderType" #ot="ngModel" required>
+              <option [ngValue]="undefined" hidden selected>
+                Order Type <label class="required" for="ot">*</label>
+              </option>
+              <option *ngFor="let ot of orderTypes">{{ ot }} </option>
+            </select>
+          </div>
+          <div class="col-md-4">
             <input type="date" class="form-control" name="invoicedt" [(ngModel)]="invoiceDate" #invoicedt="ngModel" required>
             </div>
         </div>

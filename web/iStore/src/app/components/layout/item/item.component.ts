@@ -31,8 +31,10 @@ export class ItemComponent implements OnInit {
   public categoryList: Array<CategoryModel> = [];
   public customerList: Array<any> = [];
   public paymentTypes: Array<any> = ["Cash", "Bank"];
+  public orderTypes: Array<any> = ["Store", "Zomato", "Swiggy"];
   public paymentMode: string;
   public invoiceDate: Date;
+  public orderType: string = 'Store';
   public updateMode: boolean = false;
   public totalDiscount: number = 0;
   public totalBill: number = 0.0;
@@ -46,7 +48,7 @@ export class ItemComponent implements OnInit {
     private http: HttpService,
     private modalService: NgbModal,
     private toastr: ToastrService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.getCategoryList();
@@ -57,17 +59,17 @@ export class ItemComponent implements OnInit {
       this.http
         .get(this.url.OrderGetById + this.storageService.orderId)
         .subscribe(resp => {
-          console.log(resp);
           let temp = resp as any;
           this.itemList = temp.items;
           this.totalBill = temp.total;
           this.customerDetails = temp.contact;
           this.paymentMode = temp.paymentMode;
           this.invoiceDate = temp.invoiceDate;
+          this.orderType = temp.orderType;
         });
     }
   }
-  
+
   async getCustomerList(): Promise<any> {
     this.customerList = await this.http
       .get(this.url.CustomerGetAll)
@@ -154,6 +156,7 @@ export class ItemComponent implements OnInit {
     finalOrder.paymentMode = this.printingBill.paymentMode;
     finalOrder.invoiceDate = this.printingBill.invoiceDate;
     finalOrder.totalDiscount = this.printingBill.totalDiscount;
+    finalOrder.orderType = this.printingBill.orderType;
     this.http.post(finalOrder, this.url.OrderCreate).subscribe(resp => {
       alert("Successfully created");
       this.cancelBill();
@@ -170,6 +173,7 @@ export class ItemComponent implements OnInit {
     finalOrder.contact = this.customerDetails;
     finalOrder.paymentMode = this.paymentMode;
     finalOrder.invoiceDate = this.invoiceDate;
+    finalOrder.orderType = this.orderType;
     this.http.update(finalOrder, this.url.OrderUpdate).subscribe(resp => {
       // this.printingBill=resp as any;
       // this.setPrintingBill(event);
@@ -186,6 +190,7 @@ export class ItemComponent implements OnInit {
   public proceedToPrint(event) {
     this.printingBill["paymentMode"] = this.paymentMode;
     this.printingBill["invoiceDate"] = this.invoiceDate;
+    this.printingBill["orderType"] = this.orderType;
     this.close();
     this.open(event);
   }
@@ -207,6 +212,7 @@ export class ItemComponent implements OnInit {
     this.totalBill = 0.0;
     this.paymentMode = undefined;
     this.invoiceDate = new Date();
+    this.orderType = 'Store';
     if (this.updateMode) {
       this.updateMode = false;
     }
@@ -230,7 +236,7 @@ export class ItemComponent implements OnInit {
    * 2) Selected contains the code of selected row
    */
   public open(content: any) {
-    this.modalRef = this.modalService.open(content);
+    this.modalRef = this.modalService.open(content, { size: 'lg', backdrop: 'static' });
     this.modalRef.result.then(
       result => {
         this.closeResult = `Closed with: ${result}`;
@@ -279,22 +285,10 @@ export class ItemComponent implements OnInit {
     }
   }
   public onChange(details: any) {
-    // for(let k in this.datalistEx){
-    //   if(this.datalistEx[k] == this.customerDetails.name){
-    //     this.customerDetails.phone= k;
-    //   }
-    // }
-    this.customerList.forEach((data) =>{
-      if(data.name == this.customerDetails.name){
+    this.customerList.forEach((data) => {
+      if (data.name == this.customerDetails.name) {
         this.customerDetails.phone = data.phone;
       }
     })
-
-    // for (let value of this.datalistEx1) { 
-    //   if(value.name === this.customerDetails.name){
-    //     this.customerDetails.phone = value.phone;
-    //     console.log('hiiiiiiiiii')
-    //   }
-    // } 
   }
 }
