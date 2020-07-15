@@ -9,7 +9,7 @@
               (change)="onChange()" list="id-list" pattern="[A-Za-z]" [(ngModel)]="customerDetails.name"
               value="{{ customerDetails.name }}" ngModel />
             <datalist id="id-list">
-              <option *ngFor="let data of datalistEx1; let i = index" [value]="data.name ">{{ data.phone }}
+              <option *ngFor="let customer of customerList; let i = index" [value]="customer.name ">{{ customer.phone }}
               </option>
             </datalist>
           </div>
