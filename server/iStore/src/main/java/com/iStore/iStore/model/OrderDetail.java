@@ -51,7 +51,7 @@ public class OrderDetail {
 	private String orderType;
 
 	@Column
-	private Date invoiceDate;
+	private String invoiceDate;
 
 	@Column
 	private Integer totalDiscount;
