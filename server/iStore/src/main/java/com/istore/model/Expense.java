@@ -9,6 +9,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -39,7 +44,8 @@ public class Expense {
 	private String comment;
 
 	@Column
-	@CreationTimestamp
+	@JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
+	@JsonSerialize(using = DateSerializer.class)
 	private Date date;
 
 	@Column
