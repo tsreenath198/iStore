@@ -17,6 +17,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.deser.std.DateDeserializers;
+import com.fasterxml.jackson.databind.ser.std.DateSerializer;
 import com.istore.constants.PaymentMode;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -50,7 +54,9 @@ public class OrderDetail {
 	private String orderType;
 
 	@Column
-	private String invoiceDate;
+	@JsonDeserialize(using = DateDeserializers.DateDeserializer.class)
+	@JsonSerialize(using = DateSerializer.class)
+	private Date invoiceDate;
 
 	@Column
 	private Integer totalDiscount;
