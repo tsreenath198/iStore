@@ -57,7 +57,6 @@ export class ProductComponent implements OnInit {
     this.getResult();
     this.getResult2();
     this.model.activeStatus = 0;
-    this.model.unitPrice = 1;
   }
   async getResult(): Promise<any> {
     this.productList = await this.http
@@ -87,7 +86,6 @@ export class ProductComponent implements OnInit {
     this.getResult2();
     this.model = <ProductModel>{};
     this.model.activeStatus = 0;
-    this.model.unitPrice = 1;
   }
 
   public create(f: NgForm) {

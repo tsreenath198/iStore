@@ -25,11 +25,12 @@ export class ExpenseComponent implements OnInit {
   }
 
   public create(f: NgForm): void {
-      if (f.valid) {
+    if (f.valid) {
+      if (this.actionLabel == 'Create') {
         this.http.post(this.expense, this.url.ExpenseCreate).subscribe(
           res => {
-            this.successHandler(this.component);
             f.reset();
+            this.successHandler(this.component,'Created');
             this.actionLabel = 'Create';
           },
           err => {
@@ -37,8 +38,20 @@ export class ExpenseComponent implements OnInit {
           }
         );
       } else {
-        alert("Please enter all required fields");
+        this.http.update(this.expense, this.url.ExpenseUpdate).subscribe(
+          res => {
+            f.reset();
+            this.successHandler(this.component,'Updated');
+            this.actionLabel = 'Create';
+          },
+          err => {
+            this.errorHandler(this.component);
+          }
+        );
       }
+    } else {
+      alert("Please enter all required fields");
+    }
   }
   public getAll() {
     this.http.get(this.url.ExpenseGetAll).subscribe(
@@ -56,30 +69,25 @@ export class ExpenseComponent implements OnInit {
     this.expense = JSON.parse(JSON.stringify(e));
     this.expense.date = new Date(e.date).toISOString().substring(0, 10);
   }
-  public update() {
-    this.http.put(this.expense, this.url.ExpenseUpdate).subscribe(
-      res => {
-        this.successHandler(this.component);
-        this.actionLabel = 'Create';
-      },
-      err => {
-        this.errorHandler(this.component);
-      }
-    );
+  public reset() {
+    this.expense = new Expense();
+    this.actionLabel = 'Create';
+    this.expense.date = this.today;
   }
   public deleteRow(id) {
     this.http.delete(this.url.ExpenseDelete + id).subscribe(
       res => {
-        this.successHandler(this.component);
+        this.successHandler(this.component,'Deleted');
       },
       err => {
         this.errorHandler(this.component);
       }
     );
   }
-  private successHandler(type: String) {
-    this.getAll();
-    console.log("SuccessFully " + type + " Created");
+  private successHandler(type: String,msg:string) {
+    this.getAll(); 
+    this.reset();
+    alert("SuccessFully " + type +' '+ msg);
   }
   private errorHandler(type: String) {
     alert("Error in " + type);

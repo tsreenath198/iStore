@@ -26,16 +26,30 @@ export class UserComponent implements OnInit {
 
   public create(f: NgForm) {
     if (f.valid) {
-      this.http.post(this.user, this.url.UserCreate).subscribe(
-        res => {
-          this.successHandler(this.component);
-          f.reset();
-          this.actionLabel = 'Create';
-        },
-        err => {
-          this.errorHandler(this.component);
-        }
-      );
+      if(this.actionLabel == 'Create'){
+        this.http.post(this.user, this.url.UserCreate).subscribe(
+          res => {
+            this.successHandler(this.component);
+            f.reset();
+            this.actionLabel = 'Create';
+          },
+          err => {
+            this.errorHandler(this.component);
+          }
+        );
+      }else{
+        this.http.put(this.user, this.url.UserUpdate).subscribe(
+          res => {
+            this.successHandler(this.component);
+            f.reset();
+            this.actionLabel = 'Create';
+          },
+          err => {
+            this.errorHandler(this.component);
+          }
+        );
+      }
+      
     } else {
       alert("Please enter all required fields");
     }
@@ -70,6 +84,10 @@ export class UserComponent implements OnInit {
         this.errorHandler(this.component);
       }
     );
+  }
+  public reset(){
+    this.user = new User();
+    this.actionLabel = 'Create';
   }
   private successHandler(type: String) {
     this.getAll();

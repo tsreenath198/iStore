@@ -11,29 +11,42 @@ import { NgForm } from '@angular/forms';
 })
 export class CustomerComponent implements OnInit {
 
-  constructor(private http: HttpService) {}
+  constructor(private http: HttpService) { }
   public customer: CustomerModel = <CustomerModel>{};
   public component: String = "Customer";
   public url = new URLConstants();
   public customersList: Array<CustomerModel> = [];
-  public actionLabel:string = "Create";
+  public actionLabel: string = "Create";
   ngOnInit() {
     this.getAll();
   }
 
-  public create(f:NgForm) {
+  public create(f: NgForm) {
     if (f.valid) {
-      this.http.post(this.customer, this.url.CustomerCreate).subscribe(
-        res => {
-          this.successHandler(this.component);
-          f.reset();
-          this.actionLabel = 'Create';
-        },
-        err => {
-          this.errorHandler(this.component);
-        }
-      );
-    }else{
+      if (this.actionLabel == 'Create') {
+        this.http.post(this.customer, this.url.CustomerCreate).subscribe(
+          res => {
+            this.successHandler(this.component);
+            f.reset();
+            this.actionLabel = 'Create';
+          },
+          err => {
+            this.errorHandler(this.component);
+          }
+        );
+      }else{
+        this.http.update(this.customer, this.url.CustomerUpdate).subscribe(
+          res => {
+            this.successHandler(this.component);
+            f.reset();
+            this.actionLabel = 'Create';
+          },
+          err => {
+            this.errorHandler(this.component);
+          }
+        );
+      }
+    } else {
       alert("Please enter all required fields");
     }
   }
