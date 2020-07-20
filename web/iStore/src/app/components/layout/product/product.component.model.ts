@@ -12,6 +12,7 @@ export class ProductModel {
   minimumAvailability: number;
   activeStatus: any;
   defaultDiscount: number;
+  unitPrice:number;
 }
 
 export class ProductsOrderModel{

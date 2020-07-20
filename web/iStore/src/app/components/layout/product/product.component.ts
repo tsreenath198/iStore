@@ -1,8 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import {
-  ProductModel,
-  OrderModel,
-  ProductsOrderModel
+  ProductModel
 } from "./product.component.model";
 import { HttpService } from "src/app/services/http.service";
 import { URLConstants } from "src/app/constants/url-constants";
@@ -45,7 +43,7 @@ export class ProductComponent implements OnInit {
   public closeResult = "";
   private modalRef: NgbModalRef;
   public loggedInUser: User;
-  public component:string = "Product"
+  public component: string = "Product"
   constructor(
     private http: HttpService,
     private storage: StorageService,
@@ -59,6 +57,7 @@ export class ProductComponent implements OnInit {
     this.getResult();
     this.getResult2();
     this.model.activeStatus = 0;
+    this.model.unitPrice = 1;
   }
   async getResult(): Promise<any> {
     this.productList = await this.http
@@ -88,29 +87,25 @@ export class ProductComponent implements OnInit {
     this.getResult2();
     this.model = <ProductModel>{};
     this.model.activeStatus = 0;
+    this.model.unitPrice = 1;
   }
 
   public create(f: NgForm) {
-    // this.http.post(this.model, this.url.ProductCreate).subscribe(resp => {
-    //   this.commonInHTTP();
-    //   //form.resetForm();
-    // });
-    if(!this.model.category.rawMaterial){
+    if (!this.model.category.rawMaterial) {
       this.model.inventory = 0;
-      this.model.minimumAvailability=0;
+      this.model.minimumAvailability = 0;
     }
 
     if (f.valid) {
       this.http.post(this.model, this.url.ProductCreate).subscribe(
         res => {
           this.successHandler(this.component);
-          f.reset();
         },
         err => {
           this.errorHandler(this.component);
         }
       );
-    }else{
+    } else {
       alert("Please enter all required fields");
     }
   }
@@ -326,7 +321,7 @@ export class ProductComponent implements OnInit {
     // }
     console.log(this.orderProductsList);
     this.http.update(this.orderProductsList, this.url.GetRawInventory).subscribe(
-      resp => {},
+      resp => { },
       err => {
         if (err.status == 200) window.open(err.url);
       }

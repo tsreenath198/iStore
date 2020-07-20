@@ -1,23 +1,10 @@
 <div class="row">
   <div class="col-md-3" style=" background-color: #343a40;">
-    <form
-      name="form"
-      class="ml-3 mr-2"
-      id="productEntryForm"
-      (ngSubmit)="create(f)"
-      #f="ngForm"
-      novalidate
-    >
+    <form name="form" class="ml-3 mr-2" id="productEntryForm" (ngSubmit)="create(f)" #f="ngForm" novalidate>
       <div class="row">
         <div class="col-md-12">
-          <select
-            class="form-control"
-            name="cp"
-            [(ngModel)]="model.category"
-            #cp="ngModel"
-            [compareWith]="compareFn"
-            required
-          >
+          <select class="form-control" name="cp" [(ngModel)]="model.category" #cp="ngModel" [compareWith]="compareFn"
+            required>
             <option [ngValue]="undefined" hidden selected> Category* </option>
             <option *ngFor="let cl of categoryList" [ngValue]="cl">
               {{ cl.name }}
@@ -25,68 +12,31 @@
           </select>
         </div>
         <div class="col-md-12">
-          <input
-            type="text"
-            class="form-control"
-            name="pName"
-            placeholder="Name*"
-            [(ngModel)]="model.name"
-            required
-          />
+          <input type="text" class="form-control" name="pName" placeholder="Name*" [(ngModel)]="model.name" required />
         </div>
         <div class="col-md-12">
-          <select
-            class="form-control"
-            name="st"
-            [(ngModel)]="model.activeStatus"
-            #st="ngModel"
-            required
-          >
+          <select class="form-control" name="st" [(ngModel)]="model.activeStatus" #st="ngModel" required>
             <option [ngValue]="undefined" hidden selected> Status Type </option>
-            <option
-              *ngFor="let option of statusOptions"
-              [ngValue]="option.value"
-            >
+            <option *ngFor="let option of statusOptions" [ngValue]="option.value">
               {{ option.name }}
             </option>
           </select>
         </div>
         <div class="col-md-12">
-          <input
-            type="number"
-            class="form-control"
-            name="price*"
-            placeholder="Price (e.g.100.00)"
-            [(ngModel)]="model.price"
-            required
-          />
+          <input type="number" class="form-control" name="price" placeholder="Price* (e.g.100.00)"
+            [(ngModel)]="model.price" required />
         </div>
         <div class="col-md-12">
-          <input
-            type="number"
-            class="form-control"
-            name="disc"
-            placeholder="Product discount"
-            [(ngModel)]="model.defaultDiscount"
-          />
+          <input type="number" class="form-control" name="disc" placeholder="Product discount"
+            [(ngModel)]="model.defaultDiscount" />
         </div>
         <div class="col-md-12" *ngIf="model?.category?.rawMaterial">
-          <input
-            type="number"
-            class="form-control"
-            name="inventory"
-            placeholder="Quantity(e.g. 2)"
-            [(ngModel)]="model.inventory"
-          />
+          <input type="number" class="form-control" name="inventory" placeholder="Quantity(e.g. 2)"
+            [(ngModel)]="model.inventory" />
         </div>
         <div class="col-md-12" *ngIf="model?.category?.rawMaterial">
-          <input
-            type="number"
-            class="form-control"
-            name="ma"
-            placeholder="Minimum Availability"
-            [(ngModel)]="model.minimumAvailability"
-          />
+          <input type="number" class="form-control" name="ma" placeholder="Minimum Availability"
+            [(ngModel)]="model.minimumAvailability" />
         </div>
         <!-- <div class="col-md-12">
           <input
@@ -102,19 +52,10 @@
         <button *ngIf="actionType == 'C' && loggedInUser.role == 'Admin'" class="btn " type="submit">
           Create
         </button>
-        <button
-          *ngIf="actionType == 'U'"
-          class="btn"
-          (click)="update()"
-          type="button"
-        >
+        <button *ngIf="actionType == 'U'" class="btn" (click)="update()" type="button">
           Update
         </button>
-        <button
-          class="btn ml-2"
-          (click)="new(f)"
-          type="button"
-        >
+        <button class="btn ml-2" (click)="new(f)" type="button">
           Cancel
         </button>
       </div>
@@ -123,39 +64,24 @@
   <div class="col-md-8" style="height: 90vh;overflow-y: scroll;">
     <div class="clearfix m-2">
       <div class="float-left" *ngIf="isRaw">
-        <input
-          class="mt-2"
-          type="checkbox"
-          name="showMinStock"
-          id="checkStock"
-          [(ngModel)]="showMinStock"
-          (change)="showEndingInventories($event.target.checked)"
-        /><span>Show minimum available stock</span>
+        <input class="mt-2" type="checkbox" name="showMinStock" id="checkStock" [(ngModel)]="showMinStock"
+          (change)="showEndingInventories($event.target.checked)" /><span>Show minimum available stock</span>
       </div>
-      <div class="float-right" >
-        <button class="btn btn-sm" *ngIf="selectedCategory != 'All' && isRaw" (click)="SetUpdateableInventory(inventoryUpdate)">Update {{ selectedCategory }} Inventory</button>
+      <div class="float-right">
+        <button class="btn btn-sm" *ngIf="selectedCategory != 'All' && isRaw"
+          (click)="SetUpdateableInventory(inventoryUpdate)">Update {{ selectedCategory }} Inventory</button>
         <!-- <button class="btn btn-sm ml-2" (click)="downloadInventoryExcel()">Download Raw Inventory</button> -->
         <button class="btn btn-sm ml-2" (click)="orderInventory(orderProducts)">Order Raw Inventory</button>
       </div>
     </div>
     <nav class="nav nav-tabs">
       <li class="nav-item">
-        <a
-          class="nav-item nav-link"
-          [ngClass]="{ active: selectedCategory == 'All' }"
-          (click)="filter('All')"
-        >
-          All</a
-        >
+        <a class="nav-item nav-link" [ngClass]="{ active: selectedCategory == 'All' }" (click)="filter('All')">
+          All</a>
       </li>
       <li class="nav-item" *ngFor="let cat of categoryList">
-        <a
-          class="nav-item nav-link"
-          *ngIf="!cat.activeStatus"
-          [ngClass]="{ active: selectedCategory == cat.name }"
-          (click)="filter(cat.name)"
-          >{{ cat.name }}</a
-        >
+        <a class="nav-item nav-link" *ngIf="!cat.activeStatus" [ngClass]="{ active: selectedCategory == cat.name }"
+          (click)="filter(cat.name)">{{ cat.name }}</a>
       </li>
     </nav>
     <table class="table table-bordered">
@@ -164,14 +90,8 @@
           <th>
             <a (click)="sortType = 'name'; sortReverse = !sortReverse">
               Name
-              <span
-                [hidden]="!(sortType == 'name' && !sortReverse)"
-                class="fa fa-caret-down"
-              ></span>
-              <span
-                [hidden]="sortType == 'name' && sortReverse"
-                class="fa fa-caret-up"
-              ></span>
+              <span [hidden]="!(sortType == 'name' && !sortReverse)" class="fa fa-caret-down"></span>
+              <span [hidden]="sortType == 'name' && sortReverse" class="fa fa-caret-up"></span>
             </a>
           </th>
           <th>
@@ -196,13 +116,10 @@
       </thead>
       <tbody>
         <ng-container *ngFor="let product of productList">
-          <tr
-            [ngClass]="{
+          <tr [ngClass]="{
               'bg-red': showMinStock,
               'bg-yellow': product.activeStatus
-            }"
-            *ngIf="!product.category.activeStatus"
-          >
+            }" *ngIf="!product.category.activeStatus">
             <td>
               {{ product.name }}
             </td>
@@ -241,12 +158,7 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">Update {{ selectedCategory }} Inventory</h4>
-      <button
-        type="button"
-        class="close"
-        aria-label="Close"
-        (click)="d('Cross click')"
-      >
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
@@ -264,29 +176,17 @@
               {{item.name}}
             </td>
             <td>
-              <input
-                type="number"
-                class="form-control"
-                [(ngModel)]="item.inventory"
-              />
+              <input type="number" class="form-control" [(ngModel)]="item.inventory" />
             </td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-secondary"
-        (click)="updateInventory()"
-      >
+      <button type="button" class="btn btn-secondary" (click)="updateInventory()">
         Update
       </button>
-      <button
-        type="button"
-        class="btn btn-secondary"
-        (click)="close('Close click')"
-      >
+      <button type="button" class="btn btn-secondary" (click)="close('Close click')">
         Close
       </button>
     </div>
@@ -296,31 +196,22 @@
   <div class="modal-content">
     <div class="modal-header">
       <h4 class="modal-title">Order Products</h4>
-      <button
-        type="button"
-        class="close"
-        aria-label="Close"
-        (click)="d('Cross click')"
-      >
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
     <div class="modal-body">
       <nav class="nav nav-tabs">
         <li class="nav-item" *ngFor="let cat of orderProductsList | keyvalue; let i = index">
-          <a
-            class="nav-item nav-link"
-            [ngClass]="{ active: num == cat.key}"
-            (click)="setIndexOfList(cat.key)"
-            >{{ cat.key }}</a
-          >
+          <a class="nav-item nav-link" [ngClass]="{ active: num == cat.key}"
+            (click)="setIndexOfList(cat.key)">{{ cat.key }}</a>
         </li>
       </nav>
       <table class="table table-bordered">
         <thead>
           <tr>
             <th>
-                Name
+              Name
             </th>
             <th>
               Inventory
@@ -335,7 +226,7 @@
         </thead>
         <tbody>
           <ng-container *ngFor="let product of orderProductsList[num]">
-            <tr >
+            <tr>
               <td>
                 {{ product.name }}
               </td>
@@ -346,7 +237,8 @@
                 {{ product.minimumAvailability }}
               </td>
               <td>
-                <input type="number" id="popInputNumber" class="form-control form-control-sm" [(ngModel)]="product.currentStock">
+                <input type="number" id="popInputNumber" class="form-control form-control-sm"
+                  [(ngModel)]="product.currentStock">
               </td>
             </tr>
           </ng-container>
@@ -354,18 +246,10 @@
       </table>
     </div>
     <div class="modal-footer">
-      <button
-        type="button"
-        class="btn btn-secondary"
-        (click)="downloadInventoryExcel()"
-      >
+      <button type="button" class="btn btn-secondary" (click)="downloadInventoryExcel()">
         Download
       </button>
-      <button
-        type="button"
-        class="btn btn-secondary"
-        (click)="close('Close click')"
-      >
+      <button type="button" class="btn btn-secondary" (click)="close('Close click')">
         Close
       </button>
     </div>
