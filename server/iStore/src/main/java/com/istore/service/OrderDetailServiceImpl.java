@@ -25,6 +25,8 @@ public class OrderDetailServiceImpl implements OrderDetailService {
     ProductServiceImpl productService;
     @Autowired
     ItemRepository itemRepository;
+    @Autowired
+    SMSService smsService;
 
     @Override
     public OrderDetail create(OrderDetail entity) {
@@ -35,7 +37,9 @@ public class OrderDetailServiceImpl implements OrderDetailService {
                 i.setProduct(productService.get(i.getProduct().getId()));
             }
             entity.setItems(list);
-            return orderRepository.save(entity);
+            OrderDetail detail = orderRepository.save(entity);
+            smsService.sendSMS(detail.getContact().getPhone());
+            return detail;
         } catch (Exception e) {
             throw new ValidationException(e.getMessage());
         }
