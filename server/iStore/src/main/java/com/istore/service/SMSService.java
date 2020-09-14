@@ -15,6 +15,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Component
 @Slf4j
@@ -34,28 +35,32 @@ public class SMSService {
     @Autowired
     private RestTemplate restTemplate;
 
+    Pattern phonePattern = Pattern.compile("(\\+91)?(-)?\\s*?(91)?\\s*?(\\d{3})-?\\s*?(\\d{3})-?\\s*?(\\d{4})");
+
     public ResponseEntity<String> sendSMS(SMS sms) {
-        String sessionId = loginAndGetSessionId();
-        if (sessionId != null) {
-            String htmlMsg = "Thank you for visiting Natural Fresh Ice Creams. Love to hear you feedback @ " +
-                    "https://bit.ly/2WkvYMb. Visit again.";
-            String phoneNumbers = sms.getContact();
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            headers.add("Cookie", sessionId);
-            String params = getPostMap(phoneNumbers, htmlMsg);
-            HttpEntity<String> request = new HttpEntity<>(params, headers);
-            try {
-                ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
-                System.out.println(response.getStatusCode());
-                System.out.println(response.getHeaders());
-                System.out.println(response.getBody());
-                return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
-            } catch (Exception e) {
-                log.error("Error while sending sms.",e);
+        if(sms.getContact() != null && sms.getContact().trim().length() >=10 && phonePattern.matcher(sms.getContact().trim()).find()) {
+            String sessionId = loginAndGetSessionId();
+            if (sessionId != null) {
+                String htmlMsg = "Thank you for visiting Natural Fresh Ice Creams. Love to hear you feedback @ " +
+                        "https://bit.ly/2WkvYMb. Visit again.";
+                String phoneNumbers = sms.getContact();
+                HttpHeaders headers = new HttpHeaders();
+                headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+                headers.add("Cookie", sessionId);
+                String params = getPostMap(phoneNumbers, htmlMsg);
+                HttpEntity<String> request = new HttpEntity<>(params, headers);
+                try {
+                    ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
+                    System.out.println(response.getStatusCode());
+                    System.out.println(response.getHeaders());
+                    System.out.println(response.getBody());
+                    return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
+                } catch (Exception e) {
+                    log.error("Error while sending sms.", e);
+                }
+            } else {
+                log.error("Unable to send sms could not login");
             }
-        } else {
-            log.error("Unable to send sms could not login");
         }
         return null;
     }
@@ -93,4 +98,5 @@ public class SMSService {
         sms.setContact(phone);
         sendSMS(sms);
     }
+
 }
