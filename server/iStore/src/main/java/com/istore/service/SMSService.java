@@ -42,7 +42,7 @@ public class SMSService {
             String sessionId = loginAndGetSessionId();
             if (sessionId != null) {
                 String htmlMsg = "Thank you for visiting Natural Fresh Ice Creams. Love to hear you feedback @ " +
-                        "https://bit.ly/2WkvYMb. Visit again.";
+                        "https://tinyurl.com/y536yhlj. Visit again.";
                 String phoneNumbers = sms.getContact();
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
