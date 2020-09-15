@@ -51,9 +51,6 @@ public class SMSService {
                 HttpEntity<String> request = new HttpEntity<>(params, headers);
                 try {
                     ResponseEntity<String> response = restTemplate.postForEntity(url, request, String.class);
-                    System.out.println(response.getStatusCode());
-                    System.out.println(response.getHeaders());
-                    System.out.println(response.getBody());
                     return new ResponseEntity<>(response.getBody(), HttpStatus.OK);
                 } catch (Exception e) {
                     log.error("Error while sending sms.", e);
@@ -80,12 +77,8 @@ public class SMSService {
 
         try {
             ResponseEntity<String> response = restTemplate.postForEntity(authUrl, request, String.class);
-            System.out.println(response.getStatusCode());
-            System.out.println(response.getHeaders());
-            System.out.println(response.getBody());
             String cookie = response.getHeaders().get("set-cookie").get(0);
             cookie = cookie.split(";")[0];
-            System.out.println(cookie);
             return cookie;
         } catch (Exception e) {
             log.error("Error while logging into sms website.",e);
