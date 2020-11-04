@@ -7,6 +7,9 @@
   *:focus {
     outline: none;
 }
+.bg-color{
+  background-color: #343a40;
+}
 
 a:hover { cursor: pointer; }
 .btn{
@@ -41,3 +44,11 @@ form select {
   background-color: inherit;
   color: white;
 }
+.left-pane{
+  height: 90vh;
+}
+.view-pane {
+    height: 90vh;
+    margin-left: -10px;
+    overflow-y: scroll;
+  }
