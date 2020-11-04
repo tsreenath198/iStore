@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col-md-3" style=" background-color: #343a40;">
+  <div class="col-md-3 bg-color">
     <form name="form" class="ml-3 mr-2" id="productEntryForm" (ngSubmit)="create(f)" #f="ngForm" novalidate>
       <div class="row">
         <div class="col-md-12">
@@ -65,7 +65,7 @@
       </div>
     </form>
   </div>
-  <div class="col-md-8" style="height: 90vh;overflow-y: scroll;">
+  <div class="col-md-9 view-pane">
     <div class="clearfix m-2">
       <div class="float-left" *ngIf="isRaw">
         <input class="mt-2" type="checkbox" name="showMinStock" id="checkStock" [(ngModel)]="showMinStock"
