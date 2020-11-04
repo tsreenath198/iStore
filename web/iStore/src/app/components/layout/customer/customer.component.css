@@ -32,9 +32,3 @@ form option {
 .btn:hover {
     background-color: greenyellow;
 }
-
-.item-view-pane {
-    height: 90vh;
-    margin-left: -10px;
-    overflow-y: scroll;
-  }

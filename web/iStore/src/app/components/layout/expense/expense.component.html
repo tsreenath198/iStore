@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-3" style="height: 90vh; background-color: #343a40;">
+    <div class="col-md-3 auto-scroll">
         <form name="form" class="ml-3 mr-2" id="expenseForm" #f="ngForm" (ngSubmit)="create(f)">
             <div class="row">
                 <div class="col-md-12">
@@ -33,7 +33,7 @@
             </div>
         </form>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-9 item-view-pane">
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>

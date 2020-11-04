@@ -43,7 +43,7 @@
             </td>
             <td>
               <div>
-                <input type="number" class="form-control" name="quantity" min="1" [(ngModel)]="item.quantity"
+                <input type="number" class="form-control" name="quantity_{{i}}" min="1" [(ngModel)]="item.quantity"
                   (change)="setTotal(item)" />
               </div>
             </td>
@@ -194,7 +194,7 @@
               </tr>
               <tr *ngIf="printingBill.totalDiscount">
                 <td colspan="4">
-                  <b>Assitional Discount</b>
+                  <b>Additional Discount</b>
                 </td>
                 <td>
                   <b>{{ printingBill.totalDiscount }}</b>
