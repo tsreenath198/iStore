@@ -12,7 +12,7 @@ export interface ItemModel{
 }
 
 export interface OrderModel{
-    invoiceDate: Date;
+    invoiceDate: string;
     orderType:string;
     id: number;
     total:number;

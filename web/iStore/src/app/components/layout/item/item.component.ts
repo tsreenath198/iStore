@@ -32,8 +32,8 @@ export class ItemComponent implements OnInit {
   public customerList: Array<any> = [];
   public paymentTypes: Array<any> = ["Cash", "Bank"];
   public orderTypes: Array<any> = ["Store", "Zomato", "Swiggy"];
-  public paymentMode: string;
-  public invoiceDate: Date;
+  public paymentMode: string = 'Cash';
+  public invoiceDate: string = new Date().toISOString().substring(0, 10);
   public orderType: string = 'Store';
   public updateMode: boolean = false;
   public totalDiscount: number = 0;
@@ -211,7 +211,7 @@ export class ItemComponent implements OnInit {
     this.itemList = [];
     this.totalBill = 0.0;
     this.paymentMode = undefined;
-    this.invoiceDate = new Date();
+    this.invoiceDate = new Date().toISOString().substring(0, 10);
     this.orderType = 'Store';
     if (this.updateMode) {
       this.updateMode = false;
