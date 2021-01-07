@@ -141,7 +141,7 @@ export class ItemComponent implements OnInit {
     p.forEach(i => (this.totalBill += i.total));
   }
   public setTotal(p: any) {
-    p.total = (p.quantity * p.price * (100 - p.discount)) / 100;
+    p.total = Math.ceil((p.quantity * p.price * (100 - p.discount)) / 100);
     this.calculateOrderTotal(this.itemList);
   }
   public generateBill(event) {
@@ -267,22 +267,25 @@ export class ItemComponent implements OnInit {
     window.alert("Name or Payment mode is empty.");
   }
   public calculateBill(event) {
-    console.log(event);
     this.giveAmount = 0;
     this.giveAmount = Math.floor(event.target.value - this.totalBill);
   }
-  public calculateDiscount(event) {
-    console.log(event);
-    if (
-      this.totalDiscount > 0 &&
-      ((event.keyCode >= 48 && event.keyCode <= 57) ||
-        (event.keyCode >= 96 && event.keyCode <= 105))
-    ) {
+  public calculateDiscount() {
+    if (this.totalDiscount > 0) {
+      this.removeDiscountFromIndividual();
       let temp = (this.totalBill * this.totalDiscount) / 100;
-      this.totalBill -= temp;
+      this.totalBill -= Math.ceil(temp);
     } else if (this.totalDiscount == 0 || this.totalDiscount == null) {
       this.calculateOrderTotal(this.itemList);
     }
+  }
+  // Remove individual discount once total discount selected
+  private removeDiscountFromIndividual() {
+    this.itemList.map(item => {
+      item.total = item.price;
+      item.discount = 0;
+    });
+    this.calculateOrderTotal(this.itemList);
   }
   public onChange(details: any) {
     this.customerList.forEach((data) => {
