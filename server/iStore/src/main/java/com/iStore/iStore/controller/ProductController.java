@@ -1,6 +1,8 @@
 package com.iStore.iStore.controller;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -73,6 +75,7 @@ public class ProductController {
 		byte[] bytes = productService.downloadInventory(products);
 		GenericResponse gr = new GenericResponse();
 		try {
+			SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 			httpServletResponse.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 			httpServletResponse.setHeader("Expires", "0");
 			httpServletResponse.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
@@ -80,7 +83,8 @@ public class ProductController {
 			httpServletResponse.addHeader("Content-Type",
 					"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
 			httpServletResponse.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-			httpServletResponse.setHeader("Content-Disposition", "attachment; filename=inventory.xlsx");
+			httpServletResponse.setHeader("Content-Disposition",
+					"attachment; filename=inventory_" + sdf.format(new Date()) + ".xlsx");
 			ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
 			servletOutputStream.write(bytes);
 			servletOutputStream.flush();
