@@ -5,11 +5,12 @@
             <div class="row p-3">
                 <div class="col-md-12 clearfix">
                     <div class="float-left form-group">
-                        <input type="text" id="cname" name="cname" placeholder="Name" minlength="3" #cname="ngModel" (change)="onChange()" list="id-list" pattern="[A-Za-z]" [(ngModel)]="customerDetails.name" value="{{ customerDetails.name }}" ngModel />
+                        <input type="text" id="cname" name="cname" placeholder="Name" minlength="3" #cname="ngModel" (change)="onChange()" (blur)="onChange()" list="id-list" pattern="[A-Za-z]" [(ngModel)]="customerDetails.name" value="{{ customerDetails.name }}" ngModel />
                         <datalist id="id-list">
-              <option *ngFor="let customer of customerList; let i = index" [value]="customer.name ">{{ customer.phone }}
-              </option>
-            </datalist>
+                            <option *ngFor="let customer of customerList; let i = index" [value]="customer.name ">{{
+                                customer.phone }}
+                            </option>
+                        </datalist>
                     </div>
                     <div class="float-right">
                         <input type="text" placeholder="Phone" name="phone" [(ngModel)]="customerDetails.phone" />
@@ -34,7 +35,7 @@
           font-size: 15px ;
         position: relative;
         margin-top: 50%;">
-                <i class="fa fa-minus" aria-hidden="true"></i></span>
+                                <i class="fa fa-minus" aria-hidden="true"></i></span>
                         </td>
                         <td>
                             <p>{{ item.product.name }}({{ item.product.category.name }})</p>
@@ -79,16 +80,16 @@
                     <tr *ngIf="itemList.length">
                         <td colspan="3">
                             <button class="btn" style="float: right;" (click)="cancelBill()">
-                Cancel
-              </button>
+                                Cancel
+                            </button>
                         </td>
                         <td colspan="1">
                             <button class="btn" style="float: right;" *ngIf="!updateMode" (click)="setPrintingBill(paymentModeContent)">
-                Generate
-              </button>
+                                Generate
+                            </button>
                             <button class="btn" style="float: right;" *ngIf="updateMode" (click)="update(billContent)">
-                Update
-              </button>
+                                Update
+                            </button>
                         </td>
                     </tr>
                 </tbody>
@@ -98,8 +99,9 @@
     <div class="col-md-7 item-view-pane">
         <nav class="nav nav-tabs">
             <li class="nav-item" *ngFor="let cat of categoryList">
-                <a class="nav-item nav-link" *ngIf="!cat.activeStatus" [ngClass]="{ active: selectedCategory == cat.name }" (click)="filter(cat.id, cat.name)">{{ cat.name }}
-        </a>
+                <a class="nav-item nav-link" *ngIf="!cat.activeStatus" [ngClass]="{ active: selectedCategory == cat.name }" (click)="filter(cat.id, cat.name)">{{ cat.name
+                    }}
+                </a>
             </li>
         </nav>
         <div class="row">
@@ -111,12 +113,12 @@
           'text-red': product.inventory < product.minimumAvailability
         }" (click)="addToList(product)">
                 <b>
-          <h5>{{ product.name }}</h5>
-        </b>
+                    <h5>{{ product.name }}</h5>
+                </b>
                 <b><small>({{ selectedCategory }})</small></b>
                 <b>
-          <p>{{ product.price }}.rs</p>
-        </b>
+                    <p>{{ product.price }}.rs</p>
+                </b>
             </div>
         </div>
     </div>
@@ -126,8 +128,8 @@
         <div class="modal-header">
             <h4 class="modal-title">Bill</h4>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <div class="modal-body">
             <div id="print-section" style="margin: 2;">
@@ -146,8 +148,8 @@
                         </p>
                         <p>
                             <small>Date:{{ printingBill.date | date }},{{
-                printingBill.date | date: "h:mm:ss a"
-                }}</small>
+                                printingBill.date | date: "h:mm:ss a"
+                                }}</small>
                         </p>
                     </div>
                     <div style="float: right;">
@@ -218,11 +220,11 @@
             <button type="button" class="btn btn-secondary" printSectionId="print-section" [printStyle]="{
           div: { 'margin-left': '-5px', 'margin-right': '-5px' }
         }" (click)="generateBill()" ngxPrint>
-        Print
-      </button>
+                Print
+            </button>
             <button type="button" class="btn btn-secondary" (click)="close('Close click')">
-        Close
-      </button>
+                Close
+            </button>
         </div>
     </div>
 </ng-template>
@@ -231,27 +233,27 @@
         <div class="modal-header">
             <h4 class="modal-title">Choose Payment Mode</h4>
             <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
-        <span aria-hidden="true">&times;</span>
-      </button>
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
         <div class="modal-body">
             <div class="p-3">
                 <div class="row">
                     <div class="col-md-4">
                         <select id="payMode" class="form-control" name="pm" [(ngModel)]="paymentMode" #pm="ngModel" required>
-              <option [ngValue]="undefined" hidden selected>
-                Payment Mode <label class="required" for="pm">*</label>
-              </option>
-              <option *ngFor="let cl of paymentTypes">{{ cl }} </option>
-            </select>
+                            <option [ngValue]="undefined" hidden selected>
+                                Payment Mode <label class="required" for="pm">*</label>
+                            </option>
+                            <option *ngFor="let cl of paymentTypes">{{ cl }} </option>
+                        </select>
                     </div>
                     <div class="col-md-4">
                         <select id="ordertype" class="form-control" name="ot" [(ngModel)]="orderType" #ot="ngModel" required>
-              <option [ngValue]="undefined" hidden selected>
-                Order Type <label class="required" for="ot">*</label>
-              </option>
-              <option *ngFor="let ot of orderTypes">{{ ot }} </option>
-            </select>
+                            <option [ngValue]="undefined" hidden selected>
+                                Order Type <label class="required" for="ot">*</label>
+                            </option>
+                            <option *ngFor="let ot of orderTypes">{{ ot }} </option>
+                        </select>
                     </div>
                     <div class="col-md-4">
                         <input type="date" class="form-control" name="invoicedt" [(ngModel)]="invoiceDate" #invoicedt="ngModel" required>
@@ -289,11 +291,11 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" [disabled]="!paymentMode" (click)="proceedToPrint(billContent)">
-        Next
-      </button>
+                Next
+            </button>
             <button type="button" class="btn btn-secondary" (click)="close('Close click')">
-        Close
-      </button>
+                Close
+            </button>
         </div>
     </div>
 </ng-template>
