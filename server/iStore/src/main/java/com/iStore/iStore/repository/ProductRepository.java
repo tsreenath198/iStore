@@ -15,7 +15,7 @@ import com.iStore.iStore.model.Product;
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Integer> {
 
-	List<Product> findByActiveFlagAllIgnoreCaseOrderByProductOrderAsc(Integer activeFlag);
+	List<Product> findByActiveFlagAllIgnoreCaseOrderByNameAsc(Integer activeFlag);
 
 	Optional<Product> findByIdAndActiveFlag(Integer id, Integer activeFlag);
 
@@ -25,7 +25,7 @@ public interface ProductRepository extends CrudRepository<Product, Integer> {
 	@Modifying
 	@Transactional
 	void addInventoryById(@Param(value = "id") Integer id, @Param(value = "inventory") Integer inventory);
-	
+
 	@Query(value = "UPDATE product SET inventory=inventory-:inventory WHERE id= :id", nativeQuery = true)
 	@Modifying
 	@Transactional
