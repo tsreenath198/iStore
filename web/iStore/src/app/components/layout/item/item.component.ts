@@ -141,6 +141,7 @@ export class ItemComponent implements OnInit {
     p.forEach(i => (this.totalBill += i.total));
   }
   public setTotal(p: any) {
+    this.totalDiscount = 0; // remove total discount when u give individual discount
     p.total = Math.ceil((p.quantity * p.price * (100 - p.discount)) / 100);
     this.calculateOrderTotal(this.itemList);
   }
