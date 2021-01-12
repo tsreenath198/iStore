@@ -50,7 +50,7 @@
                         </td>
                         <td>
                             <div>
-                                <input type="number" class="form-control" name="discount" [(ngModel)]="item.discount" step="5" max="100" min="0" (change)="setTotal(item)" />
+                                <input type="number" class="form-control" name="discount" [(ngModel)]="item.discount" step="5" max="100" min="0" (change)="setTotal(item,'discount')" />
                             </div>
                         </td>
                         <td>
@@ -63,7 +63,7 @@
                         </td>
                         <td>
                             <div style="width:50px">
-                                <input type="number" class="form-control" name="totalDiscount" [(ngModel)]="totalDiscount" (blur)="calculateDiscount()" />
+                                <input type="number" class="form-control" name="totalDiscount" [(ngModel)]="totalDiscount" (blur)="calculateTotalDiscount()" />
                             </div>
                         </td>
                     </tr>

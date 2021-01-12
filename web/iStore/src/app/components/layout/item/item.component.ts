@@ -139,9 +139,13 @@ export class ItemComponent implements OnInit {
   private calculateOrderTotal(p: any) {
     this.totalBill = 0;
     p.forEach(i => (this.totalBill += i.total));
+    if (this.totalDiscount > 0) {
+      let temp = (this.totalBill * this.totalDiscount) / 100;
+      this.totalBill -= Math.ceil(temp);
+    }
   }
-  public setTotal(p: any) {
-    this.totalDiscount = 0; // remove total discount when u give individual discount
+  public setTotal(p: any, type?: string) {
+    this.totalDiscount = (type === 'discount') ? 0 : this.totalDiscount; // remove total discount when u give individual discount
     p.total = Math.ceil((p.quantity * p.price * (100 - p.discount)) / 100);
     this.calculateOrderTotal(this.itemList);
   }
@@ -271,11 +275,10 @@ export class ItemComponent implements OnInit {
     this.giveAmount = 0;
     this.giveAmount = Math.floor(event.target.value - this.totalBill);
   }
-  public calculateDiscount() {
+  public calculateTotalDiscount() {
     if (this.totalDiscount > 0) {
       this.removeDiscountFromIndividual();
-      let temp = (this.totalBill * this.totalDiscount) / 100;
-      this.totalBill -= Math.ceil(temp);
+      this.calculateOrderTotal(this.itemList);
     } else if (this.totalDiscount == 0 || this.totalDiscount == null) {
       this.calculateOrderTotal(this.itemList);
     }
@@ -283,10 +286,9 @@ export class ItemComponent implements OnInit {
   // Remove individual discount once total discount selected
   private removeDiscountFromIndividual() {
     this.itemList.map(item => {
-      item.total = item.price;
+      item.total = item.price * item.quantity;
       item.discount = 0;
     });
-    this.calculateOrderTotal(this.itemList);
   }
   public onChange(details: any) {
     this.customerList.forEach((data) => {
