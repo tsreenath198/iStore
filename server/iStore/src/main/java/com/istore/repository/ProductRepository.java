@@ -15,7 +15,7 @@ import com.istore.model.Product;
 @Repository
 public interface ProductRepository extends CrudRepository<Product, Integer> {
 
-	List<Product> findByActiveFlagAllIgnoreCaseOrderByProductOrderAsc(Integer activeFlag);
+	List<Product> findByActiveFlagAllIgnoreCaseOrderByNameAsc(Integer activeFlag);
 
 	Optional<Product> findByIdAndActiveFlag(Integer id, Integer activeFlag);
 

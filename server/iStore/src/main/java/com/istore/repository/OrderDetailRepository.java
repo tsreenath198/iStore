@@ -104,7 +104,7 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
 	@Query(value = "SELECT p.name as name,	SUM(i.quantity) as count FROM "
 			+ "order_detail od left outer join item i on od.id = i.order_id "
 			+ "left outer join product p on i.product_id = p.id left outer join category c on p.category_id = c.id "
-			+ "where od.created_date > :fromDate and od.created_date <:toDate and c.name=:category and od.active_flag=0 GROUP by p.name ORDER BY SUM(i.quantity) DESC", nativeQuery = true)
+			+ "where od.created_date > :fromDate and od.created_date <:toDate and c.name=:category and od.active_flag=0 GROUP by p.name ORDER BY p.name ASC", nativeQuery = true)
 	List<CategoryDetailInterface> getProductByProduct(@Param(value = "category") String category,
 			@Param(value = "fromDate") String fromDate, @Param(value = "toDate") String toDate);
 

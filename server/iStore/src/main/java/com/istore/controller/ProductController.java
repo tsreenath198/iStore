@@ -1,6 +1,7 @@
 package com.istore.controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,6 +25,7 @@ import com.istore.constants.ISTOREConstants;
 import com.istore.model.GenericResponse;
 import com.istore.model.Product;
 import com.istore.service.ProductService;
+import com.istore.util.DateHelper;
 
 @RestController
 @CrossOrigin
@@ -78,9 +80,9 @@ public class ProductController {
 			httpServletResponse.setHeader("Expires", "0");
 			httpServletResponse.setHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
 			httpServletResponse.setHeader("Pragma", "public");
-			httpServletResponse.addHeader("Content-Type",
-					CONTENT_TYPE_EXCEL);
-			httpServletResponse.setHeader("Content-Disposition", "attachment; filename=inventory.xlsx");
+			httpServletResponse.addHeader("Content-Type", CONTENT_TYPE_EXCEL);
+			httpServletResponse.setHeader("Content-Disposition",
+					"attachment; filename=inventory_" + DateHelper.convertDateToString(new Date()) + ".xlsx");
 			ServletOutputStream servletOutputStream = httpServletResponse.getOutputStream();
 			servletOutputStream.write(bytes);
 			servletOutputStream.flush();
