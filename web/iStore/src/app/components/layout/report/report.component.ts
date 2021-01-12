@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ComponentFactoryResolver, OnInit } from "@angular/core";
 import { HttpService } from "src/app/services/http.service";
 import { ItemModel } from "../item/item.component.model";
 import { URLConstants } from "src/app/constants/url-constants";
@@ -7,8 +7,8 @@ import {
   NgbModal,
   ModalDismissReasons
 } from "@ng-bootstrap/ng-bootstrap";
-import { StorageService } from "src/app/services/storage.service";
 import { Router } from "@angular/router";
+import { EditReportComponent } from "./edit-report/edit-report.component";
 
 @Component({
   selector: "app-report",
@@ -53,8 +53,7 @@ export class ReportComponent implements OnInit {
   constructor(
     public router: Router,
     private http: HttpService,
-    private modalService: NgbModal,
-    private storageService: StorageService
+    private modalService: NgbModal
   ) { }
 
   ngOnInit() {
@@ -184,8 +183,8 @@ export class ReportComponent implements OnInit {
   }
 
   public edit(order: any) {
-    this.storageService.orderId = order.id;
-    this.router.navigate(["layout/bill"]);
+    this.modalRef = this.modalService.open(EditReportComponent, { size: 'lg' });
+    this.modalRef.componentInstance.report = order;
   }
 
   public openPopup(order, billContent) {
@@ -197,7 +196,7 @@ export class ReportComponent implements OnInit {
    * 1) content consists the modal instance
    * 2) Selected contains the code of selected row
    */
-  public open(content: any) {
+  private open(content: any) {
     this.modalRef = this.modalService.open(content);
     this.modalRef.result.then(
       result => {

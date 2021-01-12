@@ -6,6 +6,7 @@ import { CustomerComponent } from "./customer/customer.component";
 import { RoleGuard } from "src/app/guards/role.guard";
 import { UserRole } from "./user/user.enum";
 import { ExpenseComponent } from './expense/expense.component';
+import { EditReportComponent } from "./report/edit-report/edit-report.component";
 
 const routes: Routes = [
   {

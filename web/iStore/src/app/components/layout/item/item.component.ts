@@ -10,10 +10,7 @@ import { ItemModel, OrderModel, ContactModel } from "./item.component.model";
 import { URLConstants } from "src/app/constants/url-constants";
 import { CategoryModel } from "../category/category.component.model";
 import { ToastrService } from "ngx-toastr";
-import { StorageService } from "src/app/services/storage.service";
-import { chainedInstruction } from "@angular/compiler/src/render3/view/util";
 import { NgForm } from "@angular/forms";
-import { CustomerModel } from '../customer/customer.component.model';
 
 @Component({
   selector: "app-item",
@@ -35,7 +32,6 @@ export class ItemComponent implements OnInit {
   public paymentMode: string = 'Cash';
   public invoiceDate: string = new Date().toISOString().substring(0, 10);
   public orderType: string = 'Store';
-  public updateMode: boolean = false;
   public totalDiscount: number = 0;
   public totalBill: number = 0.0;
   public printingBill: any = {};
@@ -44,7 +40,6 @@ export class ItemComponent implements OnInit {
   public closeResult = "";
   private modalRef: NgbModalRef;
   constructor(
-    private storageService: StorageService,
     private http: HttpService,
     private modalService: NgbModal,
     private toastr: ToastrService
@@ -54,20 +49,6 @@ export class ItemComponent implements OnInit {
     this.getCategoryList();
     this.getProductList();
     this.getCustomerList();
-    if (this.storageService.orderId) {
-      this.updateMode = true;
-      this.http
-        .get(this.url.OrderGetById + this.storageService.orderId)
-        .subscribe(resp => {
-          let temp = resp as any;
-          this.itemList = temp.items;
-          this.totalBill = temp.total;
-          this.customerDetails = temp.contact;
-          this.paymentMode = temp.paymentMode;
-          this.invoiceDate = temp.invoiceDate;
-          this.orderType = temp.orderType;
-        });
-    }
   }
 
   async getCustomerList(): Promise<any> {
@@ -170,25 +151,6 @@ export class ItemComponent implements OnInit {
     });
   }
 
-  public update() {
-    let finalOrder: OrderModel = <OrderModel>{};
-    finalOrder.id = this.storageService.orderId;
-    finalOrder.total = Math.ceil(this.totalBill);
-    finalOrder.items = this.itemList;
-    finalOrder.contact = this.customerDetails;
-    finalOrder.paymentMode = this.paymentMode;
-    finalOrder.invoiceDate = this.invoiceDate;
-    finalOrder.orderType = this.orderType;
-    this.http.update(finalOrder, this.url.OrderUpdate).subscribe(resp => {
-      // this.printingBill=resp as any;
-      // this.setPrintingBill(event);
-      window.alert("Updated successfully.");
-      this.cancelBill();
-      this.updateMode = false;
-      this.storageService.orderId = null;
-    });
-  }
-
   public openPaymentOption(event) {
     this.open(event);
   }
@@ -218,9 +180,6 @@ export class ItemComponent implements OnInit {
     this.paymentMode = undefined;
     this.invoiceDate = new Date().toISOString().substring(0, 10);
     this.orderType = 'Store';
-    if (this.updateMode) {
-      this.updateMode = false;
-    }
     this.customerDetails = <ContactModel>{};
   }
 

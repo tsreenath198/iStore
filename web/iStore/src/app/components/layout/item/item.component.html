@@ -84,11 +84,8 @@
                             </button>
                         </td>
                         <td colspan="1">
-                            <button class="btn" style="float: right;" *ngIf="!updateMode" (click)="setPrintingBill(paymentModeContent)">
+                            <button class="btn" style="float: right;" (click)="setPrintingBill(paymentModeContent)">
                                 Generate
-                            </button>
-                            <button class="btn" style="float: right;" *ngIf="updateMode" (click)="update(billContent)">
-                                Update
                             </button>
                         </td>
                     </tr>

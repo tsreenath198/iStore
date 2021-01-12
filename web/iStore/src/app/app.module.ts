@@ -9,6 +9,8 @@ import { NgxPrintModule } from "ngx-print";
 import { FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from 'ngx-toastr';
+import { ReportModule } from "./components/layout/report/report.module";
+import { EditReportComponent } from "./components/layout/report/edit-report/edit-report.component";
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,9 +22,11 @@ import { ToastrModule } from 'ngx-toastr';
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule, // required animations module
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
+    ReportModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents:[EditReportComponent]
 })
 export class AppModule {}
