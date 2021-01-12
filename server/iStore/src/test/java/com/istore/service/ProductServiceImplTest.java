@@ -46,7 +46,7 @@ public class ProductServiceImplTest {
 	@Test
 	public void testGetAll() {
 		List<Product> value = new ArrayList<>();
-		when(repo.findByActiveFlagAllIgnoreCaseOrderByProductOrderAsc(anyInt())).thenReturn(value);
+		when(repo.findByActiveFlagAllIgnoreCaseOrderByNameAsc(anyInt())).thenReturn(value);
 		serviceImpl.getAll();
 	}
 }
