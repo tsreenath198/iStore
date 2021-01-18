@@ -4,10 +4,10 @@ import { HttpService } from '../../../../services/http.service';
 
 @Component({
   selector: 'app-edit-report',
-  templateUrl: './edit-report.component.html',
-  styleUrls: ['./edit-report.component.css']
+  templateUrl: './edit-report-dialog.component.html',
+  styleUrls: ['./edit-report-dialog.component.css']
 })
-export class EditReportComponent implements OnInit {
+export class EditReportDialogComponent implements OnInit {
   @Input() report:any;
   public url = new URLConstants();
   public paymentTypes: Array<any> = ["Cash", "Bank"];

@@ -8,7 +8,7 @@ import {
   ModalDismissReasons
 } from "@ng-bootstrap/ng-bootstrap";
 import { Router } from "@angular/router";
-import { EditReportComponent } from "./edit-report/edit-report.component";
+import { EditReportDialogComponent } from "./edit-report-dialog/edit-report-dialog.component";
 
 @Component({
   selector: "app-report",
@@ -183,7 +183,7 @@ export class ReportComponent implements OnInit {
   }
 
   public edit(order: any) {
-    this.modalRef = this.modalService.open(EditReportComponent, { size: 'lg' });
+    this.modalRef = this.modalService.open(EditReportDialogComponent, { size: 'lg' });
     this.modalRef.componentInstance.report = order;
   }
 

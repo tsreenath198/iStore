@@ -5,18 +5,17 @@ import { ReportRoutingModule } from './report-routing.module';
 import { ReportComponent } from './report.component';
 import { NgxPrintModule } from 'ngx-print';
 import { FormsModule } from '@angular/forms';
-import { NgbCollapse } from '@ng-bootstrap/ng-bootstrap';
-import { EditReportComponent } from './edit-report/edit-report.component';
+import { EditReportDialogComponent } from './edit-report-dialog/edit-report-dialog.component';
 
 
 @NgModule({
-  declarations: [ReportComponent, EditReportComponent],
+  declarations: [ReportComponent, EditReportDialogComponent],
   imports: [
     CommonModule,
     ReportRoutingModule,
     FormsModule,
     NgxPrintModule
   ],
-  exports:[EditReportComponent]
+  exports:[EditReportDialogComponent]
 })
 export class ReportModule { }
