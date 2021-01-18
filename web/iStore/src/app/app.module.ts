@@ -10,7 +10,7 @@ import { FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from 'ngx-toastr';
 import { ReportModule } from "./components/layout/report/report.module";
-import { EditReportComponent } from "./components/layout/report/edit-report/edit-report.component";
+import { EditReportDialogComponent } from "./components/layout/report/edit-report-dialog/edit-report-dialog.component";
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +27,6 @@ import { EditReportComponent } from "./components/layout/report/edit-report/edit
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents:[EditReportComponent]
+  entryComponents:[EditReportDialogComponent]
 })
 export class AppModule {}
