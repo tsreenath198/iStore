@@ -81,7 +81,8 @@ export class ItemComponent implements OnInit {
     const item = this.categoryList.filter(
       item => item.name == this.selectedCategory
     );
-    this.filter(item[0].id, item[0].name);
+    if (item[0])
+      this.filter(item[0].id, item[0].name);
   }
   public addToList(p: any) {
     if (p.inventory <= 0) {
