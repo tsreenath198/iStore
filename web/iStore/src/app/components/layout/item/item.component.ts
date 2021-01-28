@@ -79,7 +79,7 @@ export class ItemComponent implements OnInit {
   public setFilter() {
     this.selectedCategory = "Cup";
     const item = this.categoryList.filter(
-      item => item.name == this.selectedCategory
+      item => item.name.toLowerCase().trim() == this.selectedCategory.toLowerCase().trim()
     );
     if (item[0])
       this.filter(item[0].id, item[0].name);
