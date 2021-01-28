@@ -6,8 +6,9 @@ import { HttpClient } from "@angular/common/http";
 })
 export class HttpService {
   
-  private base_url =
-    "http://localhost:8081/";
+  private localIp:string = 'localhost';
+  private prodIp:string = '210.16.76.202';
+  private base_url = `http://${this.prodIp}:8081/`;
   constructor(private http: HttpClient) { }
   post(data: any, url: string) {
     return this.http.post(this.base_url + url, data);
