@@ -8,10 +8,11 @@ import { UserComponent } from './user/user.component';
 import { CustomerComponent } from './customer/customer.component';
 import { FormsModule } from '@angular/forms';
 import { ExpenseComponent } from './expense/expense.component';
+import { InventoryComponent } from './inventory/inventory.component';
 
 
 @NgModule({
-  declarations: [LayoutComponent,HeaderComponent,UserComponent,CustomerComponent, ExpenseComponent],
+  declarations: [LayoutComponent,HeaderComponent,UserComponent,CustomerComponent, ExpenseComponent, InventoryComponent],
   imports: [
     CommonModule,
     FormsModule,

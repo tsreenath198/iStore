@@ -26,8 +26,8 @@ export class ReportComponent implements OnInit {
   public valueByData2: any = [];
   public showTable: string = "";
   public chooseDays: any = ["Day", "Month", "Year"];
-  public choosePrePopulateDays: any = ["Current week", "Current month", "Current year", "Manual"];
-  public choosenDay: string = "Day";
+  public choosePrePopulateDays: any = ["This week", "This month", "This year", "Custom"];
+  public choosenDay: string = "Custom";
   public getBillURLData = {};
   public months: Array<string> = [
     "Jan",

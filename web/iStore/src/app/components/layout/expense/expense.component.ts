@@ -22,6 +22,7 @@ export class ExpenseComponent implements OnInit {
   ngOnInit() {
     this.getAll();
     this.expense.date = this.today;
+    this.expense.mode = 'Cash';
   }
 
   public create(f: NgForm): void {

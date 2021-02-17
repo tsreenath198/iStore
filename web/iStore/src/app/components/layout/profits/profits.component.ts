@@ -14,13 +14,13 @@ export class ProfitsComponent implements OnInit {
   public URL = new URLConstants();
   public totalTable: any = [{ date: "2020-01-20" }];
   public choosePrePopulateDays: any = [
-    "Current week",
-    "Current month",
-    "Current year",
-    "Manual"
+    "This week",
+    "This month",
+    "This year",
+    "Custom"
   ];
-  public choosenDay: string = "Day";
-  public selectedDay: string = "Day";
+  public choosenDay: string = "Custom";
+  public selectedDay: string = "Custom";
   public groupReq: any = {
     fromDate: "",
     toDate: ""
@@ -36,11 +36,6 @@ export class ProfitsComponent implements OnInit {
     this.groupReq.toDate = new Date().toISOString().substring(0, 10);
   }
 
-  // private getAllSales() {
-  //   this.http.get(this.URL.SalesTotal + this.selectedDay).subscribe(resp => {
-  //     this.salesList = resp as any;
-  //   });
-  // }
   public getTotalData() {
     this.http.get(this.URL.ProfitGetCategory+ this.groupReq.fromDate +'&toDate='+this.groupReq.toDate).subscribe(resp =>{
       this.profitsCategoriesList = resp as any;

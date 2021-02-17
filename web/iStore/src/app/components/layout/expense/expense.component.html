@@ -3,28 +3,21 @@
         <form name="form" class="ml-3 mr-2" id="expenseForm" #f="ngForm" (ngSubmit)="create(f)">
             <div class="row">
                 <div class="col-md-12">
-                    <input type="number" class="form-control mt-2" name="Amount" [(ngModel)]="expense.amount"
-                        #amount="ngModel" placeholder="Amount *" required />
+                    <input type="number" class="form-control mt-2" name="Amount" [(ngModel)]="expense.amount" #amount="ngModel" placeholder="Amount *" required />
                 </div>
                 <div class="col-md-12">
-                    <input type="date" class="form-control mt-2" name="Date" [(ngModel)]="expense.date" #date="ngModel"
-                        placeholder="Date *" max="{{today | date:'yyyy-MM-dd'}}" required />
+                    <input type="date" class="form-control mt-2" name="Date" [(ngModel)]="expense.date" #date="ngModel" placeholder="Date *" max="{{today | date:'yyyy-MM-dd'}}" required />
                 </div>
                 <div class="col-md-12">
                     <select style="width: 98%;" id="payMode" name="pm" [(ngModel)]="expense.mode" #pm="ngModel" required>
-                        <option [ngValue]="undefined" hidden selected>
-                            Payment Mode *
-                        </option>
                         <option *ngFor="let cl of paymentTypes">{{ cl }} </option>
                     </select>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control mt-2" name="Description" [(ngModel)]="expense.description"
-                        #description="ngModel" placeholder="Description *" required />
+                    <textarea class="form-control mt-2" name="Description" maxlength="50" [(ngModel)]="expense.description" #description="ngModel" placeholder="Description *" required></textarea>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control mt-2" name="Comment" [(ngModel)]="expense.comment"
-                        #comment="ngModel" placeholder="Comment *" required />
+                    <input type="text" class="form-control mt-2" name="Comment" [(ngModel)]="expense.comment" #comment="ngModel" placeholder="Comment *" required />
                 </div>
             </div>
             <div class="text-center mt-2">
