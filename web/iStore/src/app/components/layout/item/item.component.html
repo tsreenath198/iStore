@@ -101,7 +101,7 @@
                 </a>
             </li>
         </nav>
-        <div class="row">
+        <div class="row mt-2">
             <div *ngFor="let product of productList" class="col-md-2 p-1" id="productsInBill" [hidden]="
           (product.category.rawMaterial && !product?.inventory) ||
           product.activeStatus ||
@@ -109,13 +109,18 @@
         " [ngClass]="{
           'text-red': product.inventory < product.minimumAvailability
         }" (click)="addToList(product)">
-                <b>
+                <button type="button" class="btn btn-outline-primary">
+                        <h5>{{ product.name }}</h5>
+                    <small>({{ selectedCategory }})</small>
+                        {{ product.price }}.rs
+                </button>
+                <!-- <b>
                     <h5>{{ product.name }}</h5>
                 </b>
                 <b><small>({{ selectedCategory }})</small></b>
                 <b>
                     <p>{{ product.price }}.rs</p>
-                </b>
+                </b> -->
             </div>
         </div>
     </div>

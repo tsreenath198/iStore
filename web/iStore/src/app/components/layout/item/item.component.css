@@ -123,6 +123,7 @@ select {
 
 .btn:hover {
     background-color: greenyellow;
+    color: black;
 }
 
 .text-red {

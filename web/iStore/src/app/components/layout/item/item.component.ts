@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
+import { Component, OnInit, ViewChild} from "@angular/core";
 import { HttpService } from "src/app/services/http.service";
-import { ProductModel } from "../product/product.component.model";
 import {
   NgbModal,
   ModalDismissReasons,
@@ -251,10 +250,14 @@ export class ItemComponent implements OnInit {
     });
   }
   public onChange(details: any) {
-    this.customerList.forEach((data) => {
-      if (data.name == this.customerDetails.name) {
-        this.customerDetails.phone = data.phone;
-      }
-    })
+    if(this.customerDetails.name){
+      this.customerList.forEach((data) => {
+        if (data.name == this.customerDetails.name) {
+          this.customerDetails.phone = data.phone;
+        }
+      })
+    }else{
+      this.customerDetails.phone = '';
+    }   
   }
 }
