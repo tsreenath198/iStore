@@ -10,7 +10,7 @@ import { URLConstants } from 'src/app/constants/url-constants';
 export class ProfitsComponent implements OnInit {
 
   public profitsCategoriesList: Array<any> = [];
-  public profitsProductsList: Array<any>=[];
+  public profitsProductsList: Array<any> = [];
   public URL = new URLConstants();
   public totalTable: any = [{ date: "2020-01-20" }];
   public choosePrePopulateDays: any = [
@@ -21,11 +21,12 @@ export class ProfitsComponent implements OnInit {
   ];
   public choosenDay: string = "Custom";
   public selectedDay: string = "Custom";
+  public grandTotal: number = 0;
   public groupReq: any = {
     fromDate: "",
     toDate: ""
   };
-  constructor(private http: HttpService) {}
+  constructor(private http: HttpService) { }
 
   ngOnInit() {
     this.setCurrentDates();
@@ -36,21 +37,37 @@ export class ProfitsComponent implements OnInit {
     this.groupReq.toDate = new Date().toISOString().substring(0, 10);
   }
 
-  public getTotalData() {
-    this.http.get(this.URL.ProfitGetCategory+ this.groupReq.fromDate +'&toDate='+this.groupReq.toDate).subscribe(resp =>{
-      this.profitsCategoriesList = resp as any;
-    })
+  async getTotalData(): Promise<any> {
+    this.profitsCategoriesList = await this.http
+      .get(this.URL.ProfitGetCategory + this.groupReq.fromDate + '&toDate=' + this.groupReq.toDate)
+      .toPromise()
+      .then(resp => resp as any); //Do you own cast here
+      this.grandTotal = this.calculateGrandTotal();
+    return this.profitsCategoriesList;
+  }
+
+  private getYesterdayDate(): Date {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    yesterday.toDateString();
+    return yesterday;
+  }
+
+  public getYesterdayRecords(): void {
+    this.groupReq.fromDate = this.getYesterdayDate().toISOString().substring(0, 10);
+    this.getTotalData();
   }
   public getProductsData(catName) {
-    this.profitsProductsList=[];
+    this.profitsProductsList = [];
     this.http
       .get(
         this.URL.ProfitGetProduct +
-          catName +
-          "&fromDate=" +
-          this.groupReq.fromDate +
-          "&toDate=" +
-          this.groupReq.toDate
+        catName +
+        "&fromDate=" +
+        this.groupReq.fromDate +
+        "&toDate=" +
+        this.groupReq.toDate
       )
       .subscribe(resp => {
         this.profitsProductsList = resp as any;
@@ -85,5 +102,9 @@ export class ProfitsComponent implements OnInit {
       this.groupReq.toDate = "";
     }
   }
-
+  public calculateGrandTotal(): number {
+    if (this.profitsCategoriesList.length) {
+      return this.profitsCategoriesList.map(cat => cat.profit).reduce((accumulator, currentValue) => accumulator + currentValue);
+    }
+  }
 }

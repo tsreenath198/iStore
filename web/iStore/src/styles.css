@@ -1,54 +1,62 @@
 /* You can add global styles to this file, and also import other style files */
+
 * {
     font-size: 0.85rem;
     font-family: "Comic Sans MS", cursive, sans-serif;
-  }
+}
 
-  *:focus {
+*:focus {
     outline: none;
 }
-.bg-color{
-  background-color: #343a40;
+
+.bg-color {
+    background-color: #343a40;
 }
 
-a:hover { cursor: pointer; }
-.btn{
-  font-size: 1rem;
-  border-radius: 20px;
-  border: 1px solid yellowgreen ;
-  background-color: inherit;
-  color: currentColor;
+a:hover {
+    cursor: pointer;
 }
 
-.btn:hover{
-  background-color:greenyellow ;
+.btn {
+    font-size: 1rem;
+    border-radius: 20px;
+    border: 1px solid yellowgreen;
+    background-color: inherit;
+    color: currentColor;
 }
 
-form{
-  color: white;
+.btn:hover {
+    background-color: greenyellow;
 }
+
+form {
+    color: white;
+}
+
 form input {
-  margin-top: 40px;
-  font-size: 1rem;
-  border: 0;
-  border-bottom: 2px solid greenyellow;
-  background-color: inherit;
-  color: white;
+    margin-top: 40px;
+    font-size: 1rem;
+    border: 0;
+    border-bottom: 2px solid greenyellow;
+    background-color: inherit;
+    color: white;
 }
- 
+
 form select {
-  margin-top: 40px;
-  font-size: 1rem;
-  border: 0;
-  border-bottom: 2px solid greenyellow;
-  background-color: inherit;
-  color: white;
+    margin-top: 40px;
+    font-size: 1rem;
+    border: 0;
+    border-bottom: 2px solid greenyellow;
+    background-color: inherit;
+    color: white;
 }
-.left-pane{
-  height: 90vh;
+
+.left-pane {
+    height: 90vh;
 }
+
 .view-pane {
     height: 90vh;
     margin-left: -10px;
     overflow-y: scroll;
-  }
+}

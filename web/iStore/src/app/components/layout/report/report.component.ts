@@ -79,6 +79,19 @@ export class ReportComponent implements OnInit {
     this.groupReq.toDate = new Date().toISOString().substring(0, 10);
   }
 
+  private getYesterdayDate(): Date {
+    const today = new Date();
+    const yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    yesterday.toDateString();
+    return yesterday;
+  }
+
+  public getYesterdayRecords(): void {
+    this.groupReq.fromDate = this.getYesterdayDate().toISOString().substring(0, 10);
+    this.getTotalData();
+  }
+
   public getTotalData() {
     this.finalBills = [];
     this.http

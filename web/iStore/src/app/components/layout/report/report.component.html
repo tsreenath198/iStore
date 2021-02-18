@@ -303,7 +303,7 @@
 
         <div class="pt-5 pl-5" *ngIf="groupByData.length == 0">
             <h3>
-                No data available!
+                No data available! <button class="btn btn-primary" (click)="getYesterdayRecords()">Yesterday's Report</button>
             </h3>
         </div>
 

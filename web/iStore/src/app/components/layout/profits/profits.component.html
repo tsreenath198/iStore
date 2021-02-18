@@ -35,7 +35,7 @@
         </div>
     </div>
     <div class="col-md-6">
-        <div class="accordion" id="accordionOne" *ngIf="profitsCategoriesList">
+        <div class="accordion" id="accordionOne" *ngIf="profitsCategoriesList.length">
             <div class="card" *ngFor="let cat of profitsCategoriesList; let i = index">
                 <div class="card-header card-hover" [attr.id]="'heading' + i" (click)="getProductsData(cat.name)">
                     <div class="mb-0 clearfix" data-toggle="collapse" [attr.data-target]="'#collapse' + i" aria-expanded="false" [attr.aria-controls]="'#collapse' + i">
@@ -69,10 +69,17 @@
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-header card-hover">
+                    <div class="mb-0 clearfix">
+                        <span class="float-right"> <strong>Grand Total:</strong> {{ grandTotal }} </span>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="pt-5 pl-5" *ngIf="profitsCategoriesList.length ==0">
             <h3>
-                No data available!
+                No data available! <button class="btn btn-primary" (click)="getYesterdayRecords()">Yesterday's Profit</button>
             </h3>
         </div>
     </div>
