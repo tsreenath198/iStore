@@ -254,10 +254,12 @@ export class ItemComponent implements OnInit {
       this.customerList.forEach((data) => {
         if (data.name == this.customerDetails.name) {
           this.customerDetails.phone = data.phone;
+          this.customerDetails.count = data.count;
         }
       })
     }else{
       this.customerDetails.phone = '';
+      this.customerDetails.count = 0;
     }   
   }
 }

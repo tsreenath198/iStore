@@ -14,7 +14,7 @@
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <strong>Visitor Count : </strong>
+                    <strong *ngIf="this.customerDetails.name">Visitor Count : {{customerDetails.count || 0}}</strong>
                 </div>
                 <div class="col-md-4">
                     <input type="text" placeholder="Phone" name="phone" [(ngModel)]="customerDetails.phone" />

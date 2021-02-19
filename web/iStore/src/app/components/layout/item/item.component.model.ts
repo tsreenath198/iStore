@@ -25,4 +25,5 @@ export interface OrderModel{
 export interface ContactModel{
     name: string;
     phone: string;
+    count: number;
 }
