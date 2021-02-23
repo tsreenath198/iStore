@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { URLConstants } from 'src/app/constants/url-constants';
 import { HttpService } from '../../../../services/http.service';
 
@@ -13,7 +14,7 @@ export class EditReportDialogComponent implements OnInit {
   public customerList: Array<any> = [];
   public paymentTypes: Array<any> = ["Cash", "Bank"];
   public orderTypes: Array<any> = ["Store", "Zomato", "Swiggy"];
-  constructor(private http:HttpService) { }
+  constructor(private http:HttpService,private ngbActiveModal:NgbActiveModal) { }
 
   ngOnInit() {
     this.report.invoiceDate = new Date(this.report.invoiceDate).toISOString().substring(0, 10);
@@ -39,6 +40,13 @@ export class EditReportDialogComponent implements OnInit {
         this.report.contact.phone = data.phone;
       }
     })
+  }
+
+  /**
+   * closeModal
+   */
+  public closeModal() {
+    this.ngbActiveModal.dismiss();
   }
 
 }
