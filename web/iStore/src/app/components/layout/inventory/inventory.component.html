@@ -1,0 +1,57 @@
+<div class="row">
+    <div class="col-md-3 left-pane bg-color">
+        <form name="form" class="ml-3 mr-2" id="inventoryForm" #f="ngForm" (ngSubmit)="createOrUpdate(f)">
+            <div class="row">
+                <div class="col-md-12">
+                    <input type="text" class="form-control mt-2" name="iName" [(ngModel)]="inventory.name" #iName="ngModel" placeholder="Inventory Name *" required />
+                </div>
+                <div class="col-md-12">
+                    <input type="text" class="form-control mt-2" name="availableUnits" [(ngModel)]="inventory.availableUnits" #availableUnits="ngModel" placeholder="Available Units *" required/>
+                </div>
+                <div class="col-md-12">
+                    <input type="text" class="form-control mt-2" name="units" [(ngModel)]="inventory.unitsPerQty" #units="ngModel" placeholder="Units Per Quantity *" required />
+                </div>
+                <div class="col-md-12">
+                    <input type="text" class="form-control mt-2" name="minAvailableUnits" [(ngModel)]="inventory.minAvailableUnits" #minAvailableUnits="ngModel" placeholder="Min Available per unit *" required/>
+                </div>
+            </div>
+            <div class=" text-center mt-2 ">
+                <button type="submit " class="btn ">{{ actionLabel }}</button>
+                <button type="reset " class="btn ml-1 ">Cancel</button>
+            </div>
+        </form>
+    </div>
+    <div class="col-md-9 view-pane ">
+        <table class="table table-bordered table-striped ">
+            <thead>
+                <tr>
+                    <th width="180 "><span>Inventory Name</span></th>
+                    <th width="100 "><span>Available Units</span></th>
+                    <th width="150 "><span>Units Per Quantity</span></th>
+                    <th width="100 "><span>Min Available Units</span></th>
+                    <th width='200'><span>Actions</span></th>
+                </tr>
+            </thead>
+            <tbody *ngIf="inventoryList.length">
+                <ng-container *ngFor="let inventory of inventoryList ">
+                    <tr>
+                        <td width="180 ">{{ inventory.name | titlecase }}</td>
+                        <td width="150 ">{{ inventory.availableUnits }}</td>
+                        <td width="100 ">{{ inventory.unitsPerQty }}</td>
+                        <td width="100 ">{{ inventory.minAvailableUnits }}</td>
+                        <td width='200'>
+                            <button class="btn " type="submit " (click)="getById(inventory.id) ">
+                  Edit
+                  <i class="fa fa-edit " aria-hidden="true "></i>
+                </button>
+                            <button class="btn ml-2 " type="submit " (click)="deleteInventory(inventory.id) ">
+                  Delete
+                  <i class="fa fa-trash " aria-hidden="true "></i>
+                </button>
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+    </div>
+</div>

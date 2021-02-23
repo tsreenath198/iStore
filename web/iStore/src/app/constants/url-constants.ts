@@ -1,4 +1,4 @@
-export class URLConstants {
+export class URLConstants {  
   /*product*/
   ProductCreate = 'product/create';
   ProductGetAll = 'product/getAll';
@@ -46,12 +46,21 @@ export class URLConstants {
   ExpenseUpdate = 'expense/update';
   ExpenseDelete = 'expense/delete?id=';
   ExpenseGetById = 'expense/get?id=';
+
+
   /**Customers */
   CustomerCreate = 'contact/create';
   CustomerGetAll = 'contact/getAll';
   CustomerUpdate = 'contact/update';
   CustomerDelete = 'contact/delete?id=';
   CustomerGetById = 'contact/get?id=';
+
+  /**Inventory */
+  InventoryCreate = 'inventory/create';
+  InventoryGetAll = 'inventory/getAll';
+  InventoryUpdate = 'inventory/update';
+  InventoryDelete = 'inventory/delete?id=';
+  InventoryGetById = 'inventory/get?id=';
 
   /** Profit */
   ProfitGetCategory = 'profit/getByCategory?fromDate=';
@@ -60,6 +69,7 @@ export class URLConstants {
   /** Login */
   Login = 'login/validateUser?name=';
   /**Sales */
-  SalesGetCategories = 'sales/getByCategory?fromDate='
-  SalesGetProducts = 'sales/getByProduct?category='
+  SalesGetCategories = 'sales/getByCategory?fromDate=';
+  SalesGetProducts = 'sales/getByProduct?category=';
+
 }
