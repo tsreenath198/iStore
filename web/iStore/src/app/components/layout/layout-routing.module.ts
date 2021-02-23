@@ -43,7 +43,7 @@ const routes: Routes = [
         component: InventoryComponent,
         canActivate: [RoleGuard],
         data: {
-          roles: [UserRole.Admin,UserRole.Store_Manager]
+          roles: [UserRole.Admin]
         }
       },
       {
