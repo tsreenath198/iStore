@@ -6,13 +6,13 @@
                     <input type="text" class="form-control mt-2" name="iName" [(ngModel)]="inventory.name" #iName="ngModel" placeholder="Inventory Name *" required />
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control mt-2" name="availableUnits" [(ngModel)]="inventory.availableUnits" #availableUnits="ngModel" placeholder="Available Units *" required/>
+                    <input type="number" class="form-control mt-2" name="availableUnits" min="0" [(ngModel)]="inventory.availableUnits" #availableUnits="ngModel" placeholder="Available Units *" required/>
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control mt-2" name="units" [(ngModel)]="inventory.unitsPerQty" #units="ngModel" placeholder="Units Per Quantity *" required />
+                    <input type="number" class="form-control mt-2" name="units" min="0" [(ngModel)]="inventory.unitsPerQty" #units="ngModel" placeholder="Units Per Quantity *" required />
                 </div>
                 <div class="col-md-12">
-                    <input type="text" class="form-control mt-2" name="minAvailableUnits" [(ngModel)]="inventory.minAvailableUnits" #minAvailableUnits="ngModel" placeholder="Min Available per unit *" required/>
+                    <input type="number" class="form-control mt-2" name="minAvailableUnits" min="0" [(ngModel)]="inventory.minAvailableUnits" #minAvailableUnits="ngModel" placeholder="Min Available per unit *" required/>
                 </div>
             </div>
             <div class=" text-center mt-2 ">
