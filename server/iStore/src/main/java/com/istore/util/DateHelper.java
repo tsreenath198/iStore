@@ -14,13 +14,15 @@ import javax.validation.ValidationException;
 @Slf4j
 public class DateHelper {
 
-	private DateHelper(){
+	private DateHelper() {
 
 	}
+
 	private static String PATTERN = "yyyy-MM-dd";
+	private static String DATE_PATTERN = "dd_MM_yyyy";
 	private static DateFormat FORMAT = new SimpleDateFormat(PATTERN, Locale.ENGLISH);
 
-	public static Date convertStringToDate(String str){
+	public static Date convertStringToDate(String str) {
 		Date dt;
 		try {
 			dt = FORMAT.parse(str);
@@ -46,6 +48,10 @@ public class DateHelper {
 
 	public static String convertDateToString(Date date) {
 		return new SimpleDateFormat(PATTERN).format(date);
+	}
+
+	public static String convertDateToStringPattern(Date date) {
+		return new SimpleDateFormat(DATE_PATTERN).format(date);
 	}
 
 	public static Calendar convertDateToCalenderDate(Date date) {

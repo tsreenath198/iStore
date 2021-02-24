@@ -1,8 +1,6 @@
 package com.istore.service;
 
-import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import com.istore.model.GenericResponse;
 import com.istore.model.Item;
@@ -17,15 +15,16 @@ public interface ProductService {
 
 	Product get(Integer id);
 
-	void deleteInventory(List<Item> items);
+	// void deleteInventory(List<Item> items);
 
 	void addInventory(List<Item> items);
 
-	GenericResponse setinventory(List<Product> product);
+	// GenericResponse setinventory(List<Product> product);
 
-	byte[] downloadInventory(Map<String, List<Product>> products) throws IOException;
+	// byte[] downloadInventory(Map<String, List<Product>> products) throws
+	// IOException;
 
-	Map<String, List<Product>> getCurrentInventory();
+	// Map<String, List<Product>> getCurrentInventory();
 
 	List<Product> getByCategoryId(Integer categoryId);
 

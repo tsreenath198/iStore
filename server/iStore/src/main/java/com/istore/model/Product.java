@@ -1,6 +1,7 @@
 package com.istore.model;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -37,17 +39,11 @@ public class Product {
 	@Column
 	@NotNull
 	private Float price;
-	@Column
-	@NotNull
-	private Integer inventory;
-	@Column
-	private Integer minimumAvailability;
-	private Integer currentStock;
+
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinColumn(name = "category_id", referencedColumnName = "id")
 	private Category category;
-	@Column
-	private Integer stockId;
+
 	@Column
 	@CreationTimestamp
 	private Date createdDate;
@@ -65,4 +61,9 @@ public class Product {
 	@Column
 	@NotNull
 	private Float unitPrice;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinColumn(name = "productId")
+	private List<ProductInventoryEntity> requiredInventories;
+
 }
