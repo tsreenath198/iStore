@@ -1,6 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import {
-  ProductModel
+  ProductInventory,
+  ProductModel, RequiredInventories
 } from "./product.component.model";
 import { HttpService } from "src/app/services/http.service";
 import { URLConstants } from "src/app/constants/url-constants";
@@ -14,6 +15,7 @@ import {
 import { ExcelServicesService } from "src/app/services/excel-services.service";
 import { StorageService } from "src/app/services/storage.service";
 import { User } from "../user/user.component.model";
+import { InventoryModel } from "../inventory/inventory.component.model";
 
 @Component({
   selector: "app-product",
@@ -24,16 +26,20 @@ export class ProductComponent implements OnInit {
   public productList: Array<ProductModel> = [];
   public filterProductList: Array<any> = [];
   public categoryList: Array<CategoryModel> = [];
+  public inventoryList: Array<InventoryModel> = [];
+  public mockReqInventoryInventory= new RequiredInventories();
+  public mockProductInventory: ProductInventory;
   public orderProductsList: any = {};
   public selectedCategory: string = "All";
   public showMinStock: boolean = false;
+  public toggleInventoryFlag: boolean = false;
   public isRaw: boolean = true;
   public num: string = "";
   public statusOptions = [
     { name: "Active", value: 0 },
     { name: "Inactive", value: 1 }
   ];
-  public model: ProductModel = <ProductModel>{};
+  public model=new ProductModel();
   public updateInventoryModel: any = [];
   public url = new URLConstants();
   public actionType: string = "C";
@@ -54,11 +60,13 @@ export class ProductComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getResult();
-    this.getResult2();
+    this.getProducts();
+    this.getCategories();
+    this.getInventories();
     this.model.activeStatus = 0;
+    this.model.requiredInventories = [];
   }
-  async getResult(): Promise<any> {
+  async getProducts(): Promise<any> {
     this.productList = await this.http
       .get(this.url.ProductGetAll)
       .toPromise()
@@ -68,12 +76,19 @@ export class ProductComponent implements OnInit {
     if (this.selectedCategory != "All") this.setFilter();
     return this.productList;
   }
-  async getResult2(): Promise<any> {
+  async getCategories(): Promise<any> {
     this.categoryList = await this.http
       .get(this.url.CategoryGetAll)
       .toPromise()
       .then(resp => resp as any); //Do you own cast here
     return this.categoryList;
+  }
+  async getInventories(): Promise<any> {
+    this.inventoryList = await this.http
+      .get(this.url.InventoryGetAll)
+      .toPromise()
+      .then(resp => resp as any); //Do you own cast here
+    return this.inventoryList;
   }
   public setFilter() {
     const item = this.categoryList.filter(
@@ -82,17 +97,18 @@ export class ProductComponent implements OnInit {
     this.filter(item[0].name);
   }
   public commonInHTTP() {
-    this.getResult();
-    this.getResult2();
+    this.getProducts();
+    this.getCategories();
     this.model = <ProductModel>{};
     this.model.activeStatus = 0;
+    this.toggleInventoryFlag = false;
   }
 
   public create(f: NgForm) {
-    if (!this.model.category.rawMaterial) {
-      this.model.inventory = 0;
-      this.model.minimumAvailability = 0;
-    }
+    // if (!this.model.category.rawMaterial) {
+    //   this.model.inventory = 0;
+    //   this.model.minimumAvailability = 0;
+    // }
 
     if (f.valid) {
       this.http.post(this.model, this.url.ProductCreate).subscribe(
@@ -138,7 +154,7 @@ export class ProductComponent implements OnInit {
   public delete(product: any) {
     if (window.confirm("Do you want to delete " + product.name + "?")) {
       this.http.delete(this.url.ProductDelete + product.id).subscribe(resp => {
-        this.getResult();
+        this.getProducts();
       });
     }
   }
@@ -148,7 +164,7 @@ export class ProductComponent implements OnInit {
     this.selectedCategory = categoryName;
     if (categoryName == "All") {
       if (!this.showMinStock) {
-        this.getResult();
+        this.getProducts();
       } else {
         let temp = [];
         this.filterProductList.filter(product => {
@@ -215,29 +231,9 @@ export class ProductComponent implements OnInit {
     this.open(event);
   }
   public orderInventory(event: any) {
+    alert("Still In process");
+    return;
     this.orderProductsList = [];
-    // this.categoryList.filter(cat => {
-    //   if (cat.rawMaterial) {
-    //     let order: OrderModel = <OrderModel>{};
-    //     order.products = [];
-    //     order.categoryName = cat.name;
-    //     this.filterProductList.filter(product => {
-    //       if (cat.id == product.category.id) {
-    //         let temp: ProductsOrderModel = <ProductsOrderModel>{};
-    //         temp.productName = product.name;
-    //         temp.inventory = product.inventory;
-    //         temp.minAvailability = product.minimumAvailability;
-    //         if (product.inventory < product.minimumAvailability) {
-    //           temp.orderCount = product.minimumAvailability - product.inventory;
-    //         } else {
-    //           temp.orderCount = 0;
-    //         }
-    //         order.products.push(temp);
-    //       }
-    //     });
-    //     this.orderProductsList.push(order);
-    //   }
-    // });
     this.http.get(this.url.ProductGetInventory).subscribe(resp => {
       this.orderProductsList = resp as any;
       let temp = Object.keys(this.orderProductsList);
@@ -254,7 +250,7 @@ export class ProductComponent implements OnInit {
       .post(this.updateInventoryModel, this.url.ProductInventoryUpdate)
       .subscribe(resp => {
         this.close();
-        this.getResult();
+        this.getProducts();
         window.alert("Inventory updated successfully");
       });
   }
@@ -307,6 +303,21 @@ export class ProductComponent implements OnInit {
     } else {
       return `with: ${reason}`;
     }
+  }
+
+  /**
+   * pushInventory
+   */
+  public pushInventory() {
+    this.mockProductInventory = { productId: 0, inventoryId: 0 };
+    this.mockReqInventoryInventory = { productInventoryId: this.mockProductInventory, unitsRequired: 0 };
+    this.model.requiredInventories.push(Object.assign({}, this.mockReqInventoryInventory));
+  }
+  /**
+   * popInventory
+   */
+  public popInventory(i) {
+    this.model.requiredInventories.splice(i,1);
   }
   public downloadInventoryExcel() {
     // let orderModel: any = [];

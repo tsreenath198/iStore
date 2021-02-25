@@ -1,3 +1,4 @@
+import { pid } from 'process';
 import { CategoryModel } from '../category/category.component.model';
 
 export class ProductModel {
@@ -8,20 +9,31 @@ export class ProductModel {
   image: FormData;
   inventory: number;
   category: CategoryModel;
-  productOrder: number ;
+  productOrder: number;
   minimumAvailability: number;
   activeStatus: any;
   defaultDiscount: number;
-  unitPrice:number;
+  unitPrice: number;
+  requiredInventories: Array<RequiredInventories>;
 }
 
-export class ProductsOrderModel{
+export class RequiredInventories {
+  productInventoryId: ProductInventory;
+  unitsRequired: number;
+}
+
+export class ProductInventory {
+  inventoryId: number;
+  productId: number;
+}
+
+export class ProductsOrderModel {
   productName: string;
   minAvailability: number;
   inventory: number;
   orderCount: number;
 }
-export class OrderModel{
+export class OrderModel {
   categoryName: string;
   products: Array<ProductsOrderModel>;
 }
