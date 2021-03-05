@@ -83,8 +83,8 @@ export class InventoryComponent implements OnInit {
    * updateRecordInventory
    */
   public updateRecordInventory() {
-    this.inventoryService.get(`${this.url.InventoryMetaData}`).subscribe(res => {
-      this.successHandler(this.constants.CREATED_MESSAGE);
+    this.inventoryService.get(`${this.url.RecordInventory}`).subscribe(res => {
+      this.inventoryService.successToastr(this.constants.CREATED_MESSAGE,this.constants.RECORD_INVENTORY);
     }, err => {
       this.errorHandler(this.constants.ERROR_CREATED_MESSAGE);
     });

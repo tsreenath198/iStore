@@ -1,0 +1,50 @@
+<div class="modal-header">
+    <h4 class="modal-title">Inventory History</h4>
+    <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-md-6">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <th>Name</th>
+                    <th>Date</th>
+                </thead>
+                <tbody *ngIf="metaDataList?.length">
+                    <tr *ngFor="let table of metaDataList">
+                        <td (click)="getTableRecords(table.tableName)">{{table.tableName || ''}}</td>
+                        <td>{{table.createdDate | date}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-md-6">
+            <table class="table table-bordered table-striped mt-2" *ngIf="inventoryTableList?.length">
+                <thead>
+                    <tr>
+                        <th><span>Inventory Name</span></th>
+                        <th><span>Available Units</span></th>
+                        <th><span>Units Per Quantity</span></th>
+                        <th><span>Min Available Units</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let inventory of inventoryTableList ">
+                        <tr>
+                            <td>{{ inventory.name | titlecase }}</td>
+                            <td>{{ inventory.availableUnits }}</td>
+                            <td>{{ inventory.unitsPerQty }}</td>
+                            <td>{{ inventory.minAvailableUnits }}</td>
+
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="closeModal()">Close</button>
+</div>

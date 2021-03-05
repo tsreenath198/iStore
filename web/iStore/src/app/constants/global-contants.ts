@@ -5,6 +5,7 @@ export class GlobalConstants {
 
   /** Components */
   INVENTORY = 'Inventory';
+  RECORD_INVENTORY = 'Record Inventory';
   CATEGORY = 'Category';
   CUSTOMER = 'Customer';
   EXPENSE = 'Expense';
