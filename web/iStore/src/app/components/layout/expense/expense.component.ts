@@ -3,6 +3,7 @@ import { Expense } from './expense';
 import { NgForm } from '@angular/forms';
 import { URLConstants } from "src/app/constants/url-constants";
 import { HttpService } from 'src/app/services/http.service';
+import { GlobalConstants } from 'src/app/constants/global-contants';
 
 @Component({
   selector: 'app-expense',
@@ -12,12 +13,12 @@ import { HttpService } from 'src/app/services/http.service';
 export class ExpenseComponent implements OnInit {
   public expense: Expense = <Expense>{};
   public url = new URLConstants();
+  public constants = new GlobalConstants();
   public actionLabel: string = "Create";
-  public component: String = "Expense";
   public paymentTypes: Array<any> = ["Cash", "Bank"];
   public today = new Date().toISOString().substring(0, 10);
   public expenseList = [];
-  constructor(private http: HttpService) { }
+  constructor(private expenseService: HttpService) { }
 
   ngOnInit() {
     this.getAll();
@@ -27,71 +28,71 @@ export class ExpenseComponent implements OnInit {
 
   public create(f: NgForm): void {
     if (f.valid) {
-      if (this.actionLabel == 'Create') {
-        this.http.post(this.expense, this.url.ExpenseCreate).subscribe(
+      if (this.actionLabel == this.constants.CREATE) {
+        this.expenseService.post(this.expense, this.url.ExpenseCreate).subscribe(
           res => {
             f.reset();
-            this.successHandler(this.component,'Created');
-            this.actionLabel = 'Create';
+            this.successHandler(this.constants.CREATED_MESSAGE);
+            this.actionLabel = this.constants.CREATE;
           },
           err => {
-            this.errorHandler(this.component);
+            this.errorHandler(this.constants.ERROR_CREATED_MESSAGE);
           }
         );
       } else {
-        this.http.update(this.expense, this.url.ExpenseUpdate).subscribe(
+        this.expenseService.update(this.expense, this.url.ExpenseUpdate).subscribe(
           res => {
             f.reset();
-            this.successHandler(this.component,'Updated');
-            this.actionLabel = 'Create';
+            this.successHandler(this.constants.UPDATED_MESSAGE);
+            this.actionLabel = this.constants.CREATE;
           },
           err => {
-            this.errorHandler(this.component);
+            this.errorHandler(this.constants.ERROR_UPDATED_MESSAGE);
           }
         );
       }
     } else {
-      alert("Please enter all required fields");
+      this.errorHandler(this.constants.REQUIRED_FIELDS);
     }
   }
   public getAll() {
-    this.http.get(this.url.ExpenseGetAll).subscribe(
+    this.expenseService.get(this.url.ExpenseGetAll).subscribe(
       res => {
         this.expenseList = res as any;
-        this.actionLabel = 'Create';
+        this.actionLabel = this.constants.CREATE;
+        this.expenseService.successToastr(this.constants.FETCHED_MESSAGE,this.constants.EXPENSE);
       },
       err => {
-        this.errorHandler(this.component);
+        this.errorHandler(this.constants.ERROR_FETCHED_MESSAGE);
       }
     );
   }
   public editRow(e: Expense) {
-    this.actionLabel = 'Update';
+    this.actionLabel = this.constants.UPDATE;
     this.expense = JSON.parse(JSON.stringify(e));
     this.expense.date = new Date(e.date).toISOString().substring(0, 10);
   }
   public reset() {
     this.expense = new Expense();
-    this.actionLabel = 'Create';
+    this.actionLabel = this.constants.CREATE;
     this.expense.date = this.today;
   }
   public deleteRow(id) {
-    this.http.delete(this.url.ExpenseDelete + id).subscribe(
+    this.expenseService.delete(this.url.ExpenseDelete + id).subscribe(
       res => {
-        this.successHandler(this.component,'Deleted');
+        this.successHandler(this.constants.DELETED_MESSAGE);
       },
       err => {
-        this.errorHandler(this.component);
+        this.errorHandler(this.constants.ERROR_DELETED_MESSAGE);
       }
     );
   }
-  private successHandler(type: String,msg:string) {
-    this.getAll(); 
+  private successHandler( message: string) {
+    this.expenseService.successToastr(message,this.constants.EXPENSE);
+    this.getAll();
     this.reset();
-    alert("SuccessFully " + type +' '+ msg);
   }
-  private errorHandler(type: String) {
-    alert("Error in " + type);
+  private errorHandler(message: string) {
+    this.expenseService.errorToastr(message,this.constants.EXPENSE);
   }
-
 }

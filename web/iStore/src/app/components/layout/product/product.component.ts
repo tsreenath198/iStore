@@ -16,6 +16,7 @@ import { ExcelServicesService } from "src/app/services/excel-services.service";
 import { StorageService } from "src/app/services/storage.service";
 import { User } from "../user/user.component.model";
 import { InventoryModel } from "../inventory/inventory.component.model";
+import { GlobalConstants } from "src/app/constants/global-contants";
 
 @Component({
   selector: "app-product",
@@ -27,7 +28,7 @@ export class ProductComponent implements OnInit {
   public filterProductList: Array<any> = [];
   public categoryList: Array<CategoryModel> = [];
   public inventoryList: Array<InventoryModel> = [];
-  public mockReqInventoryInventory= new RequiredInventories();
+  public mockReqInventoryInventory = new RequiredInventories();
   public mockProductInventory: ProductInventory;
   public orderProductsList: any = {};
   public selectedCategory: string = "All";
@@ -39,9 +40,10 @@ export class ProductComponent implements OnInit {
     { name: "Active", value: 0 },
     { name: "Inactive", value: 1 }
   ];
-  public model=new ProductModel();
+  public model = new ProductModel();
   public updateInventoryModel: any = [];
   public url = new URLConstants();
+  public constants = new GlobalConstants();
   public actionType: string = "C";
 
   public sortType = "name"; // set the default sort type
@@ -51,7 +53,7 @@ export class ProductComponent implements OnInit {
   public loggedInUser: User;
   public component: string = "Product"
   constructor(
-    private http: HttpService,
+    private productService: HttpService,
     private storage: StorageService,
     private modalService: NgbModal,
     private excelService: ExcelServicesService
@@ -67,7 +69,7 @@ export class ProductComponent implements OnInit {
     this.model.requiredInventories = [];
   }
   async getProducts(): Promise<any> {
-    this.productList = await this.http
+    this.productList = await this.productService
       .get(this.url.ProductGetAll)
       .toPromise()
       .then(resp => resp as any); //Do you own cast here
@@ -77,14 +79,14 @@ export class ProductComponent implements OnInit {
     return this.productList;
   }
   async getCategories(): Promise<any> {
-    this.categoryList = await this.http
+    this.categoryList = await this.productService
       .get(this.url.CategoryGetAll)
       .toPromise()
       .then(resp => resp as any); //Do you own cast here
     return this.categoryList;
   }
   async getInventories(): Promise<any> {
-    this.inventoryList = await this.http
+    this.inventoryList = await this.productService
       .get(this.url.InventoryGetAll)
       .toPromise()
       .then(resp => resp as any); //Do you own cast here
@@ -111,31 +113,33 @@ export class ProductComponent implements OnInit {
     // }
 
     if (f.valid) {
-      this.http.post(this.model, this.url.ProductCreate).subscribe(
+      this.productService.post(this.model, this.url.ProductCreate).subscribe(
         res => {
-          this.successHandler(this.component);
+          this.successHandler(this.constants.CREATED_MESSAGE);
         },
         err => {
-          this.errorHandler(this.component);
+          this.errorHandler(this.constants.ERROR_CREATED_MESSAGE);
         }
       );
     } else {
-      alert("Please enter all required fields");
+      this.productService.errorToastr(this.constants.REQUIRED_FIELDS, this.constants.PRODUCT);
     }
   }
 
-  private successHandler(type: String) {
+  private successHandler(message: string) {
     this.commonInHTTP();
-    alert("SuccessFully " + type + " Created");
+    this.productService.successToastr(message, this.constants.PRODUCT);
   }
-  private errorHandler(type: String) {
-    alert("Error in " + type);
+  private errorHandler(message: string) {
+    this.productService.errorToastr(message, this.constants.PRODUCT);
   }
 
   public update() {
-    this.http.update(this.model, this.url.ProductUpdate).subscribe(resp => {
+    this.productService.update(this.model, this.url.ProductUpdate).subscribe(resp => {
       this.commonInHTTP();
       this.actionType = "C";
+    },err=>{
+      this.errorHandler(this.constants.ERROR_UPDATED_MESSAGE);
     });
   }
 
@@ -146,15 +150,17 @@ export class ProductComponent implements OnInit {
   }
 
   public getById(id: number) {
-    this.http.get(this.url.ProductGetById + id).subscribe(resp => {
+    this.productService.get(this.url.ProductGetById + id).subscribe(resp => {
       this.model = resp as any;
       this.actionType = "U";
     });
   }
   public delete(product: any) {
     if (window.confirm("Do you want to delete " + product.name + "?")) {
-      this.http.delete(this.url.ProductDelete + product.id).subscribe(resp => {
+      this.productService.delete(this.url.ProductDelete + product.id).subscribe(resp => {
         this.getProducts();
+      },err=>{
+        this.errorHandler(this.constants.ERROR_DELETED_MESSAGE);
       });
     }
   }
@@ -234,7 +240,7 @@ export class ProductComponent implements OnInit {
     alert("Still In process");
     return;
     this.orderProductsList = [];
-    this.http.get(this.url.ProductGetInventory).subscribe(resp => {
+    this.productService.get(this.url.ProductGetInventory).subscribe(resp => {
       this.orderProductsList = resp as any;
       let temp = Object.keys(this.orderProductsList);
       console.log(this.orderProductsList);
@@ -246,7 +252,7 @@ export class ProductComponent implements OnInit {
     this.num = i;
   }
   public updateInventory() {
-    this.http
+    this.productService
       .post(this.updateInventoryModel, this.url.ProductInventoryUpdate)
       .subscribe(resp => {
         this.close();
@@ -317,7 +323,7 @@ export class ProductComponent implements OnInit {
    * popInventory
    */
   public popInventory(i) {
-    this.model.requiredInventories.splice(i,1);
+    this.model.requiredInventories.splice(i, 1);
   }
   public downloadInventoryExcel() {
     // let orderModel: any = [];
@@ -329,7 +335,7 @@ export class ProductComponent implements OnInit {
     //   }
     // }
     console.log(this.orderProductsList);
-    this.http.update(this.orderProductsList, this.url.GetRawInventory).subscribe(
+    this.productService.update(this.orderProductsList, this.url.GetRawInventory).subscribe(
       resp => { },
       err => {
         if (err.status == 200) window.open(err.url);

@@ -106,9 +106,8 @@
         </nav>
         <div class="row mt-2">
             <div *ngFor="let product of productList" class="col-md-2 p-1" id="productsInBill" (click)="addToList(product)">
-                <button type="button" class="btn btn-outline-primary">
+                <button type="button" class="btn btn-outline-primary btn-lg btn-block">
                         <h5>{{ product.name }}</h5>
-                    <small>({{ selectedCategory }})</small>
                         {{ product.price }}.rs
                 </button>
                 <!-- <b>

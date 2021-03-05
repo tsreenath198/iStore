@@ -3,6 +3,7 @@ import { HttpService } from 'src/app/services/http.service';
 import { CustomerModel } from './customer.component.model';
 import { URLConstants } from 'src/app/constants/url-constants';
 import { NgForm } from '@angular/forms';
+import { GlobalConstants } from 'src/app/constants/global-contants';
 
 @Component({
   selector: 'app-customer',
@@ -11,10 +12,10 @@ import { NgForm } from '@angular/forms';
 })
 export class CustomerComponent implements OnInit {
 
-  constructor(private http: HttpService) { }
+  constructor(private customerService: HttpService) { }
   public customer: CustomerModel = <CustomerModel>{};
-  public component: String = "Customer";
   public url = new URLConstants();
+  public constants = new GlobalConstants();
   public customersList: Array<CustomerModel> = [];
   public actionLabel: string = "Create";
   ngOnInit() {
@@ -23,70 +24,71 @@ export class CustomerComponent implements OnInit {
 
   public create(f: NgForm) {
     if (f.valid) {
-      if (this.actionLabel == 'Create') {
-        this.http.post(this.customer, this.url.CustomerCreate).subscribe(
+      if (this.actionLabel === this.constants.CREATE) {
+        this.customerService.post(this.customer, this.url.CustomerCreate).subscribe(
           res => {
-            this.successHandler(this.component);
+            this.successHandler(this.constants.CREATED_MESSAGE);
             f.reset();
-            this.actionLabel = 'Create';
+            this.actionLabel = this.constants.CREATE;
           },
           err => {
-            this.errorHandler(this.component);
+            this.errorHandler(this.constants.ERROR_CREATED_MESSAGE);
           }
         );
       }else{
-        this.http.update(this.customer, this.url.CustomerUpdate).subscribe(
+        this.customerService.update(this.customer, this.url.CustomerUpdate).subscribe(
           res => {
-            this.successHandler(this.component);
+            this.successHandler(this.constants.UPDATED_MESSAGE);
             f.reset();
-            this.actionLabel = 'Create';
+            this.actionLabel = this.constants.CREATE;
           },
           err => {
-            this.errorHandler(this.component);
+            this.errorHandler(this.constants.ERROR_UPDATED_MESSAGE);
           }
         );
       }
     } else {
-      alert("Please enter all required fields");
+      this.customerService.errorToastr(this.constants.REQUIRED_FIELDS,this.constants.CUSTOMER);
     }
   }
   public deleteById(id: number) {
-    this.http.delete(this.url.CustomerDelete + id).subscribe(
+    this.customerService.delete(this.url.CustomerDelete + id).subscribe(
       res => {
-        this.successHandler(this.component);
+        this.successHandler(this.constants.DELETED_MESSAGE);
       },
       err => {
-        this.errorHandler(this.component);
+        this.errorHandler(this.constants.ERROR_DELETED_MESSAGE);
       }
     );
   }
   public getAll() {
-    this.http.get(this.url.CustomerGetAll).subscribe(
+    this.customerService.get(this.url.CustomerGetAll).subscribe(
       res => {
         this.customersList = res as Array<CustomerModel>;
+        this.customerService.successToastr(this.constants.FETCHED_MESSAGE,this.constants.CUSTOMER);
       },
       err => {
-        this.errorHandler(this.component);
+        this.errorHandler(this.constants.ERROR_FETCHED_MESSAGE);
       }
     );
   }
   public getById(id: number) {
-    this.actionLabel = 'Update';
-    this.http.get(this.url.CustomerGetById + id).subscribe(
+    this.actionLabel = this.constants.UPDATE;
+    this.customerService.get(this.url.CustomerGetById + id).subscribe(
       res => {
         this.customer = res as CustomerModel;
       },
       err => {
-        this.errorHandler(this.component);
+        this.errorHandler(this.constants.ERROR_FETCHED_MESSAGE);
       }
     );
   }
-  private successHandler(type: String) {
+  private successHandler(message: string) {
     this.getAll();
-    console.log("SuccessFully " + type + " Created");
+   this.customerService.successToastr(message,this.constants.CUSTOMER);
   }
-  private errorHandler(type: String) {
-    alert("Error in " + type);
+  private errorHandler(message: string) {
+   this.customerService.errorToastr(message,this.constants.CUSTOMER);
   }
 
 }

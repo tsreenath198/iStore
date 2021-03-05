@@ -14,7 +14,8 @@ export class EditReportDialogComponent implements OnInit {
   public customerList: Array<any> = [];
   public paymentTypes: Array<any> = ["Cash", "Bank"];
   public orderTypes: Array<any> = ["Store", "Zomato", "Swiggy"];
-  constructor(private http:HttpService,private ngbActiveModal:NgbActiveModal) { }
+  constructor(private http:HttpService,
+    private ngbActiveModal:NgbActiveModal) { }
 
   ngOnInit() {
     this.report.invoiceDate = new Date(this.report.invoiceDate).toISOString().substring(0, 10);

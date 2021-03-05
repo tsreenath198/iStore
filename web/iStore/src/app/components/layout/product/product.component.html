@@ -25,7 +25,7 @@
                     <input type="number" class="form-control" name="price" placeholder="Price* (e.g.100.00)" [(ngModel)]="model.price" required />
                 </div>
                 <div class="col-md-12">
-                    <input type="number" class="form-control" name="unitprice" placeholder="Unit Price* (e.g.100.00)" [(ngModel)]="model.unitPrice" required />
+                    <input type="number" class="form-control" name="landingPrice" placeholder="Landing Price* (e.g.100.00)" [(ngModel)]="model.landingPrice" required />
                 </div>
                 <div class="col-md-12">
                     <input type="number" class="form-control" name="disc" placeholder="Product discount" [(ngModel)]="model.defaultDiscount" />
@@ -49,6 +49,10 @@
                         <!-- <button class="btn text-white mt-4" name="add_{{i}}" (click)="pushInventory()">Add</button> -->
                         <button class="btn text-white mt-4" name="delete_{{i}}" (click)="popInventory(i)">Delete</button>
                     </div>
+                </div>
+
+                <div class="col-md-12 mt-2">
+                    <input type="number" class="form-control" name="additionalPrice" placeholder="Additional Price" [(ngModel)]="model.additionalPrice" />
                 </div>
                 <!-- <div class="col-md-12" *ngIf="model?.category?.rawMaterial">
                     <input type="number" class="form-control" name="inventory" placeholder="Quantity(e.g. 2)" [(ngModel)]="model.inventory" />

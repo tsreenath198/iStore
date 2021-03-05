@@ -8,9 +8,11 @@ import { HttpClientModule } from "@angular/common/http";
 import { NgxPrintModule } from "ngx-print";
 import { FormsModule } from "@angular/forms";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { ToastrModule } from 'ngx-toastr';
 import { ReportModule } from "./components/layout/report/report.module";
 import { EditReportDialogComponent } from "./components/layout/report/edit-report-dialog/edit-report-dialog.component";
+import { HistoryDialogComponent } from "./components/layout/inventory/history-dialog/history-dialog.component";
+import { LayoutModule } from "./components/layout/layout.module";
+import { ToastrModule } from "ngx-toastr";
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,10 +25,14 @@ import { EditReportDialogComponent } from "./components/layout/report/edit-repor
     HttpClientModule,
     BrowserAnimationsModule, // required animations module
     ToastrModule.forRoot(),
-    ReportModule
+    ReportModule,
+    LayoutModule
   ],
   providers: [],
   bootstrap: [AppComponent],
-  entryComponents:[EditReportDialogComponent]
+  entryComponents:[
+    EditReportDialogComponent,
+    HistoryDialogComponent
+    ]
 })
 export class AppModule {}

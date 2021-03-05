@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild} from "@angular/core";
+import { Component, HostListener, OnInit, ViewChild } from "@angular/core";
 import { HttpService } from "src/app/services/http.service";
 import {
   NgbModal,
@@ -38,6 +38,8 @@ export class ItemComponent implements OnInit {
   public giveAmount: any = 0;
   public closeResult = "";
   private modalRef: NgbModalRef;
+  public filterText: string = '';
+  public isDocumentClick: boolean = false;
   constructor(
     private http: HttpService,
     private modalService: NgbModal,
@@ -49,7 +51,6 @@ export class ItemComponent implements OnInit {
     this.getProductList();
     this.getCustomerList();
   }
-
   async getCustomerList(): Promise<any> {
     this.customerList = await this.http
       .get(this.url.CustomerGetAll)
@@ -250,16 +251,16 @@ export class ItemComponent implements OnInit {
     });
   }
   public onChange(details: any) {
-    if(this.customerDetails.name){
+    if (this.customerDetails.name) {
       this.customerList.forEach((data) => {
         if (data.name == this.customerDetails.name) {
           this.customerDetails.phone = data.phone;
           this.customerDetails.count = data.count;
         }
       })
-    }else{
+    } else {
       this.customerDetails.phone = '';
       this.customerDetails.count = 0;
-    }   
+    }
   }
 }

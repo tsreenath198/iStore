@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { HttpService } from "src/app/services/http.service";
 import { URLConstants } from "src/app/constants/url-constants";
 import { User } from "../layout/user/user.component.model";
+import { GlobalConstants } from "src/app/constants/global-contants";
 
 @Component({
   selector: "app-login",
@@ -14,8 +15,9 @@ export class LoginComponent implements OnInit {
   public username: string = "";
   public password: string = "";
   public url: URLConstants = new URLConstants();
+  public constants: GlobalConstants = new GlobalConstants();
   public user: User = <User>{};
-  constructor(private route: Router, private http: HttpService) {}
+  constructor(private route: Router, private loginService: HttpService) { }
 
   ngOnInit() {
     localStorage.setItem("loggedInUser", null); //  when user sign out default to null 
@@ -27,7 +29,7 @@ export class LoginComponent implements OnInit {
       this.password &&
       this.password.length > 3
     ) {
-      this.http
+      this.loginService
         .post({}, this.url.Login + this.username + "&password=" + this.password)
         .subscribe(
           res => {
@@ -43,11 +45,12 @@ export class LoginComponent implements OnInit {
     }
   }
   successHandler(result: User) {
+    this.loginService.successToastr(this.constants.LOGIN_MESSAGE,this.constants.USER);
     this.user = result;
     localStorage.setItem("loggedInUser", JSON.stringify(this.user));
     this.route.navigate(["/layout"]);
   }
   errorHandler() {
-    window.alert("Invalid Username and password");
+    this.loginService.errorToastr(this.constants.ERROR_LOGIN_MESSAGE,this.constants.USER);
   }
 }

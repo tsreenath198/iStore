@@ -9,14 +9,25 @@ import { CustomerComponent } from './customer/customer.component';
 import { FormsModule } from '@angular/forms';
 import { ExpenseComponent } from './expense/expense.component';
 import { InventoryComponent } from './inventory/inventory.component';
+import { HistoryDialogComponent } from './inventory/history-dialog/history-dialog.component';
 
 
 @NgModule({
-  declarations: [LayoutComponent,HeaderComponent,UserComponent,CustomerComponent, ExpenseComponent, InventoryComponent],
+  declarations: [
+    LayoutComponent,
+    HeaderComponent,
+    UserComponent,
+    CustomerComponent,
+    ExpenseComponent,
+    InventoryComponent,
+    HistoryDialogComponent],
   imports: [
     CommonModule,
     FormsModule,
     LayoutRoutingModule
+  ],
+  exports: [
+    HistoryDialogComponent
   ]
 })
 export class LayoutModule { }

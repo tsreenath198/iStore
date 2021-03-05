@@ -62,6 +62,10 @@ export class URLConstants {
   InventoryDelete = 'inventory/delete?id=';
   InventoryGetById = 'inventory/get?id=';
 
+  InventoryBackup = 'inventory/backup';
+  GetRecordInventory = 'inventory/recordInventory/getByTableName?tableName=';
+  InventoryMetaData = 'inventory/getMetaData';
+
   /** Profit */
   ProfitGetCategory = 'profit/getByCategory?fromDate=';
   ProfitGetProduct = 'profit/getByProduct?category=';

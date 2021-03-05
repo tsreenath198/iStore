@@ -13,7 +13,8 @@ export class ProductModel {
   minimumAvailability: number;
   activeStatus: any;
   defaultDiscount: number;
-  unitPrice: number;
+  landingPrice: number;
+  additionalPrice:number;
   requiredInventories: Array<RequiredInventories>;
 }
 

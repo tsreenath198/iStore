@@ -4,6 +4,7 @@ import { HttpService } from "src/app/services/http.service";
 import { URLConstants } from "src/app/constants/url-constants";
 import { UserRole } from "./user.enum";
 import { NgForm } from '@angular/forms';
+import { GlobalConstants } from "src/app/constants/global-contants";
 
 @Component({
   selector: "app-user",
@@ -11,10 +12,10 @@ import { NgForm } from '@angular/forms';
   styleUrls: ["./user.component.css"]
 })
 export class UserComponent implements OnInit {
-  constructor(private http: HttpService) { }
+  constructor(private userService: HttpService) { }
   public user: User = <User>{};
-  public component: String = "User";
   public url = new URLConstants();
+  public contants = new GlobalConstants();
   public userList: Array<User> = [];
   public actionLabel: string = "Create";
   public roleTypes = UserRole;
@@ -26,74 +27,75 @@ export class UserComponent implements OnInit {
 
   public create(f: NgForm) {
     if (f.valid) {
-      if(this.actionLabel == 'Create'){
-        this.http.post(this.user, this.url.UserCreate).subscribe(
+      if(this.actionLabel == this.contants.CREATE){
+        this.userService.post(this.user, this.url.UserCreate).subscribe(
           res => {
-            this.successHandler(this.component);
+            this.successHandler(this.contants.CREATED_MESSAGE);
             f.reset();
-            this.actionLabel = 'Create';
+            this.actionLabel = this.contants.CREATE;
           },
           err => {
-            this.errorHandler(this.component);
+            this.errorHandler(this.contants.ERROR_CREATED_MESSAGE);
           }
         );
       }else{
-        this.http.put(this.user, this.url.UserUpdate).subscribe(
+        this.userService.put(this.user, this.url.UserUpdate).subscribe(
           res => {
-            this.successHandler(this.component);
+            this.successHandler(this.contants.UPDATED_MESSAGE);
             f.reset();
-            this.actionLabel = 'Create';
+            this.actionLabel = this.contants.CREATE;
           },
           err => {
-            this.errorHandler(this.component);
+            this.errorHandler(this.contants.ERROR_UPDATED_MESSAGE);
           }
         );
       }
       
     } else {
-      alert("Please enter all required fields");
+      this.userService.errorToastr(this.contants.REQUIRED_FIELDS,this.contants.USER);
     }
   }
   public deleteById(id: number) {
-    this.http.delete(this.url.UserDelete + id).subscribe(
+    this.userService.delete(this.url.UserDelete + id).subscribe(
       res => {
-        this.successHandler(this.component);
+        this.successHandler(this.contants.DELETED_MESSAGE);
       },
       err => {
-        this.errorHandler(this.component);
+        this.errorHandler(this.contants.ERROR_DELETED_MESSAGE);
       }
     );
   }
   public getAll() {
-    this.http.get(this.url.UserGetAll).subscribe(
+    this.userService.get(this.url.UserGetAll).subscribe(
       res => {
         this.userList = res as Array<User>;
+        this.userService.successToastr(this.contants.FETCHED_MESSAGE,this.contants.USER)
       },
       err => {
-        this.errorHandler(this.component);
+        this.errorHandler(this.contants.ERROR_FETCHED_MESSAGE);
       }
     );
   }
   public getById(id: number) {
-    this.actionLabel = 'Update';
-    this.http.get(this.url.UserGetById + id).subscribe(
+    this.actionLabel = this.contants.UPDATE;
+    this.userService.get(this.url.UserGetById + id).subscribe(
       res => {
         this.user = res as User;
       },
       err => {
-        this.errorHandler(this.component);
+        this.errorHandler(this.contants.ERROR_FETCHED_MESSAGE);
       }
     );
   }
   public reset(){
     this.user = new User();
-    this.actionLabel = 'Create';
+    this.actionLabel = this.contants.CREATE;
   }
-  private successHandler(type: String) {
+  private successHandler(message: string) {
+    this.userService.successToastr(message,this.contants.USER);
     this.getAll();
-    console.log("SuccessFully " + type + " Created");
   }
-  private errorHandler(type: String) {
-    alert("Error in " + type);
+  private errorHandler(message: string) {
+    this.userService.successToastr(message,this.contants.USER);
   }
 }
