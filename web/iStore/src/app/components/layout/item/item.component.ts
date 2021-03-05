@@ -8,7 +8,6 @@ import {
 import { ItemModel, OrderModel, ContactModel } from "./item.component.model";
 import { URLConstants } from "src/app/constants/url-constants";
 import { CategoryModel } from "../category/category.component.model";
-import { ToastrService } from "ngx-toastr";
 import { NgForm } from "@angular/forms";
 
 @Component({
@@ -41,10 +40,8 @@ export class ItemComponent implements OnInit {
   public filterText: string = '';
   public isDocumentClick: boolean = false;
   constructor(
-    private http: HttpService,
-    private modalService: NgbModal,
-    private toastr: ToastrService
-  ) { }
+    private itemService: HttpService,
+    private modalService: NgbModal) { }
 
   ngOnInit() {
     this.getCategoryList();
@@ -52,14 +49,14 @@ export class ItemComponent implements OnInit {
     this.getCustomerList();
   }
   async getCustomerList(): Promise<any> {
-    this.customerList = await this.http
+    this.customerList = await this.itemService
       .get(this.url.CustomerGetAll)
       .toPromise()
       .then(resp => resp as any); //Do you own cast here
     return this.customerList;
   }
   async getProductList(): Promise<any> {
-    this.productList = await this.http
+    this.productList = await this.itemService
       .get(this.url.ProductGetAll)
       .toPromise()
       .then(resp => resp as any); //Do you own cast here
@@ -70,7 +67,7 @@ export class ItemComponent implements OnInit {
     return this.productList;
   }
   async getCategoryList(): Promise<any> {
-    this.categoryList = await this.http
+    this.categoryList = await this.itemService
       .get(this.url.CategoryGetAll)
       .toPromise()
       .then(resp => resp as any); //Do you own cast here
@@ -144,7 +141,7 @@ export class ItemComponent implements OnInit {
     finalOrder.invoiceDate = this.printingBill.invoiceDate;
     finalOrder.totalDiscount = this.printingBill.totalDiscount;
     finalOrder.orderType = this.printingBill.orderType;
-    this.http.post(finalOrder, this.url.OrderCreate).subscribe(resp => {
+    this.itemService.post(finalOrder, this.url.OrderCreate).subscribe(resp => {
       alert("Successfully created");
       this.cancelBill();
       this.form.reset();
@@ -164,7 +161,7 @@ export class ItemComponent implements OnInit {
   }
   /**Printing bill model */
   public setPrintingBill(billContent) {
-    this.http.get(this.url.OrderGetId).subscribe(resp => {
+    this.itemService.get(this.url.OrderGetId).subscribe(resp => {
       this.printingBill["id"] = resp as any;
     });
     this.printingBill["items"] = this.itemList;
