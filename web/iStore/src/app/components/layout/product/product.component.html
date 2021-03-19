@@ -36,14 +36,14 @@
                 <div class="row col-md-12 mt-2" *ngFor="let intry of model?.requiredInventories;let i=index;let first=first;let last=last;">
 
                     <div class="col-md-5">
-                        <select class="form-control" name="inventoryId_{{i}}" [(ngModel)]="intry.productInventoryId.inventoryId">
+                        <select class="form-control" name="inventoryId_{{i}}" (blur)="calculateInventory(intry)" [(ngModel)]="intry.productInventoryId.inventoryId">
                             <option selected>Select</option>
                             <option *ngFor="let inventory of inventoryList; let i = index" [ngValue]="inventory.id">
                                 {{inventory.name }}</option>
                         </select>
                     </div>
                     <div class="col-md-5">
-                        <input type="number" class="form-control" name="inventory_{{i}}" placeholder="Units Required" [(ngModel)]="intry.unitsRequired" />
+                        <input type="number" class="form-control" name="inventory_{{i}}" (blur)="calculateInventory(intry)" placeholder="Units Required" [(ngModel)]="intry.unitsRequired" />
                     </div>
                     <div class="col-md-2">
                         <!-- <button class="btn text-white mt-4" name="add_{{i}}" (click)="pushInventory()">Add</button> -->

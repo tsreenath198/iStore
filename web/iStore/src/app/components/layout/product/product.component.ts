@@ -138,7 +138,7 @@ export class ProductComponent implements OnInit {
     this.productService.update(this.model, this.url.ProductUpdate).subscribe(resp => {
       this.commonInHTTP();
       this.actionType = "C";
-    },err=>{
+    }, err => {
       this.errorHandler(this.constants.ERROR_UPDATED_MESSAGE);
     });
   }
@@ -159,7 +159,7 @@ export class ProductComponent implements OnInit {
     if (window.confirm("Do you want to delete " + product.name + "?")) {
       this.productService.delete(this.url.ProductDelete + product.id).subscribe(resp => {
         this.getProducts();
-      },err=>{
+      }, err => {
         this.errorHandler(this.constants.ERROR_DELETED_MESSAGE);
       });
     }
@@ -308,6 +308,19 @@ export class ProductComponent implements OnInit {
       return "by clicking on a backdrop";
     } else {
       return `with: ${reason}`;
+    }
+  }
+
+  /**
+   * calculateInventory
+   */
+  public calculateInventory(reqInventory: RequiredInventories) {
+    if (reqInventory.productInventoryId.inventoryId && reqInventory.unitsRequired) {
+      this.model.additionalPrice = 0;
+      this.model.requiredInventories.forEach((j: RequiredInventories) => {
+        const inventoryPrice = this.inventoryList.filter(i => i.id === j.productInventoryId.inventoryId).map(t => t.price / t.unitsPerQty)[0];
+        this.model.additionalPrice += Math.round(inventoryPrice * j.unitsRequired);
+      })
     }
   }
 
