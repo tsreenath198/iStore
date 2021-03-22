@@ -316,10 +316,10 @@ export class ProductComponent implements OnInit {
    */
   public calculateInventory(reqInventory: RequiredInventories) {
     if (reqInventory.productInventoryId.inventoryId && reqInventory.unitsRequired) {
-      this.model.additionalPrice = 0;
+      this.model.adhocPrice = 0;
       this.model.requiredInventories.forEach((j: RequiredInventories) => {
-        const inventoryPrice = this.inventoryList.filter(i => i.id === j.productInventoryId.inventoryId).map(t => t.price / t.unitsPerQty)[0];
-        this.model.additionalPrice += Math.round(inventoryPrice * j.unitsRequired);
+        const inventoryPrice = this.inventoryList.filter(i => i.id === j.productInventoryId.inventoryId).map(t => t.price / t.availableUnits)[0];
+        this.model.adhocPrice += Math.round(inventoryPrice * j.unitsRequired);
       })
     }
   }

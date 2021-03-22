@@ -14,7 +14,7 @@ export class ProductModel {
   activeStatus: any;
   defaultDiscount: number;
   landingPrice: number;
-  additionalPrice:number;
+  adhocPrice:number;
   requiredInventories: Array<RequiredInventories>;
 }
 
