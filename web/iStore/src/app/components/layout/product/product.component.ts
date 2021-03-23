@@ -325,6 +325,18 @@ export class ProductComponent implements OnInit {
   }
 
   /**
+   * toggleInventory
+   */
+  public toggleInventory() {
+    if (this.model.category.id === 12 || this.model.category.id === 15) {
+      this.toggleInventoryFlag = true;
+      this.mockProductInventory = { productId: 0, inventoryId: 0 };
+    }
+    else
+      this.toggleInventoryFlag = false;
+  }
+
+  /**
    * pushInventory
    */
   public pushInventory() {
