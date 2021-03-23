@@ -44,6 +44,9 @@ export class LoginComponent implements OnInit {
       window.alert("Please provide username & password");
     }
   }
+  public keyPressLogin(event): void {
+    if (event.keyCode === 13) this.signIn();
+  }
   successHandler(result: User) {
     this.loginService.successToastr(this.constants.LOGIN_MESSAGE,this.constants.USER);
     this.user = result;

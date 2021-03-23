@@ -1,11 +1,7 @@
-<body style="background-color: black;">
-    <div class="parentLogin">
-        <div class="login">
-            <img class="logo" src="../../../assets/logo/natural-fresh.png" height="150px" width="250px">
-            <h3 class="mb-5" style="margin-top: 50px;">Login</h3>
-            <input type="text" [(ngModel)]="username" id="username" placeholder="Username">
-            <input type="password" [(ngModel)]="password" id="password" placeholder="Password">
-            <button class="btn mt-4" (click)="signIn()">Sign in</button>
-        </div>
-    </div>
-</body>
+<div class="login">
+    <img class="logo" src="../../../assets/logo/natural-fresh.png" height="150px" width="250px">
+    <h3 class="mb-5 mt-5">Login</h3>
+    <input type="text" [(ngModel)]="username" id="username" placeholder="Username">
+    <input type="password" [(ngModel)]="password" id="password" placeholder="Password" (keypress)="keyPressLogin($event)">
+    <button class="btn mt-4" (click)="signIn()">Sign in</button>
+</div>
