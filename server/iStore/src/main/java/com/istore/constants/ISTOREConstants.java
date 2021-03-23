@@ -5,9 +5,9 @@ public interface ISTOREConstants {
 	String CREATE = "/create";
 	String UPDATE = "/update";
 	String DELETE = "/delete";
-	String BACKUP = "/backUp";
-	String RETRIEVE = "/retrieve";
-	String READ = "/read";
+	String RECORD_INVENTORY = "/recordInventory";
+	String GET_INVENTORY_METADATA = "/getMetaData";
+	String GET_BY_TABLENAME = "recordInventory/getByTableName";
 
 	String PRODUCT = "/product";
 	String INVENTORY = "/inventory";

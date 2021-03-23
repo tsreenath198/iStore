@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
 import javax.validation.ValidationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,8 +86,10 @@ public class InventoryServiceImpl implements InventoryService {
 	}
 
 	@Override
-	public String backUpTable() {
+	@Transactional
+	public GenericResponse backUpTable() {
 		String table = "inventory";
+		GenericResponse genericResponse = new GenericResponse();
 		try {
 			String tableToCreate = table.concat("_").concat(DateHelper.convertDateToStringPattern(new Date()));
 			String sql = "CREATE TABLE ".concat(tableToCreate).concat(" AS SELECT * FROM ").concat(table);
@@ -94,9 +97,11 @@ public class InventoryServiceImpl implements InventoryService {
 			MetaData metaData = new MetaData();
 			metaData.setTableName(tableToCreate);
 			metaDataRepository.save(metaData);
-			return table.concat(" successfully backup data");
+			genericResponse.setMessage(table.concat(" successfully backup data"));
+			return genericResponse;
 		} catch (Exception e) {
-			return table.concat(" table already exists");
+			genericResponse.setMessage(table.concat(" table already exists"));
+			return genericResponse;
 		}
 	}
 

@@ -28,19 +28,21 @@ public class InventoryController {
 	@Autowired
 	InventoryService inventoryService;
 
-	@PostMapping(ISTOREConstants.BACKUP)
-	public ResponseEntity<String> backUp() {
-		return new ResponseEntity<String>(inventoryService.backUpTable(), HttpStatus.OK);
+	@GetMapping(ISTOREConstants.RECORD_INVENTORY)
+	public ResponseEntity<GenericResponse> recordInventory() {
+		return new ResponseEntity<GenericResponse>(inventoryService.backUpTable(), HttpStatus.OK);
 	}
 
-	@GetMapping(ISTOREConstants.RETRIEVE)
-	public ResponseEntity<List<MetaData>> retrieveAll() {
+	@GetMapping(ISTOREConstants.GET_INVENTORY_METADATA)
+	public ResponseEntity<List<MetaData>> getMetaData() {
 		return new ResponseEntity<>(inventoryService.retrieveAll(), HttpStatus.OK);
 	}
-	@GetMapping(ISTOREConstants.READ)
-	public ResponseEntity<List<Inventory>> read(@RequestParam String tableName) {
+
+	@GetMapping(ISTOREConstants.GET_BY_TABLENAME)
+	public ResponseEntity<List<Inventory>> getByTableName(@RequestParam String tableName) {
 		return new ResponseEntity<>(inventoryService.read(tableName), HttpStatus.OK);
 	}
+
 	@PostMapping(ISTOREConstants.CREATE)
 	public ResponseEntity<Inventory> create(@RequestBody Inventory inventory) {
 		return new ResponseEntity<>(inventoryService.createOrUpdate(inventory), HttpStatus.CREATED);

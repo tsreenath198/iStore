@@ -36,6 +36,7 @@ public class Product {
 	private String name;
 	@Column
 	private Integer productOrder;
+	
 	@Column
 	@NotNull
 	private Float price;
@@ -60,10 +61,15 @@ public class Product {
 	private Integer defaultDiscount;
 	@Column
 	@NotNull
-	private Float unitPrice;
+	private Float landingPrice;
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JoinColumn(name = "productId")
 	private List<ProductInventoryEntity> requiredInventories;
+	
+	@Column
+	@NotNull
+	private Integer adhocPrice;
+
 
 }

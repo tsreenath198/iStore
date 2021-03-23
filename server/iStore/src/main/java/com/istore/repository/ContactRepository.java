@@ -14,7 +14,7 @@ import com.istore.model.ContactView;
 @Repository
 public interface ContactRepository extends CrudRepository<Contact, Integer> {
 	@Query(value = "SELECT  * FROM contact WHERE id=:id and active_flag=0 and LENGTH(phone) >=10 and  phone REGEXP '[0-9]'", nativeQuery = true)
-	Optional<Contact> getByIdAndActiveFlag(Integer id);
+	Optional<Contact> getByIdAndActiveFlag(@Param(value = "id") Integer id);
 
 	@Query(value = "SELECT id as id, name as name, phone as phone,created_date as createdDate,updated_date as updatedDate,"
 			+ "description as description, active_flag as activeFlag,subscribe as subscribe, last_contact_date as lastContactDate,"

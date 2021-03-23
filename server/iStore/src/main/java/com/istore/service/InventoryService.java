@@ -13,7 +13,7 @@ public interface InventoryService {
 
 	Inventory get(Integer id);
 
-	String backUpTable();
+	GenericResponse backUpTable();
 
 	List<MetaData> retrieveAll();
 

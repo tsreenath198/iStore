@@ -38,6 +38,10 @@ public class Inventory {
 	@NotNull
 	private Integer minAvailableUnits;
 
+	@Column
+	@NotNull
+	private Float price;
+
 	// @Column
 	// private Integer productId;
 
