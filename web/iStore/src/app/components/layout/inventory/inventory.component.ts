@@ -17,7 +17,6 @@ export class InventoryComponent implements OnInit {
     private modalService: NgbModal) { }
   public inventory: InventoryModel = <InventoryModel>{};
   public url = new URLConstants();
-  public constants = new GlobalConstants();
   public inventoryList: Array<InventoryModel> = [];
   public actionLabel: string = "Create";
   private modalRef: NgbModalRef;
@@ -31,9 +30,9 @@ export class InventoryComponent implements OnInit {
   public getAll() {
     this.inventoryService.get(`${this.url.InventoryGetAll}`).subscribe(res => {
       this.inventoryList = res as InventoryModel[];
-      this.inventoryService.successToastr(this.constants.FETCHED_MESSAGE, this.constants.INVENTORY);
+      this.inventoryService.successToastr(GlobalConstants.FETCHED_MESSAGE, GlobalConstants.INVENTORY);
     }, err => {
-      this.errorHandler(this.constants.ERROR_FETCHED_MESSAGE);
+      this.errorHandler(GlobalConstants.ERROR_DELETED_MESSAGE);
     });
   }
 
@@ -41,7 +40,7 @@ export class InventoryComponent implements OnInit {
    * getById
    */
   public getById(id: number) {
-    this.actionLabel = this.constants.UPDATE;
+    this.actionLabel = GlobalConstants.UPDATE;
     this.inventory = JSON.parse(JSON.stringify(this.inventoryList.filter(i => i.id === id)[0]));
   }
 
@@ -50,19 +49,19 @@ export class InventoryComponent implements OnInit {
    */
   public createOrUpdate(f: NgForm) {
     if (f.valid) {
-      if (this.actionLabel === this.constants.CREATE) {
+      if (this.actionLabel === GlobalConstants.CREATE) {
         this.inventoryService.post(this.inventory, `${this.url.InventoryCreate}`).subscribe(res => {
-          this.successHandler(this.constants.CREATED_MESSAGE);
+          this.successHandler(GlobalConstants.CREATED_MESSAGE);
           f.reset();
         }, err => {
-          this.errorHandler(this.constants.ERROR_CREATED_MESSAGE);
+          this.errorHandler(GlobalConstants.ERROR_CREATED_MESSAGE);
         });
       } else {
         this.inventoryService.put(this.inventory, `${this.url.InventoryUpdate}`).subscribe(res => {
-          this.successHandler(this.constants.UPDATED_MESSAGE);
+          this.successHandler(GlobalConstants.UPDATED_MESSAGE);
           f.reset();
         }, err => {
-          this.errorHandler(this.constants.ERROR_UPDATED_MESSAGE);
+          this.errorHandler(GlobalConstants.ERROR_UPDATED_MESSAGE);
         });
       }
     }
@@ -73,9 +72,9 @@ export class InventoryComponent implements OnInit {
    */
   public deleteInventory(id: number) {
     this.inventoryService.delete(`${this.url.InventoryDelete}${id}`).subscribe(res => {
-      this.successHandler(this.constants.DELETED_MESSAGE);
+      this.successHandler(GlobalConstants.DELETED_MESSAGE);
     }, err => {
-      this.errorHandler(this.constants.ERROR_DELETED_MESSAGE);
+      this.errorHandler(GlobalConstants.ERROR_DELETED_MESSAGE);
     });
   }
 
@@ -84,9 +83,9 @@ export class InventoryComponent implements OnInit {
    */
   public updateRecordInventory() {
     this.inventoryService.get(`${this.url.RecordInventory}`).subscribe(res => {
-      this.inventoryService.successToastr(this.constants.CREATED_MESSAGE,this.constants.RECORD_INVENTORY);
+      this.inventoryService.successToastr(GlobalConstants.CREATED_MESSAGE,GlobalConstants.RECORD_INVENTORY);
     }, err => {
-      this.errorHandler(this.constants.ERROR_CREATED_MESSAGE);
+      this.errorHandler(GlobalConstants.ERROR_CREATED_MESSAGE);
     });
   }
 
@@ -102,10 +101,10 @@ export class InventoryComponent implements OnInit {
     });
   }
   private successHandler(message: string) {
-    this.inventoryService.successToastr(message, this.constants.INVENTORY);
+    this.inventoryService.successToastr(message, GlobalConstants.INVENTORY);
     this.getAll();
   }
   private errorHandler(message: string) {
-    this.inventoryService.errorToastr(message, this.constants.INVENTORY);
+    this.inventoryService.errorToastr(message, GlobalConstants.INVENTORY);
   }
 }

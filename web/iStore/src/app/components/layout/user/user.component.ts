@@ -15,7 +15,6 @@ export class UserComponent implements OnInit {
   constructor(private userService: HttpService) { }
   public user: User = <User>{};
   public url = new URLConstants();
-  public contants = new GlobalConstants();
   public userList: Array<User> = [];
   public actionLabel: string = "Create";
   public roleTypes = UserRole;
@@ -27,41 +26,41 @@ export class UserComponent implements OnInit {
 
   public create(f: NgForm) {
     if (f.valid) {
-      if(this.actionLabel == this.contants.CREATE){
+      if(this.actionLabel == GlobalConstants.CREATE){
         this.userService.post(this.user, this.url.UserCreate).subscribe(
           res => {
-            this.successHandler(this.contants.CREATED_MESSAGE);
+            this.successHandler(GlobalConstants.CREATED_MESSAGE);
             f.reset();
-            this.actionLabel = this.contants.CREATE;
+            this.actionLabel = GlobalConstants.CREATE;
           },
           err => {
-            this.errorHandler(this.contants.ERROR_CREATED_MESSAGE);
+            this.errorHandler(GlobalConstants.ERROR_CREATED_MESSAGE);
           }
         );
       }else{
         this.userService.put(this.user, this.url.UserUpdate).subscribe(
           res => {
-            this.successHandler(this.contants.UPDATED_MESSAGE);
+            this.successHandler(GlobalConstants.UPDATED_MESSAGE);
             f.reset();
-            this.actionLabel = this.contants.CREATE;
+            this.actionLabel = GlobalConstants.CREATE;
           },
           err => {
-            this.errorHandler(this.contants.ERROR_UPDATED_MESSAGE);
+            this.errorHandler(GlobalConstants.ERROR_UPDATED_MESSAGE);
           }
         );
       }
       
     } else {
-      this.userService.errorToastr(this.contants.REQUIRED_FIELDS,this.contants.USER);
+      this.userService.errorToastr(GlobalConstants.REQUIRED_FIELDS,GlobalConstants.USER);
     }
   }
   public deleteById(id: number) {
     this.userService.delete(this.url.UserDelete + id).subscribe(
       res => {
-        this.successHandler(this.contants.DELETED_MESSAGE);
+        this.successHandler(GlobalConstants.DELETED_MESSAGE);
       },
       err => {
-        this.errorHandler(this.contants.ERROR_DELETED_MESSAGE);
+        this.errorHandler(GlobalConstants.ERROR_DELETED_MESSAGE);
       }
     );
   }
@@ -69,33 +68,33 @@ export class UserComponent implements OnInit {
     this.userService.get(this.url.UserGetAll).subscribe(
       res => {
         this.userList = res as Array<User>;
-        this.userService.successToastr(this.contants.FETCHED_MESSAGE,this.contants.USER)
+        this.userService.successToastr(GlobalConstants.FETCHED_MESSAGE,GlobalConstants.USER)
       },
       err => {
-        this.errorHandler(this.contants.ERROR_FETCHED_MESSAGE);
+        this.errorHandler(GlobalConstants.ERROR_FETCHED_MESSAGE);
       }
     );
   }
   public getById(id: number) {
-    this.actionLabel = this.contants.UPDATE;
+    this.actionLabel = GlobalConstants.UPDATE;
     this.userService.get(this.url.UserGetById + id).subscribe(
       res => {
         this.user = res as User;
       },
       err => {
-        this.errorHandler(this.contants.ERROR_FETCHED_MESSAGE);
+        this.errorHandler(GlobalConstants.ERROR_FETCHED_MESSAGE);
       }
     );
   }
   public reset(){
     this.user = new User();
-    this.actionLabel = this.contants.CREATE;
+    this.actionLabel = GlobalConstants.CREATE;
   }
   private successHandler(message: string) {
-    this.userService.successToastr(message,this.contants.USER);
+    this.userService.successToastr(message,GlobalConstants.USER);
     this.getAll();
   }
   private errorHandler(message: string) {
-    this.userService.successToastr(message,this.contants.USER);
+    this.userService.successToastr(message,GlobalConstants.USER);
   }
 }

@@ -15,7 +15,6 @@ export class LoginComponent implements OnInit {
   public username: string = "";
   public password: string = "";
   public url: URLConstants = new URLConstants();
-  public constants: GlobalConstants = new GlobalConstants();
   public user: User = <User>{};
   constructor(private route: Router, private loginService: HttpService) { }
 
@@ -48,12 +47,12 @@ export class LoginComponent implements OnInit {
     if (event.keyCode === 13) this.signIn();
   }
   successHandler(result: User) {
-    this.loginService.successToastr(this.constants.LOGIN_MESSAGE,this.constants.USER);
+    this.loginService.successToastr(GlobalConstants.LOGIN_MESSAGE, GlobalConstants.USER);
     this.user = result;
     localStorage.setItem("loggedInUser", JSON.stringify(this.user));
     this.route.navigate(["/layout"]);
   }
   errorHandler() {
-    this.loginService.errorToastr(this.constants.ERROR_LOGIN_MESSAGE,this.constants.USER);
+    this.loginService.errorToastr(GlobalConstants.ERROR_LOGIN_MESSAGE, GlobalConstants.USER);
   }
 }

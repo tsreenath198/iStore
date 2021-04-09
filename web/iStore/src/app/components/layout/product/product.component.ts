@@ -43,7 +43,6 @@ export class ProductComponent implements OnInit {
   public model = new ProductModel();
   public updateInventoryModel: any = [];
   public url = new URLConstants();
-  public constants = new GlobalConstants();
   public actionType: string = "C";
 
   public sortType = "name"; // set the default sort type
@@ -115,23 +114,23 @@ export class ProductComponent implements OnInit {
     if (f.valid) {
       this.productService.post(this.model, this.url.ProductCreate).subscribe(
         res => {
-          this.successHandler(this.constants.CREATED_MESSAGE);
+          this.successHandler(GlobalConstants.CREATED_MESSAGE);
         },
         err => {
-          this.errorHandler(this.constants.ERROR_CREATED_MESSAGE);
+          this.errorHandler(GlobalConstants.ERROR_CREATED_MESSAGE);
         }
       );
     } else {
-      this.productService.errorToastr(this.constants.REQUIRED_FIELDS, this.constants.PRODUCT);
+      this.productService.errorToastr(GlobalConstants.REQUIRED_FIELDS, GlobalConstants.PRODUCT);
     }
   }
 
   private successHandler(message: string) {
     this.commonInHTTP();
-    this.productService.successToastr(message, this.constants.PRODUCT);
+    this.productService.successToastr(message, GlobalConstants.PRODUCT);
   }
   private errorHandler(message: string) {
-    this.productService.errorToastr(message, this.constants.PRODUCT);
+    this.productService.errorToastr(message, GlobalConstants.PRODUCT);
   }
 
   public update() {
@@ -139,7 +138,7 @@ export class ProductComponent implements OnInit {
       this.commonInHTTP();
       this.actionType = "C";
     }, err => {
-      this.errorHandler(this.constants.ERROR_UPDATED_MESSAGE);
+      this.errorHandler(GlobalConstants.ERROR_UPDATED_MESSAGE);
     });
   }
 
@@ -160,7 +159,7 @@ export class ProductComponent implements OnInit {
       this.productService.delete(this.url.ProductDelete + product.id).subscribe(resp => {
         this.getProducts();
       }, err => {
-        this.errorHandler(this.constants.ERROR_DELETED_MESSAGE);
+        this.errorHandler(GlobalConstants.ERROR_DELETED_MESSAGE);
       });
     }
   }

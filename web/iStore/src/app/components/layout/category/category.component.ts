@@ -14,7 +14,6 @@ export class CategoryComponent implements OnInit {
   public categoryList: Array<CategoryModel> = [];
   public model: CategoryModel = <CategoryModel>{};
   public url = new URLConstants();
-  public constants = new GlobalConstants();
   public actionType: string = "C";
   public statusOptions = [{ name: 'Active', value: 0 }, { name: 'Inactive', value: 1 }];
   public rawMatOpt = [{ name: 'Raw Material', value: true }, { name: 'Non Raw Material', value: false }];
@@ -28,9 +27,9 @@ export class CategoryComponent implements OnInit {
   private getAll() {
     this.categoryService.get(this.url.CategoryGetAll).subscribe(resp => {
       this.categoryList = resp as any;
-      this.categoryService.successToastr(this.constants.FETCHED_MESSAGE,this.constants.CATEGORY);
+      this.categoryService.successToastr(GlobalConstants.FETCHED_MESSAGE,GlobalConstants.CATEGORY);
     },err=>{
-      this.errorHandler(this.constants.ERROR_FETCHED_MESSAGE);
+      this.errorHandler(GlobalConstants.ERROR_DELETED_MESSAGE);
     });
   }
 
@@ -42,20 +41,20 @@ export class CategoryComponent implements OnInit {
         this.url.CategoryCreate
       )
       .subscribe(resp => {
-        this.successHandler(this.constants.CREATED_MESSAGE);
+        this.successHandler(GlobalConstants.CREATED_MESSAGE);
         this.model.activeStatus = 0;
         this.model.rawMaterial = false;
       },err=>{
-        this.errorHandler(this.constants.ERROR_CREATED_MESSAGE)
+        this.errorHandler(GlobalConstants.ERROR_CREATED_MESSAGE)
       });
   }
 
   public update() {
     this.categoryService.update(this.model, this.url.CategoryUpdate).subscribe(resp => {
-      this.successHandler(this.constants.UPDATED_MESSAGE);
+      this.successHandler(GlobalConstants.UPDATED_MESSAGE);
       this.actionType = "C";
     },err=>{
-      this.errorHandler(this.constants.ERROR_UPDATED_MESSAGE)
+      this.errorHandler(GlobalConstants.ERROR_UPDATED_MESSAGE)
     });
   }
 
@@ -72,26 +71,26 @@ export class CategoryComponent implements OnInit {
       this.model = resp as any;
       this.actionType = "U";
     },err=>{
-        this.errorHandler(this.constants.ERROR_FETCHED_MESSAGE)
+        this.errorHandler(GlobalConstants.ERROR_DELETED_MESSAGE)
       });
   }
   public delete(category: any) {
     if (window.confirm("Do you want to delete " + category.name + "?")) {
       this.categoryService.delete(this.url.CategoryDelete + category.id).subscribe(resp => {
-        this.successHandler(this.constants.DELETED_MESSAGE);
+        this.successHandler(GlobalConstants.DELETED_MESSAGE);
       },err=>{
-        this.errorHandler(this.constants.ERROR_DELETED_MESSAGE);
+        this.errorHandler(GlobalConstants.ERROR_DELETED_MESSAGE);
       });
     }
   }
   private successHandler(message: string) {
-    this.categoryService.successToastr(message,this.constants.CATEGORY);
+    this.categoryService.successToastr(message,GlobalConstants.CATEGORY);
     this.getAll();
     this.model = <CategoryModel>{};
     this.model.activeStatus = 0;
     this.model.rawMaterial = false;
   }
   private errorHandler(message: string) {
-    this.categoryService.errorToastr(message,this.constants.CATEGORY);
+    this.categoryService.errorToastr(message,GlobalConstants.CATEGORY);
   }
 }

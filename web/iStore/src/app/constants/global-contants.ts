@@ -1,30 +1,30 @@
 export class GlobalConstants {
   /** Action Label */
-  CREATE = 'Create';
-  UPDATE = 'Update';
+  public static CREATE = 'Create';
+  public static UPDATE = 'Update';
 
   /** Components */
-  INVENTORY = 'Inventory';
-  RECORD_INVENTORY = 'Record Inventory';
-  CATEGORY = 'Category';
-  CUSTOMER = 'Customer';
-  EXPENSE = 'Expense';
-  PRODUCT = 'Product';
-  PROFIT = 'Profit';
-  REPORT = 'Report';
-  SALES = 'Sales';
-  USER = 'User';
+  public static INVENTORY = 'Inventory';
+  public static RECORD_INVENTORY = 'Record Inventory';
+  public static CATEGORY = 'Category';
+  public static CUSTOMER = 'Customer';
+  public static EXPENSE = 'Expense';
+  public static PRODUCT = 'Product';
+  public static PROFIT = 'Profit';
+  public static REPORT = 'Report';
+  public static SALES = 'Sales';
+  public static USER = 'User';
 
-  LOGIN_MESSAGE = "Logged In Successfully"
-  CREATED_MESSAGE = "Created Successfully"
-  UPDATED_MESSAGE = "Updated Successfully"
-  DELETED_MESSAGE = "Deleted Successfully"
-  FETCHED_MESSAGE = "Fetched Successfully"
-  ERROR_CREATED_MESSAGE = "Error While Creating"
-  ERROR_UPDATED_MESSAGE = "Error while Updating"
-  ERROR_DELETED_MESSAGE = "Error While Deleting"
-  ERROR_FETCHED_MESSAGE = "Error While Fetching"
-  ERROR_LOGIN_MESSAGE = "Error While log in"
+  public static LOGIN_MESSAGE = "Logged In Successfully"
+  public static CREATED_MESSAGE = "Created Successfully"
+  public static UPDATED_MESSAGE = "Updated Successfully"
+  public static DELETED_MESSAGE = "Deleted Successfully"
+  public static FETCHED_MESSAGE = "Fetched Successfully"
+  public static ERROR_CREATED_MESSAGE = "Error While Creating"
+  public static ERROR_UPDATED_MESSAGE = "Error while Updating"
+  public static ERROR_DELETED_MESSAGE = "Error While Deleting"
+  public static ERROR_FETCHED_MESSAGE = "Error While Fetching"
+  public static ERROR_LOGIN_MESSAGE = "Error While log in"
 
-  REQUIRED_FIELDS = "Please enter all required fields"
+  public static REQUIRED_FIELDS = "Please enter all required fields"
 }
