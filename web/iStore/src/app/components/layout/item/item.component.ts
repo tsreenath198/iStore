@@ -76,8 +76,8 @@ export class ItemComponent implements OnInit {
   public setFilter() {
     this.selectedCategory = "Cup";
     const item = this.categoryList.filter(
-      item => item.name != null ? item.name.toLowerCase().trim() == this.selectedCategory.toLowerCase().trim() : false;
-    );
+      item => {item.name != null ? item.name.toLowerCase().trim() == this.selectedCategory.toLowerCase().trim() : false;
+    });
     if (item[0])
       this.filter(item[0].id, item[0].name);
   }
