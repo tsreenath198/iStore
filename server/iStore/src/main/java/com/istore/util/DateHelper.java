@@ -66,11 +66,14 @@ public class DateHelper {
 			Calendar c = Calendar.getInstance();
 			c.setTime(date1);
 			c.add(Calendar.DATE, 1);
+			c.set(Calendar.HOUR, 0);
+			c.set(Calendar.MINUTE, 0);
+			c.set(Calendar.MILLISECOND, 0);
 			Date date = c.getTime();
 			SimpleDateFormat format = new SimpleDateFormat(PATTERN);
 			String date2 = format.format(date);
 			Date d = format.parse(date2);
-			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 			return dateFormat.format(d);
 		} catch (ParseException e1) {
 			log.error("error", e1);
