@@ -3,7 +3,7 @@
         <form name="form" class="ml-3 mr-2" id="productEntryForm" (ngSubmit)="create(f)" #f="ngForm" novalidate>
             <div class="row">
                 <div class="col-md-12">
-                    <select class="form-control" name="cp" [(ngModel)]="model.category" #cp="ngModel" (change)="toggleInventory()" [compareWith]="compareFn" required>
+                    <select class="form-control" name="pcategory" [(ngModel)]="model.category" (change)="toggleInventory()" required>
                         <option [ngValue]="undefined" hidden selected> Category* </option>
                         <option *ngFor="let cl of categoryList" [ngValue]="cl">
                             {{ cl.name }}
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="col-md-12 mt-2">
-                    <input type="number" class="form-control" name="adhocPrice" placeholder="Adhoc Price" [(ngModel)]="model.adhocPrice" />
+                    <input type="number" class="form-control" name="adhocPrice" placeholder="Adhoc Price*" [(ngModel)]="model.adhocPrice"  required/>
                 </div>
                 <!-- <div class="col-md-12" *ngIf="model?.category?.rawMaterial">
                     <input type="number" class="form-control" name="inventory" placeholder="Quantity(e.g. 2)" [(ngModel)]="model.inventory" />
