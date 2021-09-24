@@ -47,4 +47,5 @@ public interface ISTOREConstants {
 	String SUCCESS = "Successfully";
 	String DELETED = "Deleted Successfully";
 	String FAILED = "Operation Failed";
+
 }
