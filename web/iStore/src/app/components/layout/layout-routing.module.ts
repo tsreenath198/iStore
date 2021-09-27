@@ -27,7 +27,7 @@ const routes: Routes = [
         component: CustomerComponent,
         canActivate: [RoleGuard],
         data: {
-          roles: [UserRole.Admin]
+          roles: [UserRole.Admin,UserRole.Store_Manager]
         }
       },
       {
@@ -51,7 +51,7 @@ const routes: Routes = [
         loadChildren: "./product/product.module#ProductModule",
         canActivate: [RoleGuard],
         data: {
-          roles: [UserRole.Admin, UserRole.Store_Manager]
+          roles: [UserRole.Admin]
         }
       },
       {

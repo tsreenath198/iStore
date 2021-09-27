@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
 			} else if (u.getRole().equalsIgnoreCase(UserRole.Associate.toString())) {
 				u.setRolesAllowed(Arrays.asList("Bill"));
 			} else if (u.getRole().equalsIgnoreCase(UserRole.Store_Manager.toString())) {
-				u.setRolesAllowed(Arrays.asList("Bill", "Product", "Report", "Sales"));
+				u.setRolesAllowed(Arrays.asList("Bill", "Report", "Sales","Profit","Expense","Customer"));
 			}
 			return u;
 		} else {
