@@ -12,7 +12,9 @@ form select {
     background-color: inherit;
     color: white;
 }
-
+.bg-red{
+    background-color: tomato;
+}
 form option {
     background-color: black;
 }

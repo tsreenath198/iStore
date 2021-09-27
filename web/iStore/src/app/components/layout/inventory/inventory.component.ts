@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { ModalDismissReasons, NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { GlobalConstants } from 'src/app/constants/global-contants';
 import { URLConstants } from 'src/app/constants/url-constants';
 import { HttpService } from 'src/app/services/http.service';
@@ -20,6 +20,9 @@ export class InventoryComponent implements OnInit {
   public inventoryList: Array<InventoryModel> = [];
   public actionLabel: string = "Create";
   private modalRef: NgbModalRef;
+  public closeResult: any;
+  public orderProductsList: any = {};
+  public num: string = "";
   ngOnInit() {
     this.getAll();
   }
@@ -83,7 +86,7 @@ export class InventoryComponent implements OnInit {
    */
   public updateRecordInventory() {
     this.inventoryService.get(`${this.url.RecordInventory}`).subscribe(res => {
-      this.inventoryService.successToastr(GlobalConstants.CREATED_MESSAGE,GlobalConstants.RECORD_INVENTORY);
+      this.inventoryService.successToastr(GlobalConstants.CREATED_MESSAGE, GlobalConstants.RECORD_INVENTORY);
     }, err => {
       this.errorHandler(GlobalConstants.ERROR_CREATED_MESSAGE);
     });
@@ -100,11 +103,72 @@ export class InventoryComponent implements OnInit {
       console.log(reason);
     });
   }
+
+  /**
+   * showEndingInventories
+   */
+  showEndingInventories(value) {
+    //getAll
+    if (value) {
+      this.inventoryList = this.inventoryList.filter(i => i.minAvailableUnits > i.availableUnits);
+    }else{
+      this.getAll();
+    }
+  }
+
+  /**
+   * orderInventory
+   */
+  public orderInventory(event: any) {
+    return
+    this.orderProductsList = [];
+    this.inventoryService.get(this.url.ProductGetInventory).subscribe(resp => {
+      this.orderProductsList = resp as any;
+      let temp = Object.keys(this.orderProductsList);
+      console.log(this.orderProductsList);
+      if (temp) this.num = temp[temp.length - 1];
+    });
+    this.open(event);
+  }
+
+  public setIndexOfList(i) {
+    this.num = i;
+  }
+
   private successHandler(message: string) {
     this.inventoryService.successToastr(message, GlobalConstants.INVENTORY);
     this.getAll();
   }
   private errorHandler(message: string) {
     this.inventoryService.errorToastr(message, GlobalConstants.INVENTORY);
+  }
+
+  /**
+   * @param
+   * 1) content consists the modal instance
+   * 2) Selected contains the code of selected row
+   */
+  public open(content: any) {
+    this.modalRef = this.modalService.open(content);
+    this.modalRef.result.then(
+      result => {
+        this.closeResult = `Closed with: ${result}`;
+      },
+      reason => {
+        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      }
+    );
+  }
+  public close() {
+    this.modalRef.close();
+  }
+  private getDismissReason(reason: any): string {
+    if (reason === ModalDismissReasons.ESC) {
+      return "by pressing ESC";
+    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+      return "by clicking on a backdrop";
+    } else {
+      return `with: ${reason}`;
+    }
   }
 }

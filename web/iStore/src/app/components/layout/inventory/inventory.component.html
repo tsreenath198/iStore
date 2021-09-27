@@ -62,7 +62,10 @@
         </form>
     </div>
     <div class="col-md-9 view-pane mt-2">
-        <div>
+        <div> 
+            <input class="mt-2" type="checkbox" name="showMinStock" id="checkStock" (change)="showEndingInventories($event.target.checked)" /><span>Show minimum available stock</span>
+           
+            <button class="btn btn-default  pull-right" (click)="orderInventory(orderProducts)">Order Raw Inventory</button>
             <button class="btn btn-default pull-right" (click)="updateRecordInventory()">Record Inventory</button>
             <button class="btn btn-default pull-right mr-2" (click)="getHistoryInventory()">History Inventory</button>
         </div>
@@ -79,7 +82,7 @@
             </thead>
             <tbody *ngIf="inventoryList.length">
                 <ng-container *ngFor="let inventory of inventoryList ">
-                    <tr>
+                    <tr [ngClass]="{'bg-red': inventory.minAvailableUnits > inventory.availableUnits}">
                         <td>{{ inventory?.name | titlecase }}</td>
                         <td>{{ inventory?.price || "" }}</td>
                         <td>{{ inventory?.availableUnits }}</td>
@@ -101,3 +104,64 @@
         </table>
     </div>
 </div>
+<ng-template #orderProducts let-c="close" let-d="dismiss">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Order Products</h4>
+            <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <nav class="nav nav-tabs">
+                <li class="nav-item" *ngFor="let cat of orderProductsList | keyvalue; let i = index">
+                    <a class="nav-item nav-link" [ngClass]="{ active: num == cat.key}" (click)="setIndexOfList(cat.key)">{{ cat.key }}</a>
+                </li>
+            </nav>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Inventory
+                        </th>
+                        <th>
+                            Minimum Availability
+                        </th>
+                        <th>
+                            Order Count
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let product of orderProductsList[num]">
+                        <tr>
+                            <td>
+                                {{ product.name }}
+                            </td>
+                            <td>
+                                {{ product.inventory }}
+                            </td>
+                            <td>
+                                {{ product.minimumAvailability }}
+                            </td>
+                            <td>
+                                <input type="number" id="popInputNumber" class="form-control form-control-sm" [(ngModel)]="product.currentStock">
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="downloadInventoryExcel()">
+                Download
+            </button>
+            <button type="button" class="btn btn-secondary" (click)="close('Close click')">
+                Close
+            </button>
+        </div>
+    </div>
+</ng-template>

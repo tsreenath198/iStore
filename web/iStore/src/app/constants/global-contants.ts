@@ -26,5 +26,8 @@ export class GlobalConstants {
   public static ERROR_FETCHED_MESSAGE = "Error While Fetching"
   public static ERROR_LOGIN_MESSAGE = "Error While log in"
 
+
+  public static ERROR_INVENTORY_REQUIRED_MESSAGE = "Provided more than Available Units"
+
   public static REQUIRED_FIELDS = "Please enter all required fields"
 }

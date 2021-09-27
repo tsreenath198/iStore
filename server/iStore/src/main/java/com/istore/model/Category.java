@@ -32,8 +32,6 @@ public class Category {
 	@Column
 	private Integer categoryOrder;
 	@Column
-	private boolean rawMaterial;
-	@Column
 	@CreationTimestamp
 	private Date createdDate;
 	@Column

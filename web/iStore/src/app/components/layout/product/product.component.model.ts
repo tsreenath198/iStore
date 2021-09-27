@@ -6,15 +6,10 @@ export class ProductModel {
   name: string;
   price: number;
   description: string;
-  image: FormData;
-  inventory: number;
   category: CategoryModel;
-  productOrder: number;
-  minimumAvailability: number;
   activeStatus: any;
   defaultDiscount: number;
   landingPrice: number;
-  adhocPrice:number;
   requiredInventories: Array<RequiredInventories>;
 }
 

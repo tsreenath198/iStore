@@ -106,11 +106,6 @@ export class ProductComponent implements OnInit {
   }
 
   public create(f: NgForm) {
-    // if (!this.model.category.rawMaterial) {
-    //   this.model.inventory = 0;
-    //   this.model.minimumAvailability = 0;
-    // }
-
     if (f.valid) {
       this.productService.post(this.model, this.url.ProductCreate).subscribe(
         res => {
@@ -192,14 +187,6 @@ export class ProductComponent implements OnInit {
             product.inventory < product.minimumAvailability &&
             product.category.name == this.selectedCategory
           ) {
-            if (
-              product.category.rawMaterial ||
-              this.selectedCategory == "All"
-            ) {
-              this.isRaw = true;
-            } else {
-              this.isRaw = false;
-            }
             temp.push(product);
           }
         });
@@ -208,11 +195,6 @@ export class ProductComponent implements OnInit {
         this.updateInventoryModel = [];
         this.filterProductList.filter(product => {
           if (categoryName == product.category.name) {
-            if (product.category.rawMaterial) {
-              this.isRaw = true;
-            } else {
-              this.isRaw = false;
-            }
             this.productList.push(product);
           }
         });
@@ -234,21 +216,6 @@ export class ProductComponent implements OnInit {
 
     console.log(this.updateInventoryModel);
     this.open(event);
-  }
-  public orderInventory(event: any) {
-    alert("Still In process");
-    return;
-    this.orderProductsList = [];
-    this.productService.get(this.url.ProductGetInventory).subscribe(resp => {
-      this.orderProductsList = resp as any;
-      let temp = Object.keys(this.orderProductsList);
-      console.log(this.orderProductsList);
-      if (temp) this.num = temp[temp.length - 1];
-    });
-    this.open(event);
-  }
-  public setIndexOfList(i) {
-    this.num = i;
   }
   public updateInventory() {
     this.productService
@@ -315,10 +282,15 @@ export class ProductComponent implements OnInit {
    */
   public calculateInventory(reqInventory: RequiredInventories) {
     if (reqInventory.productInventoryId.inventoryId && reqInventory.unitsRequired) {
-      this.model.adhocPrice = 0;
+      this.model.landingPrice = 0;
       this.model.requiredInventories.forEach((j: RequiredInventories) => {
-        const inventoryPrice = this.inventoryList.filter(i => i.id === j.productInventoryId.inventoryId).map(t => t.price / t.availableUnits)[0];
-        this.model.adhocPrice += Math.round(inventoryPrice * j.unitsRequired);
+        const inventoryPrice = this.inventoryList.filter(i => i.id === j.productInventoryId.inventoryId)
+          .filter(i => i.availableUnits >= j.unitsRequired)
+          .map(t => t.price / t.unitsPerQty)[0];
+        this.model.landingPrice += Math.round(inventoryPrice * j.unitsRequired);
+        if (!this.model.landingPrice) {
+          this.errorHandler(GlobalConstants.ERROR_INVENTORY_REQUIRED_MESSAGE);
+        }
       })
     }
   }
