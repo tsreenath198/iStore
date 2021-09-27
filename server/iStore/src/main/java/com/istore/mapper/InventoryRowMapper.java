@@ -15,7 +15,7 @@ public class InventoryRowMapper implements RowMapper<Inventory> {
 		inventory.setId(rs.getInt("id"));
 		inventory.setName(rs.getString("name"));
 		inventory.setUnitsPerQty(rs.getInt("units_per_qty"));
-		inventory.setAvailableUnits(rs.getFloat("available_units"));
+		inventory.setAvailableUnits(rs.getInt("available_units"));
 		inventory.setMinAvailableUnits(rs.getInt("min_available_units"));
 		return inventory;
 	}

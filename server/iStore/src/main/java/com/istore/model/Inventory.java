@@ -8,15 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 @Table
 @Entity
-@Getter
-@Setter
-@ToString
+@Data
 public class Inventory {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,7 +31,7 @@ public class Inventory {
 
 	@Column
 	@NotNull
-	private Float availableUnits;
+	private Integer availableUnits;
 
 	@Column
 	@NotNull

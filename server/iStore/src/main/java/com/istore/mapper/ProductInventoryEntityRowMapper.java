@@ -17,7 +17,7 @@ public class ProductInventoryEntityRowMapper implements RowMapper<ProductInvento
 		id.setInventoryId(rs.getInt("Inventory_Id"));
 		id.setProductId(rs.getInt("Product_Id"));
 		productInventoryEntity.setProductInventoryId(id);
-		productInventoryEntity.setUnitsRequired(rs.getFloat("units_required"));
+		productInventoryEntity.setUnitsRequired(rs.getInt("units_required"));
 		return productInventoryEntity;
 	}
 

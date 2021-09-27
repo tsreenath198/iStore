@@ -10,6 +10,7 @@ import java.util.Set;
 import javax.transaction.Transactional;
 import javax.validation.ValidationException;
 
+import com.istore.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -18,11 +19,6 @@ import org.springframework.stereotype.Service;
 import com.istore.constants.ISTOREConstants;
 import com.istore.constants.PaymentMode;
 import com.istore.mapper.ProductInventoryEntityRowMapper;
-import com.istore.model.GenericResponse;
-import com.istore.model.Item;
-import com.istore.model.OrderDetail;
-import com.istore.model.OrderTotal;
-import com.istore.model.ProductInventoryEntity;
 import com.istore.repository.InventoryRepository;
 import com.istore.repository.ItemRepository;
 import com.istore.repository.OrderDetailRepository;
@@ -57,7 +53,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 						item.getProduct().getId());
 
 				productInventoryEntities.forEach(productInventoryEntity -> {
-					Float noOfUnits = productInventoryEntity.getUnitsRequired() * quantity;
+					Integer noOfUnits = productInventoryEntity.getUnitsRequired() * quantity;
 					Integer inventoryId = productInventoryEntity.getProductInventoryId().getInventoryId();
 					inventoryRepository.updateInventory(noOfUnits, inventoryId);
 					item.setProduct(productService.get(item.getProduct().getId()));
