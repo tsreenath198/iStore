@@ -285,12 +285,8 @@ export class ProductComponent implements OnInit {
       this.model.landingPrice = 0;
       this.model.requiredInventories.forEach((j: RequiredInventories) => {
         const inventoryPrice = this.inventoryList.filter(i => i.id === j.productInventoryId.inventoryId)
-          .filter(i => i.availableUnits >= j.unitsRequired)
           .map(t => t.price / t.unitsPerQty)[0];
         this.model.landingPrice += Math.round(inventoryPrice * j.unitsRequired);
-        if (!this.model.landingPrice) {
-          this.errorHandler(GlobalConstants.ERROR_INVENTORY_REQUIRED_MESSAGE);
-        }
       })
     }
   }
@@ -313,6 +309,7 @@ export class ProductComponent implements OnInit {
   public pushInventory() {
     this.mockProductInventory = { productId: 0, inventoryId: 0 };
     this.mockReqInventoryInventory = { productInventoryId: this.mockProductInventory, unitsRequired: 0 };
+    this.model.requiredInventories = JSON.parse(JSON.stringify(this.model.requiredInventories));
     this.model.requiredInventories.push(Object.assign({}, this.mockReqInventoryInventory));
   }
   /**
@@ -320,6 +317,14 @@ export class ProductComponent implements OnInit {
    */
   public popInventory(i) {
     this.model.requiredInventories.splice(i, 1);
+    this.model.landingPrice = 0;
+    if(this.model.requiredInventories.length){
+      this.model.requiredInventories.forEach((j: RequiredInventories) => {
+        const inventoryPrice = this.inventoryList.filter(i => i.id === j.productInventoryId.inventoryId)
+          .map(t => t.price / t.unitsPerQty)[0];
+        this.model.landingPrice += Math.round(inventoryPrice * j.unitsRequired);
+      })
+    }
   }
   public downloadInventoryExcel() {
     // let orderModel: any = [];

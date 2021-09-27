@@ -16,6 +16,9 @@ form input {
   font-size: 1rem;
   width: 70px
 }
+.margin-top-label{
+  margin-top: 3.5rem;
+}
 form select {
     font-size: 1rem;
     border: 0;
