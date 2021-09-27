@@ -5,5 +5,4 @@ export interface CategoryModel{
     description: string;
     categoryOrder: number;
     activeStatus: any;
-    rawMaterial: boolean;
 }

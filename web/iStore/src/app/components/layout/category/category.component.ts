@@ -22,7 +22,6 @@ export class CategoryComponent implements OnInit {
   ngOnInit() {
     this.getAll();
     this.model.activeStatus = 0;
-    this.model.rawMaterial = false;
   }
   private getAll() {
     this.categoryService.get(this.url.CategoryGetAll).subscribe(resp => {
@@ -43,7 +42,6 @@ export class CategoryComponent implements OnInit {
       .subscribe(resp => {
         this.successHandler(GlobalConstants.CREATED_MESSAGE);
         this.model.activeStatus = 0;
-        this.model.rawMaterial = false;
       },err=>{
         this.errorHandler(GlobalConstants.ERROR_CREATED_MESSAGE)
       });
@@ -62,7 +60,6 @@ export class CategoryComponent implements OnInit {
     this.model = <CategoryModel>{};
 
     this.model.activeStatus = 0;
-    this.model.rawMaterial = false;
     this.actionType = "C";
   }
 
@@ -88,7 +85,6 @@ export class CategoryComponent implements OnInit {
     this.getAll();
     this.model = <CategoryModel>{};
     this.model.activeStatus = 0;
-    this.model.rawMaterial = false;
   }
   private errorHandler(message: string) {
     this.categoryService.errorToastr(message,GlobalConstants.CATEGORY);
