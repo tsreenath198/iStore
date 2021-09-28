@@ -12,3 +12,43 @@
   .card-hover:hover{
     cursor: pointer;
   }
+  form {
+    color: white;
+  }
+  
+  form textarea,
+  form input,
+  form select {
+    margin-top: 40px;
+    font-size: 1rem;
+    border: 0;
+    border-bottom: 2px solid greenyellow;
+    background-color: inherit;
+    color: white;
+  }
+  .bg-red{
+    background-color: tomato;
+  }
+  form option {
+    background-color: black;
+  }
+  
+  .bg-yellow {
+    background-color: #FFFF66;
+  }
+  
+  .btn {
+    font-size: 1rem;
+    border-radius: 20px;
+    border: 1px solid yellowgreen;
+    background-color: inherit;
+    color: currentColor;
+  }
+  
+  .btn:hover {
+    background-color: greenyellow;
+  }
+  
+  .margin-top-label{
+    margin-top: 3.5rem;
+  }

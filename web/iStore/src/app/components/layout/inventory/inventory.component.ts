@@ -117,10 +117,11 @@ export class InventoryComponent implements OnInit {
   }
 
   /**
-   * orderInventory
+   * updateInventory
    */
-  public orderInventory(event: any) {
-    return
+  public updateInventory(event: any) {
+    //alert("Under process");
+    //return
     this.orderProductsList = [];
     this.inventoryService.get(this.url.ProductGetInventory).subscribe(resp => {
       this.orderProductsList = resp as any;

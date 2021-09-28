@@ -146,6 +146,7 @@ export class ProductComponent implements OnInit {
   public getById(id: number) {
     this.productService.get(this.url.ProductGetById + id).subscribe(resp => {
       this.model = resp as any;
+     // this.model.category = resp.category.id;
       this.actionType = "U";
     });
   }
@@ -309,8 +310,10 @@ export class ProductComponent implements OnInit {
   public pushInventory() {
     this.mockProductInventory = { productId: 0, inventoryId: 0 };
     this.mockReqInventoryInventory = { productInventoryId: this.mockProductInventory, unitsRequired: 0 };
-    this.model.requiredInventories = JSON.parse(JSON.stringify(this.model.requiredInventories));
-    this.model.requiredInventories.push(Object.assign({}, this.mockReqInventoryInventory));
+    if(!this.model.requiredInventories || !this.model.requiredInventories.length || this.model.requiredInventories[this.model.requiredInventories.length-1].productInventoryId.inventoryId != 0){
+      this.model.requiredInventories = JSON.parse(JSON.stringify(this.model.requiredInventories));
+      this.model.requiredInventories.push(Object.assign({}, this.mockReqInventoryInventory));
+    }
   }
   /**
    * popInventory

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-3 left-pane bg-color">
-        <form name="form" class="ml-3 mr-2" id="inventoryForm" #f="ngForm" (ngSubmit)="createOrUpdate(f)">
+        <form name="form" class="ml-3 mr-2" id="reportForm" #f="ngForm">
             <div class="row">
                 <div class="col-md-4">
                     <label class="margin-top-label">
@@ -18,7 +18,7 @@
                     </label>
                 </div>
                 <div class="col-md-8">
-                    <select class="form-control" [(ngModel)]="choosenDay" (change)="setDates()">
+                    <select class="form-control" name="choosenDay" [(ngModel)]="choosenDay" (change)="setDates()">
                         <option *ngFor="let cl of choosePrePopulateDays">{{ cl }} </option>
                     </select>
                 </div>
@@ -28,7 +28,7 @@
                     </label>
                 </div>
                 <div class="col-md-8">
-                    <input type="date" class="form-control" id="fromDate" [(ngModel)]="groupReq.fromDate " />
+                    <input type="date" class="form-control" name="choosenDay" id="fromDate" [(ngModel)]="groupReq.fromDate " />
                 </div>
                 <div class="col-md-4">
                     <label class="margin-top-label">
@@ -36,11 +36,11 @@
                     </label>
                 </div>
                 <div class="col-md-8">
-                    <input type="date" class="form-control" min="{{ groupReq.fromDate | date: 'yyyy-MM-dd' }}"
+                    <input type="date" class="form-control" name="choosenDay" min="{{ groupReq.fromDate | date: 'yyyy-MM-dd' }}"
                     [(ngModel)]="groupReq.toDate" />
                 </div>
             </div>
-            <div class=" text-center mt-2 ">
+            <div class=" text-center mt-4 ">
                 <button class="btn ml-4" (click)="getTotalData()">Get Data</button>
             </div>
         </form>

@@ -65,7 +65,7 @@
         <div> 
             <input class="mt-2" type="checkbox" name="showMinStock" id="checkStock" (change)="showEndingInventories($event.target.checked)" /><span>Show minimum available stock</span>
            
-            <button class="btn btn-default  pull-right" (click)="orderInventory(orderProducts)">Order Raw Inventory</button>
+            <button class="btn btn-default  pull-right" (click)="updateInventory(orderProducts)">Update Inventory</button>
             <button class="btn btn-default pull-right" (click)="updateRecordInventory()">Record Inventory</button>
             <button class="btn btn-default pull-right mr-2" (click)="getHistoryInventory()">History Inventory</button>
         </div>
