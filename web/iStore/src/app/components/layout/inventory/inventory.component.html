@@ -2,54 +2,54 @@
     <div class="col-md-3 left-pane bg-color">
         <form name="form" class="ml-3 mr-2" id="inventoryForm" #f="ngForm" (ngSubmit)="createOrUpdate(f)">
             <div class="row">
-                <div class="col-md-4 p-3">
+                <div class="col-md-4">
                     <label class="mt-4">
                         Name*:
                     </label>
                 </div>
-                <div class="col-md-8 p-3">
+                <div class="col-md-8">
                     <input type="text" class="form-control mt-2" name="iName" [(ngModel)]="inventory.name"
                         #iName="ngModel" placeholder="Name *" required />
                 </div>
-                <div class="col-md-4 p-3">
+                <div class="col-md-4">
                     <label class="mt-4">
                         Purchase Price*:
                     </label>
                 </div>
 
-                <div class="col-md-8 p-3">
+                <div class="col-md-8">
 
                     <input type="number" class="form-control mt-2" name="price" min="0" [(ngModel)]="inventory.price"
                         #price="ngModel" placeholder="Purchase Price *" required />
                 </div>
 
-                <div class="col-md-4 p-3">
+                <div class="col-md-4">
                     <label class="mt-4">
                         Available Qty*:
                     </label>
                 </div>
-                <div class="col-md-8 p-3">
+                <div class="col-md-8">
                     <input type="number" class="form-control mt-2" name="availableUnits" min="0"
                         [(ngModel)]="inventory.availableUnits" #availableUnits="ngModel"
                         placeholder="Available Quantity *" required />
                 </div>
-                <div class="col-md-4 p-3">
+                <div class="col-md-4">
                     <label class="mt-4">
                         Units Per Qty*:
                     </label>
                 </div>
-                <div class="col-md-8 p-3">
+                <div class="col-md-8">
 
                     <input type="number" class="form-control mt-2" name="units" min="0"
                         [(ngModel)]="inventory.unitsPerQty" #units="ngModel" placeholder="Units Per Quantity *"
                         required />
                 </div>
-                <div class="col-md-4 p-3">
+                <div class="col-md-4">
                     <label class="mt-4">
                         Min Required Qty:
                     </label>
                 </div>
-                <div class="col-md-8 p-3">
+                <div class="col-md-8">
                     <input type="number" class="form-control mt-2" name="minAvailableUnits" min="0"
                         [(ngModel)]="inventory.minAvailableUnits" #minAvailableUnits="ngModel"
                         placeholder="Min Required Quantity *" required />

@@ -2,16 +2,31 @@
   <div class="col-md-3 left-pane bg-color">
     <form name="form" class="ml-3 mr-2" id="userForm" #f="ngForm" (ngSubmit)="create(f)">
       <div class="row">
-        <div class="col-md-12">
+
+        <div class="col-md-4 ">
+          <label class="mt-4">
+            User Name*:
+          </label>
+        </div>
+        <div class="col-md-8">
           <input type="text" class="form-control mt-2" name="uName" [(ngModel)]="customer.name" #uName="ngModel"
             placeholder="User Name *" required />
         </div>
-        <div class="col-md-12">
+        <div class="col-md-4">
+          <label class="mt-4">
+            Phone Number*:
+          </label>
+        </div>
+        <div class="col-md-8">
           <input type="text" class="form-control mt-2" #phone="ngModel" name="phone" [(ngModel)]="customer.phone"
             placeholder="Phone Number *" required />
         </div>
-        <div class="col-md-12 mt-3">
-          <label for="lastContactDate">Last contacted</label>
+        <div class="col-md-4">
+          <label class="mt-4">
+            Last contacted:
+          </label>
+        </div>
+        <div class="col-md-8 ">
           <input type="date" class="form-control " style="margin-top: 0;" name="lastContactDate"
             [(ngModel)]="customer.lastContactDate" #confirmPassword="ngModel" placeholder="Last contact date" />
         </div>
@@ -20,9 +35,14 @@
             <input type="checkbox" name="rm" [(ngModel)]="customer.subscribe" #rm="ngModel" /><span
               class="ml-2">Subscribe</span></label>
         </div>
-        <div class="col-md-12">
+        <div class="col-md-4">
+          <label class="mt-4">
+            Description:
+          </label>
+        </div>
+        <div class="col-md-8 ">
           <textarea class="form-control mt-2" name="description" [(ngModel)]="customer.description"
-            #description="ngModel" cols="2" rows="2" placeholder="Description"></textarea>
+          #description="ngModel" cols="2" rows="2" placeholder="Description"></textarea>
         </div>
       </div>
       <div class="text-center mt-2">

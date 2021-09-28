@@ -1,76 +1,56 @@
 <div class="row">
   <div class="col-md-3 left-pane bg-color">
-    <form
-      name="form"
-      class="ml-3 mr-2"
-      id="productEntryForm"
-      (ngSubmit)="create(f)"
-      #f="ngForm"
-      novalidate
-    >
+    <form name="form" class="ml-3 mr-2" id="productEntryForm" (ngSubmit)="create(f)" #f="ngForm" novalidate>
       <div class="row">
-        <div class="col-md-12">
-          <input
-            type="text"
-            class="form-control"
-            name="pName"
-            placeholder="Category"
-            [(ngModel)]="model.name"
-          />
+
+        <div class="col-md-4">
+          <label class="margin-top-label">
+            Category:
+          </label>
         </div>
-        <div class="col-md-12">
-          <select
-            class="form-control"
-            name="st"
-            [(ngModel)]="model.activeStatus"
-            #st="ngModel"
-            required
-          >
+        <div class="col-md-8 ">
+          <input type="text" class="form-control" name="pName" placeholder="Category" [(ngModel)]="model.name" />
+        </div>
+        <div class="col-md-4 ">
+          <label class="margin-top-label">
+            Status Type:
+          </label>
+        </div>
+        <div class="col-md-8 ">
+          <select class="form-control" name="st" [(ngModel)]="model.activeStatus" #st="ngModel" required>
             <option [ngValue]="undefined" hidden selected> Status Type </option>
-            <option
-              *ngFor="let option of statusOptions"
-              [ngValue]="option.value"
-            >
+            <option *ngFor="let option of statusOptions" [ngValue]="option.value">
               {{ option.name }}
             </option>
           </select>
         </div>
-        <div class="col-md-12">
-          <input
-            type="number"
-            class="form-control"
-            name="discount"
-            placeholder="Discount(%)"
-            min="1" max="100"
-            [(ngModel)]="model.defaultDiscount"
-          />
+
+        <div class="col-md-4 ">
+          <label class="margin-top-label">
+            Discount:
+          </label>
         </div>
-        <div class="col-md-12">
-          <input
-            type="number"
-            class="form-control"
-            name="desc"
-            placeholder="Order"
-            [(ngModel)]="model.categoryOrder"
-          />
+        <div class="col-md-8 ">
+          <input type="number" class="form-control" name="discount" placeholder="Discount(%)" min="1" max="100"
+            [(ngModel)]="model.defaultDiscount" />
+        </div>
+
+        <div class="col-md-4 ">
+          <label class="margin-top-label">
+            Order:
+          </label>
+        </div>
+        <div class="col-md-8 ">
+          <input type="number" class="form-control" name="desc" placeholder="Order" [(ngModel)]="model.categoryOrder" />
         </div>
         <div class="col-md-12 text-center mt-2">
           <button *ngIf="actionType == 'C'" class="btn mt-2" type="submit">
             Create
           </button>
-          <button
-            *ngIf="actionType == 'U'"
-            class="btn mt-2"
-            (click)="update()"
-            type="button"
-          >
+          <button *ngIf="actionType == 'U'" class="btn mt-2" (click)="update()" type="button">
             Update
           </button>
-          <button
-            class="btn mt-2 ml-2"
-            (click)="new(f)"
-            type="button"
-          >
+          <button class="btn mt-2 ml-2" (click)="new(f)" type="button">
             Cancel
           </button>
         </div>
@@ -96,10 +76,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          *ngFor="let category of categoryList"
-          [ngClass]="{ 'bg-yellow': category.activeStatus }"
-        >
+        <tr *ngFor="let category of categoryList" [ngClass]="{ 'bg-yellow': category.activeStatus }">
           <td>
             {{ category.name }}
           </td>
