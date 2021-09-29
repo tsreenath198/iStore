@@ -28,7 +28,7 @@
                     </label>
                 </div>
                 <div class="col-md-8">
-                    <input type="date" class="form-control" name="choosenDay" id="fromDate" [(ngModel)]="groupReq.fromDate " />
+                    <input type="date" class="form-control" name="fromDate" id="fromDate" [(ngModel)]="groupReq.fromDate " />
                 </div>
                 <div class="col-md-4">
                     <label class="margin-top-label">
@@ -36,7 +36,7 @@
                     </label>
                 </div>
                 <div class="col-md-8">
-                    <input type="date" class="form-control" name="choosenDay" min="{{ groupReq.fromDate | date: 'yyyy-MM-dd' }}"
+                    <input type="date" class="form-control" name="toDate" min="{{ groupReq.fromDate | date: 'yyyy-MM-dd' }}"
                     [(ngModel)]="groupReq.toDate" />
                 </div>
             </div>
@@ -196,7 +196,7 @@
                                                                                             <td (click)="
                                                     openPopup(bill, billContent)
                                                   ">
-                                                                                                {{ bill.createdDate | date
+                                                                                                {{ bill.invoiceDate | date
                                                                                                 }}
                                                                                             </td>
                                                                                             <td (click)="
