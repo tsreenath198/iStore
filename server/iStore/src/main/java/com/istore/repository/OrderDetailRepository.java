@@ -94,7 +94,7 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
     @Query(value = "SELECT c.name as name,	SUM(i.quantity) as count FROM "
             + "order_detail od left outer join item i on od.id = i.order_id "
             + "left outer join product p on i.product_id = p.id left outer join category c on p.category_id = c.id "
-            + "where od.created_date > :fromDate and od.created_date <:toDate and od.active_flag=0 GROUP by c.name ORDER BY SUM(i.quantity) DESC", nativeQuery = true)
+            + "where od.created_date > :fromDate and od.created_date <:toDate and od.active_flag=0  and c.name is not null GROUP by c.name ORDER BY SUM(i.quantity) DESC", nativeQuery = true)
     List<CategoryDetailInterface> getSalesByCategory(@Param(value = "fromDate") String fromDate,
                                                      @Param(value = "toDate") String toDate);
 
@@ -105,18 +105,18 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
     List<CategoryDetailInterface> getProductByProduct(@Param(value = "category") String category,
                                                       @Param(value = "fromDate") String fromDate, @Param(value = "toDate") String toDate);
 
-    @Query(value = "SELECT c.name as name,	round(sum(i.total - i.quantity * p.unit_price)) as profit FROM order_detail od "
+    @Query(value = "SELECT c.name as name,	round(sum(i.total - i.quantity * p.landing_price)) as profit FROM order_detail od "
             + "			left outer join item i on od.id = i.order_id "
             + "            left outer join product p on i.product_id = p.id "
             + "            left outer join category c on p.category_id = c.id "
-            + "            where od.active_flag=0 and od.created_date > :fromDate and od.created_date < :toDate GROUP by c.name ORDER BY sum(i.total - i.quantity * p.unit_price) DESC", nativeQuery = true)
+            + "            where od.active_flag=0 and od.created_date > :fromDate and od.created_date < :toDate GROUP by c.name ORDER BY sum(i.total - i.quantity * p.landing_price) DESC", nativeQuery = true)
     List<ProfitInterface> getProfitsByCategory(@Param(value = "fromDate") String fromDate,
                                                @Param(value = "toDate") String toDate);
 
-    @Query(value = "SELECT p.name as name,	SUM(i.total - i.quantity * p.unit_price) as profit FROM "
+    @Query(value = "SELECT p.name as name,	SUM(i.total - i.quantity * p.landing_price) as profit FROM "
             + "			order_detail od left outer join item i on od.id = i.order_id "
             + "            left outer join product p on i.product_id = p.id left outer join category c on p.category_id = c.id "
-            + "            where od.active_flag=0 and od.created_date > :fromDate and od.created_date < :toDate and c.name=:category GROUP by p.name ORDER BY sum(i.total - i.quantity * p.unit_price) DESC", nativeQuery = true)
+            + "            where od.active_flag=0 and od.created_date > :fromDate and od.created_date < :toDate and c.name=:category GROUP by p.name ORDER BY sum(i.total - i.quantity * p.landing_price) DESC", nativeQuery = true)
     List<ProfitInterface> getProfitsByProducts(@Param(value = "fromDate") String fromDate,
                                                @Param(value = "toDate") String toDate, @Param(value = "category") String category);
 
