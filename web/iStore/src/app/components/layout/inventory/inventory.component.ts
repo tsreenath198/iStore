@@ -23,6 +23,7 @@ export class InventoryComponent implements OnInit {
   public closeResult: any;
   public orderProductsList: any = {};
   public num: string = "";
+  public addUnits: number = 0;
   ngOnInit() {
     this.getAll();
   }
@@ -44,6 +45,7 @@ export class InventoryComponent implements OnInit {
    */
   public getById(id: number) {
     this.actionLabel = GlobalConstants.UPDATE;
+    this.addUnits = 0;
     this.inventory = JSON.parse(JSON.stringify(this.inventoryList.filter(i => i.id === id)[0]));
   }
 
@@ -111,7 +113,7 @@ export class InventoryComponent implements OnInit {
     //getAll
     if (value) {
       this.inventoryList = this.inventoryList.filter(i => i.minAvailableUnits > i.availableUnits);
-    }else{
+    } else {
       this.getAll();
     }
   }
@@ -132,12 +134,27 @@ export class InventoryComponent implements OnInit {
     this.open(event);
   }
 
+  /**
+   * calculateUnits
+   */
+  public calculateUnits(value) {
+
+    if (value) {
+      const avl = this.inventory.availableUnits;
+      this.inventory.availableUnits = 0;
+      this.inventory.availableUnits = this.inventory.unitsPerQty != undefined ?
+        (Number(value) * (this.inventory.unitsPerQty || 0)) + (avl || 0) :
+        value;
+    }
+  }
+
   public setIndexOfList(i) {
     this.num = i;
   }
 
   private successHandler(message: string) {
     this.inventoryService.successToastr(message, GlobalConstants.INVENTORY);
+    this.actionLabel = GlobalConstants.CREATE;
     this.getAll();
   }
   private errorHandler(message: string) {
