@@ -31,9 +31,9 @@ export class HttpService {
     return this.http.delete(this.base_url + URL);
   }
   successToastr(message: string, component: string) {
-    this.toastr.success(message, component);
+    this.toastr.success(message, component,{timeOut:1000});
   }
   errorToastr(message: string, component: string) {
-    this.toastr.error(message, component);
+    this.toastr.error(message, component,{timeOut:1000});
   }
 }
