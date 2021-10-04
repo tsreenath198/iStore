@@ -33,7 +33,6 @@ export class ProductComponent implements OnInit {
   public orderProductsList: any = {};
   public selectedCategory: string = "All";
   public showMinStock: boolean = false;
-  public toggleInventoryFlag: boolean = false;
   public isRaw: boolean = true;
   public num: string = "";
   public statusOptions = [
@@ -44,6 +43,7 @@ export class ProductComponent implements OnInit {
   public updateInventoryModel: any = [];
   public url = new URLConstants();
   public actionType: string = "C";
+  public categoryId: number;
 
   public sortType = "name"; // set the default sort type
   public sortReverse = false;
@@ -73,7 +73,7 @@ export class ProductComponent implements OnInit {
       .toPromise()
       .then(resp => resp as any); //Do you own cast here
     this.filterProductList = this.productList;
-
+    this.productService.successToastr(GlobalConstants.FETCHED_MESSAGE, GlobalConstants.PRODUCT);
     if (this.selectedCategory != "All") this.setFilter();
     return this.productList;
   }
@@ -102,14 +102,15 @@ export class ProductComponent implements OnInit {
     this.getCategories();
     this.model = <ProductModel>{};
     this.model.activeStatus = 0;
-    this.toggleInventoryFlag = false;
+    this.categoryId=0;
   }
 
   public create(f: NgForm) {
     if (f.valid) {
+      this.updateCategoryModelWithId(this.categoryId);
       this.productService.post(this.model, this.url.ProductCreate).subscribe(
         res => {
-          this.successHandler(GlobalConstants.CREATED_MESSAGE);
+          this.successHandler(GlobalConstants.CREATED_MESSAGE,GlobalConstants.PRODUCT);
         },
         err => {
           this.errorHandler(GlobalConstants.ERROR_CREATED_MESSAGE);
@@ -120,17 +121,18 @@ export class ProductComponent implements OnInit {
     }
   }
 
-  private successHandler(message: string) {
+  private successHandler(message: string,component:string) {
     this.commonInHTTP();
-    this.productService.successToastr(message, GlobalConstants.PRODUCT);
+    this.productService.successToastr(message, component);
   }
   private errorHandler(message: string) {
     this.productService.errorToastr(message, GlobalConstants.PRODUCT);
   }
 
   public update() {
+    this.updateCategoryModelWithId(this.categoryId);
     this.productService.update(this.model, this.url.ProductUpdate).subscribe(resp => {
-      this.commonInHTTP();
+      this.successHandler(GlobalConstants.CREATED_MESSAGE,GlobalConstants.PRODUCT);
       this.actionType = "C";
     }, err => {
       this.errorHandler(GlobalConstants.ERROR_UPDATED_MESSAGE);
@@ -146,7 +148,7 @@ export class ProductComponent implements OnInit {
   public getById(id: number) {
     this.productService.get(this.url.ProductGetById + id).subscribe(resp => {
       this.model = resp as any;
-     // this.model.category = resp.category.id;
+      this.categoryId = this.model.category.id;
       this.actionType = "U";
     });
   }
@@ -209,6 +211,9 @@ export class ProductComponent implements OnInit {
     return user1 && user2 ? user1.id === user2.id : user1 === user2;
   }
 
+  private updateCategoryModelWithId(id: number) {
+    this.model.category = this.categoryList.filter(c => c.id === id)[0];
+  }
   public SetUpdateableInventory(event: any) {
     this.updateInventoryModel = JSON.parse(JSON.stringify(this.productList));
     this.updateInventoryModel.forEach(product => {
@@ -293,24 +298,12 @@ export class ProductComponent implements OnInit {
   }
 
   /**
-   * toggleInventory
-   */
-  public toggleInventory() {
-    if (this.model.category.id === 12 || this.model.category.id === 15) {
-      this.toggleInventoryFlag = true;
-      this.mockProductInventory = { productId: 0, inventoryId: 0 };
-    }
-    else
-      this.toggleInventoryFlag = false;
-  }
-
-  /**
    * pushInventory
    */
   public pushInventory() {
     this.mockProductInventory = { productId: 0, inventoryId: 0 };
     this.mockReqInventoryInventory = { productInventoryId: this.mockProductInventory, unitsRequired: 0 };
-    if(!this.model.requiredInventories || !this.model.requiredInventories.length || this.model.requiredInventories[this.model.requiredInventories.length-1].productInventoryId.inventoryId != 0){
+    if (!this.model.requiredInventories || !this.model.requiredInventories.length || this.model.requiredInventories[this.model.requiredInventories.length - 1].productInventoryId.inventoryId != 0) {
       this.model.requiredInventories = JSON.parse(JSON.stringify(this.model.requiredInventories));
       this.model.requiredInventories.push(Object.assign({}, this.mockReqInventoryInventory));
     }
@@ -321,7 +314,7 @@ export class ProductComponent implements OnInit {
   public popInventory(i) {
     this.model.requiredInventories.splice(i, 1);
     this.model.landingPrice = 0;
-    if(this.model.requiredInventories.length){
+    if (this.model.requiredInventories.length) {
       this.model.requiredInventories.forEach((j: RequiredInventories) => {
         const inventoryPrice = this.inventoryList.filter(i => i.id === j.productInventoryId.inventoryId)
           .map(t => t.price / t.unitsPerQty)[0];
