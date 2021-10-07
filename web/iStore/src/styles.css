@@ -52,11 +52,11 @@ form select {
 }
 
 .left-pane {
-    height: 90vh;
+    height: 92vh;
 }
 
 .view-pane {
-    height: 90vh;
+    height: 92vh;
     margin-left: -10px;
     overflow-y: auto;
 }
