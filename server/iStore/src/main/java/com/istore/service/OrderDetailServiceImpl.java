@@ -91,15 +91,29 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		GenericResponse resp;
 		try {
 			OrderDetail od = get(id);
-			productService.addInventory(od.getItems());
-			od.setActiveFlag(1);
-			update(od);
+			onDeleteAddInventory(od.getItems());
+			orderRepository.deletebyId(id);
 			resp = new GenericResponse();
 			resp.setMessage(id + " " + ISTOREConstants.DELETED);
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
 		}
 		return resp;
+	}
+
+	private void onDeleteAddInventory(List<Item> items) {
+		for (int i = 0; i < items.size(); i++) {
+			for (int j = 0; j < items.get(i).getProduct().getRequiredInventories().size(); j++) {
+				inventoryRepository.addInventory(items.get(i).getProduct().getRequiredInventories().get(j).getUnitsRequired(),
+						items.get(i).getProduct().getRequiredInventories().get(j).getProductInventoryId().getInventoryId());
+			}
+			System.out.println(i);
+		}
+		/*items.stream().forEach(item->{
+			item.getProduct().getRequiredInventories().stream().forEach(inventory->{
+				inventoryRepository.addInventory(inventory.getUnitsRequired(), inventory.getProductInventoryId().getInventoryId());
+			});
+		});*/
 	}
 
 	@Override

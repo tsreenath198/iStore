@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -14,6 +15,8 @@ import com.istore.model.OrderDetail;
 import com.istore.model.OrderDetailGroupInterface;
 import com.istore.model.OrderDetails;
 import com.istore.model.ProfitInterface;
+
+import javax.transaction.Transactional;
 
 @Repository
 public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integer> {
@@ -119,5 +122,8 @@ public interface OrderDetailRepository extends CrudRepository<OrderDetail, Integ
             + "            where od.active_flag=0 and od.created_date > :fromDate and od.created_date < :toDate and c.name=:category GROUP by p.name ORDER BY sum(i.total - i.quantity * p.landing_price) DESC", nativeQuery = true)
     List<ProfitInterface> getProfitsByProducts(@Param(value = "fromDate") String fromDate,
                                                @Param(value = "toDate") String toDate, @Param(value = "category") String category);
-
+    @Transactional
+    @Modifying
+    @Query(value="DELETE FROM OrderDetail WHERE id=?1")
+    void deletebyId(@Param(value = "id") Integer id);
 }
