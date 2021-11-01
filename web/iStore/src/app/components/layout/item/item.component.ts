@@ -161,6 +161,9 @@ export class ItemComponent implements OnInit {
   }
   /**Printing bill model */
   public setPrintingBill(billContent) {
+    
+    let customer:ContactModel = new ContactModel("tt",123456789,0);
+    this.customerDetails=Object.keys(this.customerDetails).length === 0 ? customer : this.customerDetails;
     this.itemService.get(this.url.OrderGetId).subscribe(resp => {
       this.printingBill["id"] = resp as any;
     });

@@ -22,8 +22,13 @@ export interface OrderModel{
     totalDiscount: number;
 }
 
-export interface ContactModel{
+export class ContactModel{
     name: string;
     phone: string;
     count: number;
+    constructor(name?,phone?,count?){
+        this.name=name;
+        this.count=count;
+        this.phone=phone;
+    }
 }

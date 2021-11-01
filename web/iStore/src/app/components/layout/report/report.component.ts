@@ -57,7 +57,10 @@ export class ReportComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.groupReq.groupBy = "Day";
+    this.initialize();
+  }
+  public initialize(){
+  this.groupReq.groupBy = "Day";
     this.setCurrentDates();
     // let date = new Date();
 
@@ -191,6 +194,7 @@ export class ReportComponent implements OnInit {
         this.getDateBills(this.getBillURLData);
         //this.filterData(date);
         window.alert("Bill deleted successfully");
+        this.initialize();
       });
     }
   }
