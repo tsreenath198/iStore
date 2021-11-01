@@ -22,6 +22,7 @@ public interface InventoryRepository extends CrudRepository<Inventory, Integer> 
 
 	@Query("update Inventory set availableUnits = availableUnits+?1 where id =?2")
 	@Modifying()
+	@Transactional
 	public void addInventory(@Param("noOfUnits") @NotNull Integer noOfUnits, @Param("inventoryId") int inventoryId);
 
 	Optional<Inventory> findById(Integer id);

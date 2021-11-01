@@ -47,18 +47,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 	public OrderDetail create(OrderDetail entity) {
 		try {
 			List<Item> items = entity.getItems();
-			items.forEach(item -> {
-				Integer quantity = item.getQuantity();
-				List<ProductInventoryEntity> productInventoryEntities = getProductInventoryEntities(
-						item.getProduct().getId());
-
-				productInventoryEntities.forEach(productInventoryEntity -> {
-					Integer noOfUnits = productInventoryEntity.getUnitsRequired() * quantity;
-					Integer inventoryId = productInventoryEntity.getProductInventoryId().getInventoryId();
-					inventoryRepository.updateInventory(noOfUnits, inventoryId);
-					item.setProduct(productService.get(item.getProduct().getId()));
-				});
-			});
+			onOrderCreateDeleteInventory(items);
 			entity.setItems(items);
 			OrderDetail detail = orderRepository.save(entity);
 			if (detail.getContact() != null && detail.getContact().getPhone() != null)
@@ -67,6 +56,21 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		} catch (Exception e) {
 			throw new ValidationException(e.getMessage());
 		}
+	}
+
+	private void onOrderCreateDeleteInventory(List<Item> items) {
+		items.forEach(item -> {
+			Integer quantity = item.getQuantity();
+			List<ProductInventoryEntity> productInventoryEntities = getProductInventoryEntities(
+					item.getProduct().getId());
+
+			productInventoryEntities.forEach(productInventoryEntity -> {
+				Integer noOfUnits = productInventoryEntity.getUnitsRequired() * quantity;
+				Integer inventoryId = productInventoryEntity.getProductInventoryId().getInventoryId();
+				inventoryRepository.updateInventory(noOfUnits, inventoryId);
+				item.setProduct(productService.get(item.getProduct().getId()));
+			});
+		});
 	}
 
 	private List<ProductInventoryEntity> getProductInventoryEntities(Integer productId) {
@@ -91,7 +95,7 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		GenericResponse resp;
 		try {
 			OrderDetail od = get(id);
-			onDeleteAddInventory(od.getItems());
+			onDeleteOrderAddInventory(od.getItems());
 			orderRepository.deletebyId(id);
 			resp = new GenericResponse();
 			resp.setMessage(id + " " + ISTOREConstants.DELETED);
@@ -101,19 +105,19 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 		return resp;
 	}
 
-	private void onDeleteAddInventory(List<Item> items) {
-		for (int i = 0; i < items.size(); i++) {
-			for (int j = 0; j < items.get(i).getProduct().getRequiredInventories().size(); j++) {
-				inventoryRepository.addInventory(items.get(i).getProduct().getRequiredInventories().get(j).getUnitsRequired(),
-						items.get(i).getProduct().getRequiredInventories().get(j).getProductInventoryId().getInventoryId());
-			}
-			System.out.println(i);
-		}
-		/*items.stream().forEach(item->{
-			item.getProduct().getRequiredInventories().stream().forEach(inventory->{
-				inventoryRepository.addInventory(inventory.getUnitsRequired(), inventory.getProductInventoryId().getInventoryId());
+	private void onDeleteOrderAddInventory(List<Item> items) {
+		items.forEach(item -> {
+			Integer quantity = item.getQuantity();
+			List<ProductInventoryEntity> productInventoryEntities = getProductInventoryEntities(
+					item.getProduct().getId());
+
+			productInventoryEntities.forEach(productInventoryEntity -> {
+				Integer noOfUnits = productInventoryEntity.getUnitsRequired() * quantity;
+				Integer inventoryId = productInventoryEntity.getProductInventoryId().getInventoryId();
+				inventoryRepository.addInventory(noOfUnits, inventoryId);
 			});
-		});*/
+		});
+
 	}
 
 	@Override
